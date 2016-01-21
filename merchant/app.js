@@ -1,10 +1,60 @@
 angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification'])
-    .run(function($rootScope, $state, $cookies, ngAudio) {
+    .run(function($rootScope, $state, $cookies, ngAudio, $notification, merchantRESTSvc, $modal) {
         $rootScope.faye = new Faye.Client('/faye');
         $rootScope.token = $cookies.get('token');
         $rootScope.sound = ngAudio.load('sounds/song1.wav');
         $rootScope.sound.loop = true;
+        $rootScope.sound.is_playing = false;
         $rootScope.isPaying = $cookies.get('isPaying') == 'true' ? true : false;
+        $rootScope.paths = JSON.parse($cookies.get('paths') || '[]');
+        $rootScope.notification_count = 0;
+        _.each($rootScope.paths, function(path) {
+            $rootScope.faye.subscribe(path, function(message) {
+                $rootScope.notification_count += 1;
+                console.log('state', $rootScope.sound);
+                if(!$rootScope.sound.is_playing) {
+                    $rootScope.sound.is_playing = true;
+                    $rootScope.sound.play();
+                }
+                var notification = $notification('New Order', {
+                    body: (message.text && message.text.message) || 'You have an order',
+                    delay: 90000,
+                    dir: 'auto'
+                });
+
+                notification.$on('click', function() {
+                    console.debug('The user has clicked in my notification.');
+                    merchantRESTSvc.getOrder(message.text && message.text.order_id)
+                        .then(function(res) {
+                            var modalInstance = $modal.open({
+                                animation: true,
+                                templateUrl: 'templates/partials/view_order.tmpl.html',
+                                controller: 'OrderViewController',
+                                size: 'lg',
+                                resolve: {
+                                    order: function() {
+                                        return res.data;
+                                    }
+                                }
+                            });
+                        }, function(err) {
+                            console.log(err);
+                        });
+                    notification.close();
+                });
+
+                notification.$on('close', function() {
+                    console.debug('The user has closed my notification.');
+                    notification.close();
+                    $rootScope.notification_count -= 1;
+                    if (!$rootScope.notification_count) {
+                        $rootScope.sound.stop();
+                        $rootScope.sound.is_playing = false;
+                    }
+                });
+            });
+        });
+        
 
         $rootScope.$on('$stateChangeStart', function() {
             $('document').ready(function() {

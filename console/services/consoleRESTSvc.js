@@ -325,7 +325,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         consoleRESTSvc.updateMenu = function(menu) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
-            $http.put('/api/v4/menus/' + menu._id, menu)
+            $http.put('/api/v4/menus/' + menu._id + '?token=' + token, menu)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
