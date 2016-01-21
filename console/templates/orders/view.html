@@ -75,7 +75,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class='text-center'>
-                        <span>
+                        <span ng-if='order.order_status === "pending"'>
                             Delivery Time: 
                             <input type='number' ng-model='order.estimate_time' step='5' min='10' max='180'>
                         </span>
