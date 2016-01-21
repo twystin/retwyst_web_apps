@@ -5,6 +5,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
 
         $scope.updateShowing = function(text) {
             $scope.showing = text;
+            $scope.filterOrders();
         };
 
         $scope.maxDate = new Date();
@@ -30,6 +31,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         });
 
         $scope.orders = [];
+        $scope.filtered_orders = [];
 
         $scope.$watchCollection('choosen_outlet', function(newVal, oldVal) {
             if (!newVal) {
@@ -44,13 +46,35 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                 $scope.$apply(function() {
                     $rootScope.sound.play();
                     var notification = $notification('New Order', {
-                        body: message.text,
-                        delay: 0,
+                        body: (message.text && message.text.message) || 'You have a new order',
+                        delay: 900000,
                         dir: 'auto'
                     });
 
                     notification.$on('click', function() {
                         console.debug('The user has clicked in my notification.');
+                        merchantRESTSvc.getOrder(message.text && message.text.order_id)
+                            .then(function(res) {
+                                $scope.orders.push(res.data);
+                                var modalInstance = $modal.open({
+                                    animation: true,
+                                    templateUrl: 'templates/partials/view_order.tmpl.html',
+                                    controller: 'OrderViewController',
+                                    size: 'lg',
+                                    resolve: {
+                                        order: function() {
+                                            return res.data;
+                                        }
+                                    }
+                                });
+
+                                modalInstance.result.then(function(order) {
+                                    $scope.orders[$scope.orders.length - 1] = order;
+                                    $scope.filterOrders();
+                                });
+                            }, function(err) {
+                                console.log(err);
+                            });
                         notification.close();
                         $rootScope.sound.stop();
                     });
@@ -68,10 +92,17 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             merchantRESTSvc.getOrders($scope.choosen_outlet).then(function(res) {
                 console.log(res);
                 $scope.orders = res.data;
+                $scope.filterOrders();
             }, function(err) {
                 console.log(err);
             });
         }
+
+        $scope.filterOrders = function() {
+            $scope.filtered_orders = _.filter($scope.orders, function(order) {
+                return order.order_status === $scope.showing;
+            });
+        };
 
 
         $scope.orders.push({
@@ -300,7 +331,9 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         }
 
         $scope.viewOrder = function(order, index) {
-            console.log('order', order);
+            if (order.order_status === 'accepted') {
+                order.end_time = new Date(order.order_date).getTime() + (order.estimate_time * 60 * 1000);
+            }
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'templates/partials/view_order.tmpl.html',
@@ -315,6 +348,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
 
             modalInstance.result.then(function(order) {
                 $scope.orders[index] = order;
+                $scope.filterOrders();
             });
         };
     }

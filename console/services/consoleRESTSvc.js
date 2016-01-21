@@ -306,6 +306,38 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
+        consoleRESTSvc.createMenu = function(menu) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/menus?token=' + token, menu)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateMenu = function(menu) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.put('/api/v4/menus/' + menu._id, menu)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise
+        };
+
 
         /*==================================
         =            ORDER APIs            =

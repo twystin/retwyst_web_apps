@@ -7,7 +7,7 @@ angular.module('consoleApp')
             };
 
             if ($rootScope.token) {
-                $state.go('console.default', {}, {
+                $state.go('console.orders_manage', {}, {
                     reload: true
                 });
             }
@@ -39,15 +39,9 @@ angular.module('consoleApp')
                             confirmButtonText: 'Continue',
                             closeOnConfirm: false
                         }, function() {
-                            if (res.data.data.role === 2) {
-                                $state.go('console.menus_manage', {}, {
-                                    reload: true
-                                });
-                            } else {
-                                $state.go('console.default', {}, {
-                                    reload: true
-                                });
-                            }
+                            $state.go('console.orders_manage', {}, {
+                                reload: true
+                            });
                         });
                     }, function(err) {
                         SweetAlert.swal({
