@@ -1,32 +1,63 @@
 angular.module('consoleApp')
-	.controller('LoginController', ['$scope', '$cookies', '$log', '$state', 'toastr', '$rootScope', 'consoleRESTSvc',
-		function($scope, $cookies, $log, $state, toastr, $rootScope, consoleRESTSvc) {
-			if($rootScope.token) {
-				$state.go('console.home', {}, {
-					reload: true
-				});
-			}
+    .controller('LoginController', ['$scope', '$cookies', '$log', '$state', '$rootScope', 'consoleRESTSvc', 'SweetAlert',
+        function($scope, $cookies, $log, $state, $rootScope, consoleRESTSvc, SweetAlert) {
 
-			$scope.login = function() {
-				consoleRESTSvc.login($scope.user)
-					.then(function(res) {
-						if(res.data.data.data.is_admin) {
-							$cookies.put('token', res.data.data.data.token);
-							$rootScope.token = res.data.data.data.token;
-							toastr.success("Logged in successfully");
-							$state.go('console.home', {}, {
-								reload: true
-							});
-						} else {
-							toastr.error("Not authorized", "Access Denied");
-						}
-					}, function(err) {
-						if(err.message) {
-							toastr.error(err.message, "Error");
-						} else {
-							toastr.error("Invalid credentials.", "Error");
-						}
-					})
-			}
-		}
-	])
+            $scope.user = {
+                isAdmin: true
+            };
+
+            if ($rootScope.token) {
+                $state.go('console.default', {}, {
+                    reload: true
+                });
+            }
+
+            $scope.logIn = function() {
+                consoleRESTSvc.login($scope.user)
+                    .then(function(res) {
+                        console.log(res);
+                        $cookies.put('token', res.data.data.token);
+                        $cookies.put('isPaying', res.data.data.is_paying);
+                        $cookies.put('role', res.data.data.role);
+                        $rootScope.token = res.data.data.token;
+                        $rootScope.isPaying = res.data.data.is_paying;
+                        $rootScope.role = res.data.data.role;
+                        $rootScope.paths = [];
+                        if ($rootScope.role === 2) {
+                            $rootScope.paths = _.map(res.data.data.outlets, function(outlet) {
+                                return '/' + outlet;
+                            });
+                            $cookies.put('paths', JSON.stringify($rootScope.paths));
+                        } else {
+                            $rootScope.paths = ['/console'];
+                            $cookies.put('paths', JSON.stringify($rootScope.paths));
+                        }
+                        SweetAlert.swal({
+                            title: 'Logged In Successfully',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonText: 'Continue',
+                            closeOnConfirm: false
+                        }, function() {
+                            if (res.data.data.role === 2) {
+                                $state.go('console.menus_manage', {}, {
+                                    reload: true
+                                });
+                            } else {
+                                $state.go('console.default', {}, {
+                                    reload: true
+                                });
+                            }
+                        });
+                    }, function(err) {
+                        SweetAlert.swal({
+                            title: 'ERROR',
+                            text: err.data ? err.data : 'Invalid credentials',
+                            type: 'error',
+                            showCancelButton: false,
+                            closeOnConfirm: true
+                        });
+                    });
+            }
+        }
+    ]);
