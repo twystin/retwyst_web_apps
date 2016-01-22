@@ -1,13 +1,7 @@
 <div>&nbsp;</div>
 <div class='container-fluid'>
     <div class='row'>
-        <div class='col-sm-12'>
-            <label class='control-label'>Checkin Panel:&nbsp;&nbsp; </label> 
-            <input bs-switch type='checkbox' ng-model='show_checkin' switch-on-text='Show' switch-off-text='Hide'>
-        </div>
-    </div>
-    <div class='row'>
-        <div class='col-sm-8 table-responsive'>
+        <div class='col-sm-6 table-responsive'>
             <div class='table-label'>
                 <legend>Order Panel</legend>
             </div>
@@ -28,7 +22,9 @@
                     <a class='btn' ng-click='updateShowing("pending")' ng-class='{"btn-primary": showing==="pending", "btn-dark": showing!=="pending"}'>Pending</a>
                     <a class='btn' ng-click='updateShowing("accepted")' ng-class='{"btn-primary": showing==="accepted", "btn-dark": showing!=="accepted"}'>Accepted</a>
                     <a class='btn' ng-click='updateShowing("declined")' ng-class='{"btn-primary": showing==="declined", "btn-dark": showing!=="declined"}'>Declined</a>
+                    <a class='btn' ng-click='updateShowing("dispatched")' ng-class='{"btn-primary": showing==="dispatched", "btn-dark": showing!=="dispatched"}'>Dispatched</a>
                     <a class='btn' ng-click='updateShowing("delivered")' ng-class='{"btn-primary": showing==="delivered", "btn-dark": showing!=="delivered"}'>Delivered</a>
+                    <a class='btn' ng-click='updateShowing("cancelled")' ng-class='{"btn-primary": showing==="cancelled", "btn-dark": showing!=="cancelled"}'>Cancelled</a>
                 </div>
             </div>
             <div class='clearfix'></div>
@@ -40,72 +36,137 @@
                 <div class='panel panel-primary' ng-repeat='order in filtered_orders | orderBy:"order_date"'>
                     <div class='panel-body'>
                         <span class='pull-left'>Order #{{order.order_number}}</span>
-                        <div class='pull-right'>{{order.user.phone}}</div>
-                        <div class='clearfix'></div>
-                        <div>&nbsp;</div>
-                        <div>{{order.order_date | date:'MMM dd hh:mm a'}}</div>
+                        <div class='pull-right'><span class='label label-info' ><i class='fa fa-inr'></i>&nbsp;{{order.order_value_with_offer | number:2}}</span></div>
                         <div class='clearfix'></div>
                         <div>&nbsp;</div>
                         <div class='pull-left'><span class='label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted", "label-danger": order.order_status === "declined"}'>{{order.order_status | uppercase}}</span></div>
-                        <div class='pull-right'>{{order.user.email}}</div>
-                        <div class='clearfix'></div>
-                        <div>&nbsp;</div>
-                        <div class='pull-left'><a class='btn btn-info btn-block'>{{order.items.length}} item(s).</a></div>
                         <div class='pull-right'><a class='btn btn-w-md btn-primary btn-block' ng-click='viewOrder(order, $index)'>View</a></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class='col-sm-4' ng-if='show_checkin'>
+        <div class='col-sm-6'>
             <div class='table-label'>
-                <legend>Checkin Panel</legend>
+                <legend>Order View</legend>
             </div>
-            <div class='col-sm-12'>
-                <div class='well'>
-                    <label>Checkin User</label>
-                    <div class='form-group'>
-                        <div class='input-group'>
-                            <input type='text' ng-model='checkin.number' class='form-control' placeholder='10 digit mobile number'>
-                            <div class='input-group-btn'>
-                                <a class='btn btn-primary' ng-disabled='checking_in' ng-click='checkinUser()'>
-                                    <span ng-if='checking_in'><i class='fa fa-spinner fa-spin'></i> Checking In...</span>
-                                    <span ng-if='!checking_in'>Checkin</span>
-                                </a>
+            <div class='row'>
+                <div class='page page-invoice'>
+                    <div class='invoice-wrapper'>
+                        <section class='invoice-container' id='invoice'>
+                            <div class='invoice-inner'>
+                                <div class='row'>
+                                    <div class='col-xs-4'>
+                                        <p class='size-h2 label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.order_value_with_offer | number:2}}</p>
+                                    </div>
+                                    <div class='col-xs-8 text-right'>
+                                        <p class='size-h2'>#{{order.order_number}}</p>
+                                        <p>{{order.order_date | date: 'dd MMMM hh:mm a'}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class='row'>
+                                    <div class='col-xs-12'>
+                                        <div class="ui-timline-container">
+                                            <section class="ui-timeline">
+                                                <article class="tl-item">
+                                                    <div class="tl-body">
+                                                        <div class="tl-entry">
+                                                            <div class="tl-time">{{order.order_date | date:'hh:mm a'}}</div>
+                                                            <div class="tl-icon round-icon sm bg-primary"><i class="fa fa-check"></i></div>
+                                                            <div class="tl-content">
+                                                                <h4 class="tl-tile text-primary">RECEIVED</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                                <article class="tl-item" ng-repeat='action in order.actions track by $index'>
+                                                    <div class="tl-body">
+                                                        <div class="tl-entry">
+                                                            <div class="tl-time">{{action.action_at | date:'hh:mm a'}}</div>
+                                                            <div class="tl-icon round-icon sm" ng-class='{"bg-primary": action.action_type!=="cancelled" && action.action_type!== "declined", "bg-danger": action.action_type!=="cancelled" || action.action_type!== "declined"}'><i class="fa" ng-class='{"fa-check": action.action_type!=="cancelled" && action.action_type!== "declined", "fa-times": action.action_type!=="cancelled" || action.action_type!== "declined"}'></i></div>
+                                                            <div class="tl-content">
+                                                                <h4 class="tl-tile text-primary">{{action.action_type | uppercase}}</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </section>
+                                            <div class='text-center' ng-if='order.order_status === "pending"'>
+                                                <a class='btn btn-w-md btn-success'>Accept</a>
+                                                <a class='btn btn-w-md btn-danger'>Reject</a>
+                                            </div>
+                                            <div class='text-center' ng-if='order.order_status === "accepted"'>
+                                                <a class='btn btn-w-md btn-lg btn-info'>Dispatch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class='row'>
+                                    <div class='col-xs-6'>
+                                        <strong>{{order.user.first_name}} {{order.user.last_name}}</strong>
+                                        <br> {{order.address.line1}}
+                                        <br> <span ng-if='order.address.line2'>{{order.address.line2}} <br/> </span> {{order.address.city}} {{order.address.state}}
+                                        <span ng-if='order.address.pin'> - {{order.address.pin}}
+                                        <br> {{order.user.phone}}
+                                        <br> {{order.user.email}}
+                                    </div>
+                                    <div class='col-xs-6 text-right'>
+                                        <p><strong>Order Details:</strong></p>
+                                        <strong>{{order.order_date | date: 'dd MMMM hh:mm a'}}</strong>
+                                        <div class='clearfix'></div>
+                                        <div>&nbsp;</div>
+                                        <p class='size-h2 label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted", "label-danger": order.order_status === "declined" || order.order_status === "cancelled"}'>{{order.order_status | uppercase}}</p>
+                                    </div>
+                                </div>
+                                <div class="divider divider-lg"></div>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class='bg-dark'>
+                                            <th class='text-center'>#</th>
+                                            <th>Item</th>
+                                            <th class="text-center">Cost</th>
+                                            <th class="text-center">Qty.</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat='item in order.items track by $index'>
+                                            <td class='text-right'>{{$index + 1}}</td>
+                                            <td>{{item.item_name}}
+                                                <span>&nbsp;</span>
+                                                <span class='label label-default' ng-if='item.option.option_value'>{{item.option.option_value}}</span>
+                                                <span ng-if='item.option.option_value'>&nbsp;</span>
+                                                <span ng-repeat='sub_option in item.option.sub_options track by $index'>
+                                                    <span class='label label-default' ng-repeat='sub_option_obj in sub_option.sub_option_set'>{{sub_option_obj.sub_option_value}}</span>
+                                                    <span>&nbsp;</span>
+                                                </span>
+                                                <span ng-repeat='addon in item.option.addons track by $index'>
+                                                    <span class='label label-default' ng-repeat='addon_obj in addon.addon_set track by $index'>
+                                                        {{addon_obj.addon_value}}
+                                                    </span>
+                                                    <span ng-if='$index !== (item.option.addons.length - 1)'>&nbsp;</span>
+                                                </span>
+                                            </td>
+                                            <td class="text-center">{{getItemPrice(item)}}
+                                            </td>
+                                            <td class="text-center">{{item.item_quantity || 1}}</td>
+                                            <td class="text-center">{{getItemPrice(item) * (item.item_quantity || 1)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class='row'>
+                                    <div class='col-xs-12 col-sm-offset-6 col-sm-6 invoice-sum text-right'>
+                                        <ul class="list-unstyled">
+                                            <li>Sub-Total amount: <i class='fa fa-inr'></i>{{order.order_value_without_offer | number:2}}</li>
+                                            <li>Discount: <i class='fa fa-inr'></i>{{order.order_value_without_offer - order.order_value_with_offer | number:2}}</li>
+                                            <li>Total Tax: <i class='fa fa-inr'></i>{{order.tax_paid | number:2}}</li>
+                                            <li><strong>Grand Total: <i class='fa fa-inr'></i>{{order.order_value_with_offer | number:2}}</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div>&nbsp;</div>
-                        <div class='input-group'>
-                            <div class='input-group-addon'>Date</div>
-                            <input type='text' datepicker-popup="MM/dd/yyyy" show-button-bar='false' min-date='minDate' max-date='maxDate' is-open="date_open" ng-click="date_open = true" class='form-control' ng-model='checkin.date'>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='col-sm-12'>
-                <div class='well'>
-                    <label>Find vouchers by code</label>
-                    <div class='input-group'>
-                        <input type='text' class='form-control' ng-model='search.code' placeholder='Voucher code'>
-                        <div class='input-group-btn'>
-                            <a class='btn btn-primary' ng-disabled='searchingByCode' ng-click='getVoucherByCode()'>
-                                <span ng-if='searchingByCode'><i class='fa fa-spinner fa-spin'></i> Searching...</span>
-                                <span ng-if='!searchingByCode'>Search</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='col-sm-12'>
-                <div class='well'>
-                    <label>Find vouchers by phone number</label>
-                    <div class='input-group'>
-                        <input type='text' class='form-control' ng-model='search.number' placeholder='10 digit mobile number'>
-                        <div class='input-group-btn'>
-                            <a class='btn btn-primary' ng-disabled='seachingByPhone' ng-click='getVouchersByPhone()'>
-                                <span ng-if='seachingByPhone'><i class='fa fa-spinner fa-spin'></i> Searching...</span>
-                                <span ng-if='!seachingByPhone'>Search</span>
-                            </a>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>
