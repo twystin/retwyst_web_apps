@@ -33,61 +33,6 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         $scope.orders = [];
         $scope.filtered_orders = [];
 
-        $scope.$watchCollection('choosen_outlet', function(newVal, oldVal) {
-            if (!newVal) {
-                return;
-            }
-
-            if (newVal !== oldVal && oldVal !== undefined) {
-                $rootScope.faye.unsubscribe('/' + oldVal);
-            }
-
-            $rootScope.faye.subscribe('/' + newVal, function(message) {
-                $scope.$apply(function() {
-                    $rootScope.sound.play();
-                    var notification = $notification('New Order', {
-                        body: (message.text && message.text.message) || 'You have a new order',
-                        delay: 900000,
-                        dir: 'auto'
-                    });
-
-                    notification.$on('click', function() {
-                        console.debug('The user has clicked in my notification.');
-                        merchantRESTSvc.getOrder(message.text && message.text.order_id)
-                            .then(function(res) {
-                                $scope.orders.push(res.data);
-                                var modalInstance = $modal.open({
-                                    animation: true,
-                                    templateUrl: 'templates/partials/view_order.tmpl.html',
-                                    controller: 'OrderViewController',
-                                    size: 'lg',
-                                    resolve: {
-                                        order: function() {
-                                            return res.data;
-                                        }
-                                    }
-                                });
-
-                                modalInstance.result.then(function(order) {
-                                    $scope.orders[$scope.orders.length - 1] = order;
-                                    $scope.filterOrders();
-                                });
-                            }, function(err) {
-                                console.log(err);
-                            });
-                        notification.close();
-                        $rootScope.sound.stop();
-                    });
-
-                    notification.$on('close', function() {
-                        console.debug('The user has closed my notification.');
-                        notification.close();
-                        $rootScope.sound.stop();
-                    });
-                });
-            });
-        });
-
         $scope.getOrders = function() {
             merchantRESTSvc.getOrders($scope.choosen_outlet).then(function(res) {
                 console.log(res);

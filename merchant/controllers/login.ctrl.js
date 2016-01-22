@@ -17,6 +17,10 @@ angular.module('merchantApp').controller('LoginController', ['$scope', '$rootSco
                 $cookies.put('isPaying', res.data.data.is_paying);
                 $rootScope.token = res.data.data.token;
                 $rootScope.isPaying = res.data.data.is_paying;
+                $rootScope.paths = _.map(res.data.data.outlets, function(outlet) {
+                    return '/' + outlet;
+                });
+                $cookies.put('paths', JSON.stringify($rootScope.paths));
                 SweetAlert.swal({
                     title: 'Logged In Successfully',
                     type: 'success',

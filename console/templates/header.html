@@ -68,6 +68,9 @@
                 <li ng-if='role === 2 || role === "2"'>
                     <a ui-sref='.menu_update_requests_manage'> <i class='fa fa-code'></i>MENU REQUESTS</a>
                 </li>
+                <li ng-if='role !== 2 && role !== "2"'>
+                    <a ui-sref='.test_payment'> <i class='fa fa-code'></i>Test Payment</a>
+                </li>
             </ul>
         </div>
     </aside>

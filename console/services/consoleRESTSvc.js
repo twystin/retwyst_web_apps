@@ -309,7 +309,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         consoleRESTSvc.createMenu = function(menu) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
-            $http.post('/api/v4/menus?token=' + token, menu)
+            $http.post('/api/v4/menu?token=' + token, menu)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
@@ -325,7 +325,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         consoleRESTSvc.updateMenu = function(menu) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
-            $http.put('/api/v4/menus/' + menu._id, menu)
+            $http.put('/api/v4/menus/' + menu._id + '?token=' + token, menu)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
@@ -336,6 +336,24 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
                     deferred.reject(err);
                 });
             return deferred.promise
+        };
+
+        consoleRESTSvc.cloneMenu = function(menu_id, outlet_id) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/menus/clone?token=' + token, {
+                menu: menu_id,
+                outlet: outlet_id
+            }).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
         };
 
 
