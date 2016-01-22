@@ -3,7 +3,7 @@ angular.module('consoleApp')
         function($scope, toastr, consoleRESTSvc, $log) {
 
             $scope.calculate_checksum = function() {
-                $scope.checksum = 'dbdb4097be1140c21f8953f7b9cc7029394d8d76b2d57529fccec001eb7c6c65';
+                $scope.checksum = '915f037be216e5f6e2b7f235a3d5add73fda96e47461bbd6230a64bfb1082e12';
             }
 
 
