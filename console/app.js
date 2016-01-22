@@ -159,5 +159,10 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 url: '/menu_update_requests',
                 templateUrl: 'templates/menu_update_requests/manage.html',
                 controller: 'MenuUpdateRequestManageController'
+            })
+            .state('console.test_payment', {
+                url: '/test_payment',
+                templateUrl: 'templates/test_payment.html',
+                controller: 'TestPaymentController'
             });
     });
