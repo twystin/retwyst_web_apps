@@ -8,7 +8,7 @@
                 </div>
                 <div class='panel-body'>
                     <wizard on-finish='updateOutlet()'>
-                        <wz-step title='Outlet Basics' canexit='validateStep1'>
+                        <wz-step title='Outlet Basics' canexit=''>
                             <div class='well well-lg'>
                                 <form class='form-horizontal' role='form'>
                                     <legend>Outlet Info</legend>
@@ -354,150 +354,6 @@
                             </div>
                             <div class='well well-lg'>
                                 <form class='form-horizontal' role='form'>
-                                    <legend>Commission</legend>
-                                    <div class='form-group'>
-                                        <div class='col-sm-offset-1 col-sm-3'>
-                                            <input bs-switch type='checkbox' ng-model='outlet.twyst_meta.twyst_commission.is_fixed' switch-on-text='Fixed' switch-off-text='Variable' ng-change='updateCommission()'>
-                                        </div>
-                                    </div>
-                                    <div class='form-group' ng-if='outlet.twyst_meta.twyst_commission.is_fixed === true'>
-                                        <label class='col-sm-2 control-label'>Fixed Percent&nbsp;<i class='fa fa-sm fa-asterisk'></i></label>
-                                        <div class='col-sm-4'>
-                                            <div class='input-group'>
-                                                <input type='number' min='0' steps='1' ng-model='outlet.twyst_meta.twyst_commission.value' class='form-control text-right'>
-                                                <span class='input-group-addon'>%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class='form-group table-responsive' ng-if='outlet.twyst_meta.twyst_commission.is_fixed !== true'>
-                                        <div class='col-sm-offset-2 col-sm-6'>
-                                            <a class='btn btn-w-md btn-primary' ng-click='addCommissionSlab()'><i class='fa fa-plus'></i>&nbsp;Add Slab</a>
-                                            <div>&nbsp;</div>
-                                            <table class="table table-bordered table-striped table-responsive">
-                                                <thead>
-                                                    <tr>
-                                                        <th class='text-center'>#</th>
-                                                        <th class='text-center'>Start&nbsp;<i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th class='text-center'>End</th>
-                                                        <th class='text-center'>Commission&nbsp;<i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th class='text-center'>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat='slab in outlet.twyst_meta.twyst_commission.commission_slab track by $index'>
-                                                        <td class='text-right'>{{$index + 1}}.</td>
-                                                        <td class='text-center'>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input class='form-control text-right' type='number' min='0' ng-model='slab.start'>
-                                                            </div>
-                                                        </td>
-                                                        <td class='text-center'>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input class='form-control text-right' type='number' min='1' ng-model='slab.end'>
-                                                            </div>
-                                                        </td>
-                                                        <td class='text-center'>
-                                                            <div class='input-group'>
-                                                                <input class='form-control text-right' type='number' min='1' steps='1' ng-model='slab.value'>
-                                                                <span class='input-group-addon'>%</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <a class='btn btn-sm btn-danger' ng-if='outlet.twyst_meta.twyst_commission.commission_slab.length>1' ng-click='removeSlab(outlet.twyst_meta.twyst_commission.commission_slab, $index)'><i class='fa fa-trash'></i></a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class='well well-lg'>
-                                <form class='form-horizontal' role='form'>
-                                    <legend>Cashback</legend>
-                                    <div class='form-group'>
-                                        <label class='col-sm-2 control-label'>Base Cashback</label>
-                                        <div class='col-sm-4'>
-                                            <div class='input-group'>
-                                                <input type='number' min='0' steps='1' ng-model='outlet.twyst_meta.cashback_info.base_cashback' class='form-control text-right'>
-                                                <span class='input-group-addon'> % </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class='form-group'>
-                                        <label class='col-sm-2 control-label'>In-App Ratio</label>
-                                        <div class='col-sm-6'>
-                                            <div class='row'>
-                                                <div class='col-sm-8'>
-                                                    <input type='number' min='0.01' step='0.01' max='5.00' ng-model='outlet.twyst_meta.cashback_info.in_app_ratio' class='form-control'>
-                                                </div>
-                                                <div class='col-sm-4' ng-if='outlet.twyst_meta.cashback_info.base_cashback && outlet.twyst_meta.cashback_info.in_app_ratio'> ->&nbsp;
-                                                    <label class='label label-info'>{{outlet.twyst_meta.cashback_info.base_cashback * outlet.twyst_meta.cashback_info.in_app_ratio}}&nbsp;%</label>
-                                                </div>
-                                            </div>
-                                            <div class='help-block'>In-App Ratio <i class='fa fa-times'></i> Base Cashback -> <strong>Actual In-App Cashback</strong></div>
-                                        </div>
-                                    </div>
-                                    <div class='form-group'>
-                                        <label class='col-sm-2 control-label'>COD Ratio</label>
-                                        <div class='col-sm-6'>
-                                            <div class='row'>
-                                                <div class='col-sm-8'>
-                                                    <input type='number' min='0.01' step='0.01' max='5.00' ng-model='outlet.twyst_meta.cashback_info.cod_ratio' class='form-control'>
-                                                </div>
-                                                <div class='col-sm-4' ng-if='outlet.twyst_meta.cashback_info.base_cashback && outlet.twyst_meta.cashback_info.cod_ratio'> ->&nbsp;
-                                                    <label class='label label-info'>{{outlet.twyst_meta.cashback_info.base_cashback * outlet.twyst_meta.cashback_info.cod_ratio}}&nbsp;%</label>
-                                                </div>
-                                            </div>
-                                            <div class='help-block'>COD Ratio <i class='fa fa-times'></i> Base Cashback -> <strong>Actual COD Cashback</strong></div>
-                                        </div>
-                                    </div>
-                                    <div class='form-group table-responsive'>
-                                        <div class='col-sm-offset-2 col-sm-6'>
-                                            <a class='btn btn-w-md btn-primary' ng-click='addCashbackSlab()'><i class='fa fa-plus'></i>&nbsp;Add Slab</a>
-                                            <div>&nbsp;</div>
-                                            <table class="table table-bordered table-striped table-responsive">
-                                                <thead>
-                                                    <tr>
-                                                        <th class='text-center'>#</th>
-                                                        <th class='text-center'>Start&nbsp;<i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th class='text-center'>End</th>
-                                                        <th class='text-center'>Ratio&nbsp;<i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th class='text-center'>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat='slab in outlet.twyst_meta.cashback_info.order_amount_slab'>
-                                                        <td class='text-right'>{{$index + 1}}.</td>
-                                                        <td class='text-center'>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input class='form-control text-right' type='number' min='0' ng-model='slab.start'>
-                                                            </div>
-                                                        </td>
-                                                        <td class='text-center'>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input class='form-control text-right' type='number' min='1' ng-model='slab.end'>
-                                                            </div>
-                                                        </td>
-                                                        <td class='text-right'>
-                                                            <input style='min-width:80px;' min='0.01' step='0.01' max='5.00' class='form-control' type='number' ng-model='slab.ratio'>
-                                                        </td>
-                                                        <td>
-                                                            <a class='btn btn-sm btn-danger' ng-click='removeSlab(outlet.twyst_meta.cashback_info.order_amount_slab, $index)'><i class='fa fa-trash'></i></a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class='well well-lg'>
-                                <form class='form-horizontal' role='form'>
                                     <legend>SMS OFF TIME</legend>
                                     <div class='form-group'>
                                         <div class='col-md-offset-1 col-md-11'>
@@ -666,8 +522,8 @@
                                         <span class='label label-warning' ng-if='!outlet.attributes.alcohol'>Do Not Serve</span>
                                         <span class='label label-primary' ng-if='outlet.attributes.alcohol'>Serves</span>
                                         <h4>Cost for two: 
-                                            From: <span class='label label-primary'>Rs.{{outlet.attributes.cost_for_two.min}}</span> 
-                                            To:   <span class='label label-primary'>Rs.{{outlet.attributes.cost_for_two.max}}</span>
+                                            From: <span class='label label-primary'><i class='fa fa-inr'></i>&nbsp;{{outlet.attributes.cost_for_two.min}}</span> 
+                                            To:   <span class='label label-primary'><i class='fa fa-inr'></i>&nbsp;{{outlet.attributes.cost_for_two.max}}</span>
                                         </h4>
                                     </div>
                                     <div class='col-md-6'>

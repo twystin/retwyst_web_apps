@@ -1,7 +1,7 @@
 <div class='container'>
     <div class='col-sm-12'>
         <div>&nbsp;</div>
-        <a class='btn btn-default' ui-sref='^.outlets'>Go Back</a> &nbsp;&nbsp;
+        <a class='btn btn-default' ui-sref='^.outlets_manage'>Go Back</a> &nbsp;&nbsp;
         <p></p>
     </div>
     <div class='clearfix'></div>
@@ -45,9 +45,60 @@
                 <span class='label label-primary' ng-if='outlet.attributes.alcohol'>Serves</span>
                 <h4>
                     Cost for two: 
-                    From: <span class='label label-primary'>Rs.{{outlet.attributes.cost_for_two.min}}</span> 
-                    To:   <span class='label label-primary'>Rs.{{outlet.attributes.cost_for_two.max}}</span>
+                    From: <span class='label label-primary'><i class='fa fa-inr'></i>&nbsp;{{outlet.attributes.cost_for_two.min}}</span> 
+                    To:   <span class='label label-primary'><i class='fa fa-inr'></i>&nbsp;{{outlet.attributes.cost_for_two.max}}</span>
                 </h4>
+                <h4><strong>Commission</strong></h4>
+                <span ng-if='outlet.twyst_meta.twyst_commission.is_fixed === true'>FIXED: 
+                    <span class='label label-info'>{{outlet.twyst_meta.twyst_commission.value}}%</span>
+                </span>
+                <table class='table table-hover table-condensed table-striped' ng-if='outlet.twyst_meta.twyst_commission.is_fixed === false'>
+                    <thead>
+                        <tr>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Commission</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='slab in outlet.twyst_meta.twyst_commission.commission_slab track by $index'>
+                            <td>{{slab.start}}</td>
+                            <td>{{slab.end}}</td>
+                            <td><span class='label label-info'>{{slab.value}}%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4><strong>Cashback</strong></h4>
+                <table class='table table-hover table-condensed table-striped'>
+                    <tr>
+                        <th colspan='2'>Base Cashback</th>
+                        <td class='text-right'>
+                            <span class='label label-info'>{{outlet.twyst_meta.cashback_info.base_cashback | number:2}}%</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan='2'>In-App Cashback</th>
+                        <td class='text-right'>
+                            <span class='label label-info'>{{(outlet.twyst_meta.cashback_info.base_cashback * outlet.twyst_meta.cashback_info.in_app_ratio) | number:2}}&nbsp;%</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan='2'>COD Cashback</th>
+                        <td class='text-right'>
+                            <span class='label label-info'>{{(outlet.twyst_meta.cashback_info.base_cashback * outlet.twyst_meta.cashback_info.cod_ratio) | number:2}}&nbsp;%</span>
+                        </td>
+                    </tr>
+                    <tr ng-if='outlet.twyst_meta.cashback_info.order_amount_slab.length !== 0'>
+                        <th class='text-center'>Start</th>
+                        <th class='text-center'>End</th>
+                        <th class='text-center'>Effective</th>
+                    </tr>
+                    <tr ng-repeat='slab in outlet.twyst_meta.cashback_info.order_amount_slab'>
+                        <td><i class='fa fa-inr'></i>&nbsp;{{slab.start}}</td>
+                        <td><i class='fa fa-inr'></i>&nbsp;{{slab.end}}</td>
+                        <td>{{(slab.ratio * outlet.twyst_meta.cashback_info.base_cashback) | number:2}}%</td>
+                    </tr>
+                </table>
             </div>
             <div class='col-md-6'>
                 <h4>Cuisines</h4>

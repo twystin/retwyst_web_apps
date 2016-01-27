@@ -698,121 +698,29 @@ angular.module('merchantApp')
                     deferred.reject();
                 } else if (_.get($scope.outlet, 'twyst_meta.twyst_commission.is_fixed') && !_.get($scope.outlet, 'twyst_meta.twyst_commission.value')) {
                     $scope.showErrorMessage('Fixed commision required commission percentage');
+                } else if ($scope.outlet.sms_off.value) {
+                    if ((!$scope.outlet.sms_off.time.start.hr && $scope.outlet.sms_off.time.start.hr !== 0) || (!$scope.outlet.sms_off.time.start.min && $scope.outlet.sms_off.time.start.min !== 0)) {
+                        $scope.showErrorMessage("SMS OFF start time invalid");
+                        deferred.reject();
+                    } else if ((!$scope.outlet.sms_off.time.end.hr && $scope.outlet.sms_off.time.end.hr !== 0) || (!$scope.outlet.sms_off.time.end.min && $scope.outlet.sms_off.time.end.min !== 0)) {
+                        $scope.showErrorMessage("SMS OFF end time invalid");
+                        deferred.reject();
+                    } else {
+                        var startMin = ($scope.outlet.sms_off.time.start.hr * 60) + $scope.outlet.sms_off.time.start.min,
+                            closeMin = ($scope.outlet.sms_off.time.end.hr * 60) + $scope.outlet.sms_off.time.end.min;
+                        if (startMin == closeMin) {
+                            $scope.showErrorMessage("SMS Off start and end time cannot be the same");
+                            deferred.reject();
+                        } else {
+                            $scope.scrollToTop();
+                            $scope.formFailure = false;
+                            deferred.resolve(true);
+                        }
+                    }
                 } else {
-                    var has_upper_bound = false;
-                    async.each($scope.outlet.twyst_meta.twyst_commission.commission_slab, function(slab, callback) {
-                        console.log('slab', slab);
-                        if (!slab.start && slab.start !== 0) {
-                            callback('All commission slabs must have starting amount.');
-                        } else if (!slab.value) {
-                            callback('Commission percent required for all slabs.');
-                        } else if (!slab.end) {
-                            if (has_upper_bound) {
-                                callback('Exactly one commission should not have an upper bound.');
-                            } else {
-                                has_upper_bound = true;
-                                callback();
-                            }
-                        } else if (slab.end <= slab.start) {
-                            callback('Slab start must be lesser than slab end');
-                        } else {
-                            async.each($scope.outlet.twyst_meta.twyst_commission.commission_slab, function(slab2, callback) {
-                                console.log(slab);
-                                console.log(slab2);
-                                console.log(slab == slab2);
-                                console.log(slab === slab2);
-                                console.log(((slab.start <= (slab2.end || 99999999)) && ((slab2.end || 99999999) <= (slab.end || 99999999))), ((slab.start <= slab2.start) && (slab2.start <= (slab.end || 99999999))), ((slab2.start <= (slab.end || 99999999)) && ((slab.end || 99999999) <= (slab2.end || 99999999))));
-                                if (slab === slab2) {
-                                    callback();
-                                } else if (((slab.start <= (slab2.end || 99999999)) && ((slab2.end || 99999999) <= (slab.end || 99999999))) || ((slab.start <= slab2.start) && (slab2.start <= (slab.end || 99999999))) || ((slab2.start <= (slab.end || 99999999)) && ((slab.end || 99999999) <= (slab2.end || 99999999)))) {
-                                    callback('One or more commission slabs are conflicting');
-                                } else {
-                                    callback();
-                                }
-                            }, function(err) {
-                                console.log('err', err);
-                                callback(err);
-                            });
-                        }
-                    }, function(err) {
-                        if (err) {
-                            $scope.showErrorMessage(err);
-                            deferred.reject();
-                        } else if (!_.get($scope.outlet, 'twyst_meta.twyst_commission.is_fixed') && !has_upper_bound) {
-                            $scope.showErrorMessage('A commission slab with no upper bound required');
-                            deferred.reject();
-                        } else if (!_.get($scope.outlet, 'twyst_meta.cashback_info.base_cashback') && _.get($scope.outlet, 'twyst_meta.cashback_info.base_cashback') !== 0) {
-                            $scope.showErrorMessage('Base cashback percent required');
-                            deferred.reject();
-                        } else if (!_.get($scope.outlet, 'twyst_meta.cashback_info.in_app_ratio')) {
-                            $scope.showErrorMessage('Commission ratio required for in-app payment');
-                            deferred.reject();
-                        } else if (!_.get($scope.outlet, 'twyst_meta.cashback_info.cod_ratio')) {
-                            $scope.showErrorMessage('Commission ratio required for C.O.D payment');
-                            deferred.reject();
-                        } else {
-                            var check_upper_cashback = false;
-                            async.each($scope.outlet.twyst_meta.cashback_info.order_amount_slab, function(slab, callback) {
-                                if (!slab.start && slab.start !== 0) {
-                                    callback('All cashback slabs must have starting amount.');
-                                } else if (!slab.ratio) {
-                                    callback('Cashback ratio required for all slabs.');
-                                } else if (!slab.end) {
-                                    if (check_upper_cashback) {
-                                        callback('Exactly one commission should not have an upper bound.');
-                                    } else {
-                                        check_upper_cashback = true;
-                                        callback();
-                                    }
-                                } else if (slab.end <= slab.start) {
-                                    callback('Slab start must be lesser than slab end');
-                                } else {
-                                    async.each($scope.outlet.twyst_meta.cashback_info.order_amount_slab, function(slab2, callback) {
-                                        if (slab === slab2) {
-                                            callback();
-                                        } else if (((slab.start <= slab2.end) && (slab2.end <= slab.end)) || ((slab.start <= slab2.start) && (slab2.start <= slab.end)) || ((slab2.start <= slab.end) && (slab2.end <= slab.end))) {
-                                            callback('One or more commission slabs are conflicting');
-                                        } else {
-                                            callback();
-                                        }
-                                    }, function(err) {
-                                        callback(err);
-                                    });
-                                }
-                            }, function(err) {
-                                if (err) {
-                                    $scope.showErrorMessage(err);
-                                    deferred.reject();
-                                } else if (_.get($scope.outlet, 'twyst_meta.cashback_info.order_amount_slab') && $scope.outlet.twyst_meta.cashback_info.order_amount_slab.length !== 0 && !check_upper_cashback) {
-                                    $scope.showErrorMessage('Eactly one cashback slab must not have an upper bound');
-                                    deferred.reject();
-                                } else if ($scope.outlet.sms_off.value) {
-                                    if ((!$scope.outlet.sms_off.time.start.hr && $scope.outlet.sms_off.time.start.hr !== 0) || (!$scope.outlet.sms_off.time.start.min && $scope.outlet.sms_off.time.start.min !== 0)) {
-                                        $scope.showErrorMessage("SMS OFF start time invalid");
-                                        deferred.reject();
-                                    } else if ((!$scope.outlet.sms_off.time.end.hr && $scope.outlet.sms_off.time.end.hr !== 0) || (!$scope.outlet.sms_off.time.end.min && $scope.outlet.sms_off.time.end.min !== 0)) {
-                                        $scope.showErrorMessage("SMS OFF end time invalid");
-                                        deferred.reject();
-                                    } else {
-                                        var startMin = ($scope.outlet.sms_off.time.start.hr * 60) + $scope.outlet.sms_off.time.start.min,
-                                            closeMin = ($scope.outlet.sms_off.time.end.hr * 60) + $scope.outlet.sms_off.time.end.min;
-                                        if (startMin == closeMin) {
-                                            $scope.showErrorMessage("SMS Off start and end time cannot be the same");
-                                            deferred.reject();
-                                        } else {
-                                            $scope.scrollToTop();
-                                            $scope.formFailure = false;
-                                            deferred.resolve(true);
-                                        }
-                                    }
-                                } else {
-                                    $scope.scrollToTop();
-                                    $scope.formFailure = false;
-                                    deferred.resolve(true);
-                                }
-                            });
-                        }
-                    });
+                    $scope.scrollToTop();
+                    $scope.formFailure = false;
+                    deferred.resolve(true);
                 }
                 return deferred.promise;
             };
