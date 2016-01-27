@@ -103,6 +103,22 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
+        consoleRESTSvc.updateOutlet = function(outlet_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.put('/api/v4/outlets/' + outlet_obj._id + '?token=' + token, outlet_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
 
         /*==================================
         =            OFFER APIs            =
@@ -381,6 +397,22 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.get('/api/v4/orders?token=' + token)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateOrder = function(req_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.put('/api/v4/outlet/order/' + req_obj._id)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);

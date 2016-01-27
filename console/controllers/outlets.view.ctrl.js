@@ -52,5 +52,23 @@ angular.module('consoleApp').controller('OutletViewController', ['$scope', 'cons
         }, function(err) {
             console.log(err);
         });
+
+        $scope.updateCashbackAndCommission = function() {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '../common/templates/partials/outlet.cashback_commission.tmpl.html',
+                size: 'md',
+                controller: 'CashbackCommissionController',
+                resolve: {
+                    outlet: function() {
+                        return $scope.outlet;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(outlet) {
+                $scope.outlet = outlet;
+            });
+        };
     }
 ])
