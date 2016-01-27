@@ -656,7 +656,7 @@ angular.module('merchantApp')
                         if (err) {
                             $scope.showErrorMessage(err);
                             deferred.reject();
-                        } else if (!has_upper_bound) {
+                        } else if (!_.get($scope.outlet, 'twyst_meta.twyst_commission.is_fixed') && !has_upper_bound) {
                             $scope.showErrorMessage('A commission slab with no upper bound required');
                             deferred.reject();
                         } else if (!_.get($scope.outlet, 'twyst_meta.cashback_info.base_cashback') && _.get($scope.outlet, 'twyst_meta.cashback_info.base_cashback') !== 0) {
@@ -701,7 +701,7 @@ angular.module('merchantApp')
                                 if (err) {
                                     $scope.showErrorMessage(err);
                                     deferred.reject();
-                                } else if (!check_upper_cashback) {
+                                } else if (_.get($scope.outlet, 'twyst_meta.cashback_info.order_amount_slab') && $scope.outlet.twyst_meta.cashback_info.order_amount_slab.length !== 0 && !check_upper_cashback) {
                                     $scope.showErrorMessage('Eactly one cashback slab must not have an upper bound');
                                     deferred.reject();
                                 } else if ($scope.outlet.sms_off.value) {

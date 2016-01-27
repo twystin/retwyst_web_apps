@@ -360,7 +360,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         /*==================================
         =            ORDER APIs            =
         ==================================*/
-        
+
         consoleRESTSvc.getOrders = function() {
             var deferred = $q.defer();
             var token = $cookies.get('token');
@@ -376,13 +376,13 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
                 });
             return deferred.promise;
         };
-        
+
         consoleRESTSvc.getOrder = function(order_id) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.get('/api/v4/orders?token=' + token)
                 .then(function(res) {
-                    if(res.data.response) {
+                    if (res.data.response) {
                         deferred.resolve(res.data);
                     } else {
                         deferred.reject(res.data);
@@ -392,6 +392,89 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
                 });
             return deferred.promise;
         };
+
+        /*===========================================
+        =            CASHBACK OFFER APIs            =
+        ===========================================*/
+
+        consoleRESTSvc.getCashbackOffers = function() {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.get('/api/v4/cashback/offers?token=' + token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.getCashbackOffer = function(offer_id) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.get('/api/v4/cashback/offers/' + offer_id + '?token=' + token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.createCashbackOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/cashback/offers?token=' + token, offer_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateCashbackOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.put('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.deleteCashbackOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.delete('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
 
         return consoleRESTSvc;
     }

@@ -160,6 +160,21 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/menu_update_requests/manage.html',
                 controller: 'MenuUpdateRequestManageController'
             })
+            .state('console.cashback_offers_manage', {
+                url: '/cashback_offers',
+                templateUrl: 'templates/cashback_offers/manage.html',
+                controller: 'CashbackOffersManageController'
+            })
+            .state('console.cashback_offers_create', {
+                url: '/cashback_offers/create',
+                templateUrl: 'templates/cashback_offers/create.html',
+                controller: 'CashbackOfferCreateController'
+            })
+            .state('console.cashback_offers_edit', {
+                url: '/cashback_offers/:offer_id',
+                templateUrl: 'templates/cashback_offers/edit.html',
+                controller: 'CashbackOfferUpdateController'
+            })
             .state('console.test_payment', {
                 url: '/test_payment',
                 templateUrl: 'templates/test_payment.html',
