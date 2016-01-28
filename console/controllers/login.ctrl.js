@@ -16,9 +16,11 @@ angular.module('consoleApp')
                 consoleRESTSvc.login($scope.user)
                     .then(function(res) {
                         console.log(res);
+                        $cookies.put('user', res.data.data.email);
                         $cookies.put('token', res.data.data.token);
                         $cookies.put('isPaying', res.data.data.is_paying);
                         $cookies.put('role', res.data.data.role);
+                        $rootScope.user = res.data.data.email;
                         $rootScope.token = res.data.data.token;
                         $rootScope.isPaying = res.data.data.is_paying;
                         $rootScope.role = res.data.data.role;

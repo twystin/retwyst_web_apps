@@ -614,8 +614,6 @@ angular.module('merchantApp')
                 } else if (!$scope.outlet.attributes.cuisines.length && $rootScope.isPaying) {
                     $scope.showErrorMessage('Atleast one cuisine must be specified');
                     deferred.reject();
-                } else if (_.get($scope.outlet, 'twyst_meta.twyst_commission.is_fixed') && !_.get($scope.outlet, 'twyst_meta.twyst_commission.value')) {
-                    $scope.showErrorMessage('Fixed commision required commission percentage');
                 } else if ($scope.outlet.sms_off.value) {
                     if ((!$scope.outlet.sms_off.time.start.hr && $scope.outlet.sms_off.time.start.hr !== 0) || (!$scope.outlet.sms_off.time.start.min && $scope.outlet.sms_off.time.start.min !== 0)) {
                         $scope.showErrorMessage("SMS OFF start time invalid");

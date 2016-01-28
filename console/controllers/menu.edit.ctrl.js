@@ -11,18 +11,22 @@ angular.module('consoleApp').controller('MenuEditController', ['$scope', 'consol
         consoleRESTSvc.getOutlets().then(function(res) {
             console.log(res);
             $scope.outlets = res.data;
+            $scope.getMenu();
         }, function(err) {
             console.log(err);
+            $scope.getMenu();
         });
 
-        consoleRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
-            console.log(res);
-            $scope.menu = _.extend($scope.menu, res.data);
-            _id = $scope.menu._id;
-        }, function(err) {
-            console.log(err);
-            SweetAlert.swal('Service Error', err.message ? err.message : 'Somthing went wrong.', 'error');
-        });
+        $scope.getMenu = function() {
+            consoleRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
+                console.log(res);
+                $scope.menu = _.extend($scope.menu, res.data);
+                _id = $scope.menu._id;
+            }, function(err) {
+                console.log(err);
+                SweetAlert.swal('Service Error', err.message ? err.message : 'Somthing went wrong.', 'error');
+            });
+        };
 
         $scope.toggle = function(scope) {
             scope.toggle();
