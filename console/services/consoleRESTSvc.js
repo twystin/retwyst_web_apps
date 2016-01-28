@@ -412,7 +412,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         consoleRESTSvc.updateOrder = function(req_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
-            $http.put('/api/v4/outlet/order/' + req_obj._id)
+            $http.put('/api/v4/outlet/order/' + req_obj._id + '?token=' + token, req_obj)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);

@@ -16,7 +16,9 @@
                 <div class='form-group' ng-class='{"has-error": formFailure && !menu.outlet}'>
                     <label for='outlet' class='col-md-2 control-label'>Outlet <i class='fa fa-sm fa-asterisk'></i></label>
                     <div class='col-md-8'>
-                        <select ui-select ng-model='menu.outlet' data-placeholder='Choose an outlet' ng-options="outlet._id as (outlet.basics.name + ',' + outlet.contact.location.locality_1[0] + (outlet.contact.location.locality_1[0]?', ':'') + outlet.contact.location.locality_2[0]) for outlet in outlets track by $index" class='form-control'>
+                        <select ui-select ng-model='menu.outlet' data-placeholder='Choose an outlet' class='form-control'>
+                            <option value='' ng-if='!menu.outlet'>Choose an outlet</option>
+                            <option value='{{outlet._id}}' ng-repeat='outlet in outlets'>{{outlet.basics.name}}, {{outlet.contact.location.locality_1[0]}} {{outlet.contact.location.locality_1[0]?', ':''}} {{outlet.contact.location.locality_2[0]}}</option>
                         </select>
                     </div>
                 </div>

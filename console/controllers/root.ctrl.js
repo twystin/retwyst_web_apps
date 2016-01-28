@@ -9,9 +9,11 @@ angular.module('consoleApp')
         $scope.logout = function() {
             consoleRESTSvc.logout().then(function(data) {
                 if (data.response) {
+                    $cookies.remove('user');
                     $cookies.remove('token');
                     $cookies.remove('role');
                     $cookies.put('paths', '[]');
+                    $rootScope.user = undefined;
                     $rootScope.token = undefined;
                     $rootScope.role = undefined;
                     $rootScope.paths = [];

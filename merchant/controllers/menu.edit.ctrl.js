@@ -5,21 +5,25 @@ angular.module('merchantApp')
             $scope.menu_types = ['Dine-In', 'Takeaway', 'Delivery', 'Weekend', 'Dinner', 'All'];
             merchantRESTSvc.getOutlets().then(function(res) {
                 $scope.outlets = res.data;
+                $scope.getMenu();
             }, function(err) {
                 $scope.outlets = [];
                 console.log(err);
+                $scope.getMenu();
             });
 
-            merchantRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
-                $scope.menu = _.extend($scope.menu, res.data);
-                _id = $scope.menu._id;
-            }, function(err) {
-                if (err.message) {
-                    SweetAlert.swal('Service Error', err.message, 'error');
-                } else {
-                    SweetAlert.swal('Service Error', 'Something went wrong.', 'error');
-                }
-            });
+            $scope.getMenu = function() {
+                merchantRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
+                    $scope.menu = _.extend($scope.menu, res.data);
+                    _id = $scope.menu._id;
+                }, function(err) {
+                    if (err.message) {
+                        SweetAlert.swal('Service Error', err.message, 'error');
+                    } else {
+                        SweetAlert.swal('Service Error', 'Something went wrong.', 'error');
+                    }
+                });
+            };
 
             $scope.menu = {
                 status: 'active',

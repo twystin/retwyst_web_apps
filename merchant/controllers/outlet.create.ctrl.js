@@ -3,6 +3,7 @@ angular.module('merchantApp')
         function($scope, merchantRESTSvc, $stateParams, $rootScope, SweetAlert, $state, $q, $modal, toastr, imageSvc) {
 
             $scope.cuisines = ["African", "American", "Andhra", "Arabic", "Armenian", "Asian", "Assamese", "Awadhi", "Bangladeshi", "Belgian", "Bengali", "Biryani", "British", "Burmese", "Chettinad", "Chinese", "Continental", "Costal", "Desserts", "European", "Fast Food", "Finger Food", "French", "German", "Goan", "Greek", "Gujarati", "Healthy Food", "Hyderabadi", "Ice creams", "Indian", "Indonesian", "Italian", "Japanese", "Kashmiri", "Konkan", "Malayali", "Korean", "Lebanese", "Lucknowi", "Maharashtrian", "Malaysian", "Mangalorean", "Mediterranean", "Mexican", "Moroccan", "Mughlai", "Naga", "Nepalese", "North Eastern", "North Indian", "Oriya", "Paan", "Pakistani", "Parsi", "Pizza", "Portuguese", "Punjabi", "Rajasthani", "Russian", "Sri Lankan", "Sindhi", "Singaporean", "South American", "South Indian", "Spanish", "Street Food", "Sushi", "Tex-Mex", "Thai", "Tibetan", "Turkish", "Vietnamese", "Wraps", "Bakery", "Beverages", "Burgers", "Cafe", "Salads", "Sandwiches", "Seafood", "Middle Eastern", "Steaks", "Sizzlers"];
+
             $scope.outlet = {
                 sms_off: {
                     value: false
@@ -87,6 +88,7 @@ angular.module('merchantApp')
                     }
                 }
             };
+
             $scope.map = {
                 center: {
                     latitude: 28.805422897457665,
@@ -103,9 +105,11 @@ angular.module('merchantApp')
                 zoom: 14,
                 bounds: {}
             };
+
             $scope.options = {
                 scrollwheel: true
             };
+
             $scope.drawingManagerOptions = {
                 drawingMode: 'polygon',
                 drawingControl: false,
@@ -114,7 +118,9 @@ angular.module('merchantApp')
                     drawingModes: ["polygon"]
                 }
             };
+            
             $scope.drawingManagerControl = {};
+            
             $scope.drawingManagerEvents = {
                 polygoncomplete: function(drawingManager, eventName, scope, args) {
                     var polygon = args[0];
@@ -573,6 +579,7 @@ angular.module('merchantApp')
                 });
             };
 
+
             $scope.createOutlet = function() {
                 var temp_outlet = _.cloneDeep($scope.outlet);
                 temp_outlet._id = _id;
@@ -696,8 +703,6 @@ angular.module('merchantApp')
                 } else if (!$scope.outlet.attributes.cuisines.length && $rootScope.isPaying) {
                     $scope.showErrorMessage('Atleast one cuisine must be specified');
                     deferred.reject();
-                } else if (_.get($scope.outlet, 'twyst_meta.twyst_commission.is_fixed') && !_.get($scope.outlet, 'twyst_meta.twyst_commission.value')) {
-                    $scope.showErrorMessage('Fixed commision required commission percentage');
                 } else if ($scope.outlet.sms_off.value) {
                     if ((!$scope.outlet.sms_off.time.start.hr && $scope.outlet.sms_off.time.start.hr !== 0) || (!$scope.outlet.sms_off.time.start.min && $scope.outlet.sms_off.time.start.min !== 0)) {
                         $scope.showErrorMessage("SMS OFF start time invalid");

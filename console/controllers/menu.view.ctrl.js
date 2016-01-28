@@ -2,9 +2,11 @@ angular.module('consoleApp').controller('MenuViewController', ['$scope', 'consol
     function($scope, consoleRESTSvc, SweetAlert, $state, $q, $modal, $stateParams) {
         consoleRESTSvc.getOutlets().then(function(res) {
             $scope.outlets = res.data;
+            $scope.getMenu();
         }, function(err) {
             $scope.outlets = [];
             console.log(err);
+            $scope.getMenu();
         });
 
         $scope.menu = {
@@ -12,15 +14,17 @@ angular.module('consoleApp').controller('MenuViewController', ['$scope', 'consol
             menu_categories: []
         };
 
-        consoleRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
-            $scope.menu = _.extend($scope.menu, res.data);
-        }, function(err) {
-            if (err.message) {
-                SweetAlert.swal('Service Error', err.message, 'error');
-            } else {
-                SweetAlert.swal('Service Error', 'Something went wrong.', 'error');
-            }
-        });
+        $scope.getMenu = function() {
+            consoleRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
+                $scope.menu = _.extend($scope.menu, res.data);
+            }, function(err) {
+                if (err.message) {
+                    SweetAlert.swal('Service Error', err.message, 'error');
+                } else {
+                    SweetAlert.swal('Service Error', 'Something went wrong.', 'error');
+                }
+            });
+        };
 
         $scope.toggle = function(scope) {
             scope.toggle();

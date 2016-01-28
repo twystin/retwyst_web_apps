@@ -1,5 +1,5 @@
 angular.module('merchantApp')
-    .controller('MenuItemController', function($scope, $modalInstance, item, is_new, limit_access, SweetAlert, $q) {
+    .controller('MenuItemController', function($scope, $modalInstance, $modal, item, is_new, limit_access, SweetAlert, $q) {
 
         $scope.is_new = is_new;
         $scope.limit_access = limit_access;
@@ -27,6 +27,39 @@ angular.module('merchantApp')
                 }
             });
         });
+
+        $scope.updateItemTimings = function(val, updateFlag) {
+            if (val !== true && val !== false) {
+                return;
+            }
+
+            if ($scope.item.item_availability.regular_item === true) {
+                delete $scope.item.item_availability.start_date;
+                delete $scope.item.item_availability.end_date;
+                $scope.item.item_availability.days_of_the_week = [];
+                $scope.item.item_availability.available_hours = { monday: { closed: false, timings: [{}] }, tuesday: { closed: false, timings: [{}] }, wednesday: { closed: false, timings: [{}] }, thursday: { closed: false, timings: [{}] }, friday: { closed: false, timings: [{}] }, saturday: { closed: false, timings: [{}] }, sunday: { closed: false, timings: [{}] } };
+            } else {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '../common/templates/partials/menu.item_timings.tmpl.html',
+                    size: 'lg',
+                    controller: 'MenuItemTimingsController',
+                    resolve: {
+                        item: function() {
+                            return _.cloneDeep($scope.item);
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function(item_obj) {
+                    $scope.item = item_obj;
+                }, function() {
+                    if (!updateFlag) {
+                        $scope.item.item_availability.regular_item = true;
+                    }
+                });
+            }
+        }
 
         $scope.resolveItem = function() {
             $scope.validateItem().then(function() {
