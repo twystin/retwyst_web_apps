@@ -17,14 +17,18 @@ angular.module('consoleApp').controller('MenuManageController', ['$scope', 'cons
 
         $scope.current_page_menus = [];
 
-        consoleRESTSvc.getMenus().then(function(res) {
-            console.log(res);
-            $scope.menus = res.data;
-            $scope.search();
-            $scope.select($scope.currentPage);
-        }, function(err) {
-            console.log(err);
-        });
+        $scope.getMenus = function() {
+            consoleRESTSvc.getMenus().then(function(res) {
+                console.log(res);
+                $scope.menus = res.data;
+                $scope.search();
+                $scope.select($scope.currentPage);
+            }, function(err) {
+                console.log(err);
+            });
+        };
+
+        $scope.getMenus();
 
         $scope.select = function(page) {
             var end, start;

@@ -1,5 +1,5 @@
 angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification'])
-    .run(function($rootScope, $state, $cookies, ngAudio, $notification, merchantRESTSvc, $modal) {
+    .run(['$rootScope', '$state', '$cookies', 'ngAudio', '$notification', 'merchantRESTSvc', '$modal', function($rootScope, $state, $cookies, ngAudio, $notification, merchantRESTSvc, $modal) {
         $rootScope.faye = new Faye.Client('/faye');
         $rootScope.token = $cookies.get('token');
         $rootScope.sound = ngAudio.load('sounds/song1.wav');
@@ -56,13 +56,14 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
         });
         
 
-        $rootScope.$on('$stateChangeStart', function() {
+        $rootScope.$on('$stateChangeStart', function(_, toState) {
             $('document').ready(function() {
                 $(window).scrollTop(0);
             });
+            $rootScope.current_state = toState.name;
         });
-    })
-    .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
+    }])
+    .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
             key: 'AIzaSyALU-FlIm704rdvaZFVujipV4SVxR4Kt9A',
             v: '3.17',
@@ -158,4 +159,4 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
                 templateUrl: 'templates/bills/view.html',
                 controller: 'BillViewController'
             })
-    });
+    }]);

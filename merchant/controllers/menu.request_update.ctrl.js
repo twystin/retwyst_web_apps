@@ -1,4 +1,4 @@
-angular.module('merchantApp').controller('MenuRequestUpdateController', function($scope, $modalInstance, merchantRESTSvc, menu_id, outlet, menu_type, SweetAlert) {
+angular.module('merchantApp').controller('MenuRequestUpdateController', ['$scope', '$modalInstance', 'merchantRESTSvc', 'menu_id', 'outlet', 'menu_type', 'SweetAlert', function($scope, $modalInstance, merchantRESTSvc, menu_id, outlet, menu_type, SweetAlert) {
 
     $scope.update_request = {
         event_meta: {
@@ -40,4 +40,4 @@ angular.module('merchantApp').controller('MenuRequestUpdateController', function
             })
         }
     };
-});
+}]);

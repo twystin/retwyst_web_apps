@@ -1,5 +1,4 @@
-angular.module('merchantApp')
-    .controller('MenuOptionController', function($scope, $modalInstance, option, is_new, limit_access, option_title, SweetAlert) {
+angular.module('merchantApp').controller('MenuOptionController', ['$scope', '$modalInstance', 'option', 'is_new', 'limit_access', 'option_title', 'SweetAlert', function($scope, $modalInstance, option, is_new, limit_access, option_title, SweetAlert) {
 
         $scope.is_new = is_new;
         $scope.option = option;
@@ -19,4 +18,4 @@ angular.module('merchantApp')
         $scope.discardOption = function() {
             $modalInstance.dismiss('Cancel');
         };
-    });
+    }]);

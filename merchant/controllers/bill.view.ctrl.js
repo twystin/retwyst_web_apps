@@ -1,5 +1,4 @@
-angular.module('merchantApp')
-    .controller('BillViewController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$stateParams',
+angular.module('merchantApp').controller('BillViewController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$stateParams',
         function($scope, merchantRESTSvc, SweetAlert, $stateParams) {
             merchantRESTSvc.getBill($stateParams.bill_id)
                 .then(function(res) {
