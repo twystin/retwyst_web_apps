@@ -88,6 +88,46 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        cssmin: {
+            merchantTarget: {
+                files: [{
+                    'common/merchant_styles.css': [
+                        'http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic',
+                        'bower_components/angular-ui-tree/dist/angular-ui-tree.min.css',
+                        'bower_components/sweetalert/dist/sweetalert.css',
+                        'bower_components/angular-wizard/dist/angular-wizard.css',
+                        'bower_components/angular-loading-bar/build/loading-bar.min.css',
+                        'bower_components/bootstrap/dist/css/bootstrap.min.css',
+                        'bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+                        'bower_components/select2/select2.css',
+                        'bower_components/font-awesome/css/font-awesome.min.css',
+                        'bower_components/angular-toastr/dist/angular-toastr.min.css',
+                        'styles/bootstrap.css',
+                        'styles/ui.css',
+                        'styles/main.css'
+                    ]
+                }]
+            },
+            consoleTarget: {
+                files: [{
+                    'common/console_styles.css': [
+                        'http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic',
+                        'bower_components/angular-ui-tree/dist/angular-ui-tree.min.css',
+                        'bower_components/sweetalert/dist/sweetalert.css',
+                        'bower_components/angular-wizard/dist/angular-wizard.css',
+                        'bower_components/angular-loading-bar/build/loading-bar.min.css',
+                        'bower_components/bootstrap/dist/css/bootstrap.min.css',
+                        'bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+                        'bower_components/select2/select2.css',
+                        'bower_components/font-awesome/css/font-awesome.min.css',
+                        'bower_components/angular-toastr/dist/angular-toastr.min.css',
+                        'styles/bootstrap.css',
+                        'styles/ui.css',
+                        'styles/main.css'
+                    ]
+                }]
+            }
+        },
         watch: {
             files: ['<%= jshint.files %>'],
             tasks: ['jshint']
@@ -96,7 +136,9 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     grunt.registerTask('default', ['uglify']);
+    grunt.registerTask('styles', ['cssmin']);
 
 };
