@@ -1,4 +1,4 @@
-angular.module('merchantApp').controller('MenuCategoryController', function($scope, $modalInstance, category, is_new, SweetAlert) {
+angular.module('merchantApp').controller('MenuCategoryController', ['$scope', '$modalInstance', 'category', 'is_new', 'SweetAlert', function($scope, $modalInstance, category, is_new, SweetAlert) {
     $scope.menu_categories = ['Indian', 'Desserts', 'Cakes', 'Chinese', 'Soup'];
 
     $scope.is_new = is_new;
@@ -15,4 +15,4 @@ angular.module('merchantApp').controller('MenuCategoryController', function($sco
     $scope.discardCategory = function() {
         $modalInstance.dismiss('Cancel');
     };
-});
+}]);

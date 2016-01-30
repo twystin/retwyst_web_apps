@@ -1,4 +1,4 @@
-angular.module('merchantApp').controller('MenuCloneController', function($scope, $modalInstance, menu_id, outlet_id, SweetAlert, merchantRESTSvc) {
+angular.module('merchantApp').controller('MenuCloneController', ['$scope', '$modalInstance', 'menu_id', 'outlet_id', 'SweetAlert', 'merchantRESTSvc', function($scope, $modalInstance, menu_id, outlet_id, SweetAlert, merchantRESTSvc) {
     $scope.req_obj = {
         menu: menu_id
     };
@@ -38,4 +38,4 @@ angular.module('merchantApp').controller('MenuCloneController', function($scope,
     $scope.cancel = function() {
     	$modalInstance.dismiss('Cancel');
     };
-});
+}]);

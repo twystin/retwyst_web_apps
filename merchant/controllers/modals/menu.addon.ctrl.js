@@ -1,5 +1,4 @@
-angular.module('merchantApp')
-    .controller('MenuAddonController', function($scope, $modalInstance, addon, is_new, limit_access, SweetAlert) {
+angular.module('merchantApp').controller('MenuAddonController', ['$scope', '$modalInstance', 'addon', 'is_new', 'limit_access', 'SweetAlert', function($scope, $modalInstance, addon, is_new, limit_access, SweetAlert) {
 
         $scope.is_new = is_new;
         $scope.addon = addon;
@@ -42,4 +41,4 @@ angular.module('merchantApp')
         $scope.discardAddon = function() {
             $modalInstance.dismiss('Cancel');
         };
-    })
+    }])

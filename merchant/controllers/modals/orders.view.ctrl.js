@@ -1,4 +1,4 @@
-angular.module('merchantApp').controller('OrderViewController', function($scope, $modalInstance, order, merchantRESTSvc, SweetAlert) {
+angular.module('merchantApp').controller('OrderViewController', ['$scope', '$modalInstance', 'order', 'merchantRESTSvc', 'SweetAlert', function($scope, $modalInstance, order, merchantRESTSvc, SweetAlert) {
     console.log('order', order);
 
     $scope.order = order;
@@ -93,4 +93,4 @@ angular.module('merchantApp').controller('OrderViewController', function($scope,
             });
     };
 
-});
+}]);

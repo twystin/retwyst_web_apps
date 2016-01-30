@@ -1,4 +1,4 @@
-angular.module('merchantApp').controller('MenuItemTimingsController', function($scope, $modalInstance, item, SweetAlert, $q) {
+angular.module('merchantApp').controller('MenuItemTimingsController', ['$scope', '$modalInstance', 'item', 'SweetAlert', '$q', function($scope, $modalInstance, item, SweetAlert, $q) {
     $scope.item = {
         item_availability: {
             available_hours: {
@@ -199,4 +199,4 @@ angular.module('merchantApp').controller('MenuItemTimingsController', function($
     $scope.discardChanges = function() {
         $modalInstance.dismiss('Cancel');
     };
-});
+}]);

@@ -1,4 +1,4 @@
-angular.module('consoleApp').directive('ngFocus', function($timeout) {
+angular.module('consoleApp').directive('ngFocus', ['$timeout', function($timeout) {
     return {
         link: function(scope, element, attrs) {
             scope.$watch(attrs.ngFocus, function(val) {
@@ -17,4 +17,4 @@ angular.module('consoleApp').directive('ngFocus', function($timeout) {
             });
         }
     };
-});
+}]);

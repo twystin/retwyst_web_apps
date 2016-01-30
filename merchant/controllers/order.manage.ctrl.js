@@ -1,22 +1,20 @@
-angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$state', '$q', '$modal', '$rootScope', 'ngAudio', '$notification',
-    function($scope, merchantRESTSvc, SweetAlert, $state, $q, $modal, $rootScope, ngAudio, $notification) {
+angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert',
+    function($scope, merchantRESTSvc, SweetAlert) {
         $scope.showing = "pending";
-        $scope.show_checkin = false;
+        
         $scope.current_order = -1;
+
+        $scope.reject_reasons = [
+            'Reason 1',
+            'Reason 2',
+            'Reason 3',
+            'Reason 4'
+        ];
 
         $scope.updateShowing = function(text) {
             $scope.showing = text;
             $scope.filterOrders();
         };
-
-        $scope.maxDate = new Date();
-        $scope.minDate = new Date($scope.maxDate.getTime() - (7 * 24 * 60 * 60 * 1000));
-
-        $scope.checkin = {
-            date: new Date()
-        };
-
-        $scope.search = {};
 
         $scope.choosen_outlet;
 
@@ -38,6 +36,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             merchantRESTSvc.getOrders($scope.choosen_outlet).then(function(res) {
                 console.log(res);
                 $scope.orders = res.data;
+                $scope.orders.push($scope.order);
                 $scope.filterOrders();
             }, function(err) {
                 console.log(err);
@@ -48,9 +47,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             $scope.filtered_orders = _.filter($scope.orders, function(order) {
                 return order.order_status === $scope.showing;
             });
-            // $scope.order = $scope.filtered_orders[$scope.filtered_orders.length - 2];
         };
-
 
         $scope.order = {
             "_id": "569f74d6d485f59b2ec1cd36",
@@ -64,7 +61,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             "outlet": "540ea3d32f61834b5170eb10",
             "order_number": "TWBBR116S5FT",
             "offer_used": "56168becef75fc1f5d5647b8",
-            "order_status": "cancelled",
+            "order_status": "pending",
             "order_value_without_offer": 3244,
             "order_value_with_offer": 2919.5999999999999091,
             "menu_id": "5680efbfe5b619416c628896",
@@ -196,17 +193,11 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             }],
             "is_favourite": false,
             "user_rating": 0,
-            "actions": [{
-                "action_by": "54e5740127d46ad4117742ae",
-                "action_type": "cancelled",
-                "_id": "569f75235e0228b02e69d9b5",
-                "action_at": "2016-01-20T11:52:29.485Z"
-            }],
+            "actions": [],
             "cashback": 0,
             "order_date": "2016-01-20T11:51:10.123Z",
             "__v": 0
         };
-        $scope.orders.push($scope.order);
 
         $scope.getItemPrice = function(item) {
             var total_price = 0;
@@ -241,147 +232,110 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             return (order.order_value_without_offer - order.order_value_with_offer) + (order.order_value_with_offer * (order.cash_back / 100));
         }
 
-        $scope.checkinUser = function() {
-            if (!$scope.checkin || !$scope.checkin.number) {
-                SweetAlert.swal('Number required', 'Please enter the customer\'s mobile number', 'warning');
-            } else if (!/^[0-9]{10}$/.test($scope.checkin.number)) {
-                SweetAlert.swal('Invalid number!', 'Number entered is invalid. Please recheck', 'warning');
-            } else {
-                $scope.checking_in = true;
-                var req_obj = {
-                    event_meta: {
-                        phone: $scope.checkin.number
-                    },
-                    event_outlet: $scope.choosen_outlet
-                };
-                if ($scope.checkin.date) {
-                    var today = new Date();
-                    $scope.checkin.date.setHours(today.getHours());
-                    $scope.checkin.date.setMinutes(today.getMinutes());
-                    req_obj.event_date = $scope.checkin.date;
-                    req_obj.event_meta.date = new Date();
-                }
-                merchantRESTSvc.checkinUser(req_obj)
-                    .then(function(res) {
-                        $scope.checking_in = false;
-                        $scope.checkin.number = '';
-                        if (!_.has(res, 'data.checkins_to_go')) {
-                            SweetAlert.swal({
-                                title: 'Checkin successful',
-                                text: 'Customer has also unlocked a new voucher',
-                                type: 'success'
-                            }, function(confirm) {
-                                if (confirm) {
-                                    $modal.open({
-                                        animation: true,
-                                        templateUrl: 'templates/partials/panel.voucher.tmpl.html',
-                                        size: 'lg',
-                                        controller: 'PanelVoucherController',
-                                        resolve: {
-                                            vouchers: function() {
-                                                return [data.data];
-                                            },
-                                            outlet: function() {
-                                                return $scope.choosen_outlet;
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            SweetAlert.swal('Checkin successful', '', 'success');
-                        }
-                    }, function(err) {
-                        $scope.checking_in = false;
-                        $scope.checkin.number = '';
-                        var error_msg;
-                        if (err.data.indexOf('-') === -1) {
-                            error_msg = err.data;
-                        } else {
-                            error_msg = err.data.slice(err.data.indexOf('-') + 2)
-                        }
-                        SweetAlert.swal('ERROR', error_msg, 'error');
-                    });
-            }
-        }
-
-        $scope.getVoucherByCode = function() {
-            console.log($scope.search);
-            if (!$scope.search.code || $scope.search.code.length !== 6) {
-                SweetAlert.swal('Missing/Invalid Voucher Code', 'Please provide a valid voucher code to search', 'error');
-            } else {
-                $scope.searchingByCode = true;
-                merchantRESTSvc.getVoucherByCode($scope.choosen_outlet, $scope.search.code)
-                    .then(function(data) {
-                        $scope.searchingByCode = false;
-                        $scope.search = {};
-                        if (data.data) {
-                            // show voucher in modal
-                            $modal.open({
-                                animation: true,
-                                templateUrl: 'templates/partials/panel.voucher.tmpl.html',
-                                size: 'lg',
-                                controller: 'PanelVoucherController',
-                                resolve: {
-                                    vouchers: function() {
-                                        return [data.data];
-                                    },
-                                    outlet: function() {
-                                        return $scope.choosen_outlet;
-                                    }
-                                }
-                            });
-                            console.log(data);
-                        } else {
-                            SweetAlert.swal('Not Found', 'No active voucher found with that code', 'warning');
-                        }
-                    }, function(err) {
-                        $scope.searchingByCode = false;
-                        SweetAlert.swal('Error', err.message ? err.message : 'Something went wrong', 'error');
-                    });
-            }
-        }
-
-        $scope.getVouchersByPhone = function() {
-            if (!$scope.search || !$scope.search.number) {
-                SweetAlert.swal('Missing number', 'Please enter the customer\'s number to search', 'warning');
-            } else if (!/^[0-9]{10}$/.test($scope.search.number)) {
-                SweetAlert.swal('Invalid number', 'Phone number entered is invalid. Please recheck', 'error');
-            } else {
-                $scope.seachingByPhone = true;
-                merchantRESTSvc.getVouchersByPhone($scope.choosen_outlet, $scope.search.number)
-                    .then(function(data) {
-                        $scope.seachingByPhone = false;
-                        $scope.search = {};
-                        if (!data.data.length) {
-                            SweetAlert.swal('No active vouchers', 'No active vouchers found for the customer');
-                        } else {
-                            $modal.open({
-                                animation: true,
-                                templateUrl: 'templates/partials/panel.voucher.tmpl.html',
-                                size: 'lg',
-                                controller: 'PanelVoucherController',
-                                resolve: {
-                                    vouchers: function() {
-                                        return data.data;
-                                    },
-                                    outlet: function() {
-                                        return $scope.choosen_outlet;
-                                    }
-                                }
-                            });
-                            console.log(data);
-                        }
-                    }, function(err) {
-                        $scope.seachingByPhone = false;
-                        SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong', 'error');
-                    });
-            }
-        }
-
         $scope.viewOrder = function(order, index) {
             $scope.order = order;
             $scope.current_order = index;
+        };
+
+        $scope.acceptOrder = function() {
+            var updated_order = _.cloneDeep($scope.order);
+            updated_order.update_type = 'accept';
+            SweetAlert.swal({
+                title: 'Estimate Time?',
+                text: 'Provide an estimate time for delivery - in minutes.',
+                type: 'input',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: 'slide-from-top'
+            }, function(inputValue) {
+                var estimate_time;
+
+                if (!inputValue) {
+                    swal.showInputError('Estimate delivery time (in mins.) required');
+                    return false;
+                } else {
+                    try {
+                        estimate_time = Number(inputValue);
+                        if (estimate_time === estimate_time) {
+                            updated_order.estimate_time = estimate_time;
+                            merchantRESTSvc.updateOrder(updated_order).then(function(res) {
+                                console.log(res);
+                                $scope.order.order_status = 'accepted';
+                                $scope.order.actions.push({
+                                    "action_type": "accepted",
+                                    "action_at": new Date()
+                                });
+                                $scope.orders[$scope.current_order] = $scope.order;
+                                SweetAlert.swal('SUCCESS', 'Order accepted successfully', 'success');
+                                $scope.filterOrders();
+                            }, function(err) {
+                                console.log(err);
+                                SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
+                            });
+                        } else {
+                            swal.showInputError('Valid estimate delivery time(in minutes) required');
+                            return false;
+                        }
+                    } catch (e) {
+                        swal.showInputError('Valid estimate delivery time(in minutes) required');
+                        return false
+                    }
+                }
+            });
+        };
+
+        $scope.showReject = function() {
+            $scope.show_reject_msg = true;
+        };
+
+        $scope.rejectOrder = function(reason) {
+            var updated_order = _.cloneDeep($scope.order);
+            updated_order.update_type = 'reject';
+            SweetAlert.swal({
+                title: 'Are you sure?',
+                text: 'This is an irreversible change. Do you still want to proceed?',
+                type: 'warning',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: 'slide-from-top'
+            }, function(confirm) {
+                if(confirm) {
+                    updated_order.reject_reason = reason;
+                    merchantRESTSvc.updateOrder(updated_order).then(function(res) {
+                        $scope.order.order_status = 'rejected';
+                        $scope.order.actions.push({
+                            "action_type": "rejected",
+                            "action_at": new Date(),
+                            "comments": reason
+                        });
+                        $scope.orders[$scope.current_order] = $scope.order;
+                        SweetAlert.swal('SUCCESS', 'Order rejected successfully', 'info');
+                        $scope.filterOrders();
+                    }, function(err) {
+                        console.log(err);
+                        SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
+                    });
+                    return true;
+                }
+            });
+        };
+
+        $scope.dispatchOrder = function() {
+            var updated_order = _.cloneDeep($scope.order);
+            updated_order.update_type = 'dispatch';
+            merchantRESTSvc.updateOrder(updated_order).then(function(res) {
+                $scope.order.order_status = 'dispatched';
+                $scope.order.actions.push({
+                    action_type: 'dispatched',
+                    action_at: new Date()
+                });
+                $scope.orders[$scope.current_order] = $scope.order;
+                SweetAlert.swal('SUCCESS', 'Order dispatch updated successfully', 'success');
+                $scope.filterOrders();
+            }, function(err) {
+                console.log(err);
+                SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
+            });
         };
 
     }

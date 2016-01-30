@@ -1,5 +1,5 @@
 angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification', 'ngAudio'])
-    .run(function($rootScope, $state, $cookies, $notification, ngAudio) {
+    .run(['$rootScope', '$state', '$cookies', '$notification', 'ngAudio', function($rootScope, $state, $cookies, $notification, ngAudio) {
         $rootScope.faye = new Faye.Client('/faye');
         $rootScope.user = $cookies.get('user');
         $rootScope.token = $cookies.get('token');
@@ -34,8 +34,14 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 });
             });
         });
-    })
-    .config(function($stateProvider, $urlRouterProvider) {
+        $rootScope.$on('$stateChangeStart', function(_, toState) {
+            $('document').ready(function() {
+                $(window).scrollTop(0);
+            });
+            $rootScope.current_state = toState.name;
+        })
+    }])
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.when('', '/');
         $urlRouterProvider.otherwise('/');
@@ -74,7 +80,30 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
             .state('console.offers_manage', {
                 url: '/offers',
                 templateUrl: 'templates/offers/manage.html',
-                controller: 'OfferManageController'
+                controller: 'OfferManageController',
+                resolve: {
+                    loadMyCtrl: function($ocLazyLoad) {
+
+                        // console.log('$ocLazyLoad', $ocLazyLoad);
+                        // return $ocLazyLoad.load({
+                        //   files: ['controllers/offers.manage.ctrl.js']
+                        // }).then(function(a, b, c) {
+                        //     console.log(a, b, c);
+                        // }, function(q, w, e) {
+                        //     console.log(q, w, e);
+                        // })
+                        return $ocLazyLoad.load('controllers/offers.manage.ctrl.js')
+                            .then(function(a, b, c) {
+                                console.log(a, b, c);
+                            }, function(q, w, e) {
+                                console.log(q, w, e);
+                            });
+                    },
+                    // loadAB: function() {
+                    //     console.log('ab');
+                    //     return 1;
+                    // }
+                }
             })
             .state('console.offers_view', {
                 url: '/offers/:offer_id',
@@ -181,4 +210,4 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/test_payment.html',
                 controller: 'TestPaymentController'
             });
-    });
+    }]);
