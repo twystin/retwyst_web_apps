@@ -1,6 +1,6 @@
-angular.module('consoleApp').controller('OrderManageController', ['$scope', 'consoleRESTSvc', 'SweetAlert', '$cookies',
-    function($scope, consoleRESTSvc, SweetAlert, $cookies) {
-        $scope.showing = 'pending';
+angular.module('consoleApp').controller('OrderManageController', ['$scope', 'consoleRESTSvc', 'SweetAlert', '$cookies', '$rootScope', '$notification',
+    function($scope, consoleRESTSvc, SweetAlert, $cookies, $rootScope, $notification) {
+        $scope.showing = 'PENDING';
 
         $scope.current_order = -1;
 
@@ -11,10 +11,50 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             'Reason 4'
         ];
 
+        $scope.faye_handler = function(message) {
+            consoleRESTSvc.getOrder(message.order_id).then(function(res) {
+                $rootScope.notification_count += 1;
+
+                if (!$rootScope.sound.is_playing) {
+                    $rootScope.sound.is_playing = true;
+                    $rootScope.sound.play();
+                };
+
+                var notification = $notification('New Order', {
+                    body: (message.message) || 'You have an order',
+                    delay: 0,
+                    dir: 'auto'
+                });
+
+                notification.$on('click', function() {
+                    console.debug('The user has clicked in my notification.');
+                    $scope.orders.push(res.data);
+                    $scope.updateShowing('pending');
+                    notification.close();
+                });
+
+                notification.$on('close', function() {
+                    console.debug('The user has closed my notification.');
+                    notification.close();
+                    $rootScope.notification_count -= 1;
+                    if (!$rootScope.notification_count) {
+                        $rootScope.sound.stop();
+                        $rootScope.sound.is_playing = false;
+                    }
+                    $scope.updateShowing('PENDING');
+                });
+            }, function(err) {
+                console.log('unable to load order', err);
+            });
+        };
+
+        $rootScope.setHandler($scope.faye_handler);
+
         $scope.updateShowing = function(text) {
             $scope.showing = text;
             $scope.order = {};
             $scope.filterOrders();
+            $scope.getOrders();
         };
 
         consoleRESTSvc.getOutlets().then(function(res) {
@@ -111,9 +151,9 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
                             updated_order.estimate_time = estimate_time;
                             consoleRESTSvc.updateOrder(updated_order).then(function(res) {
                                 console.log(res);
-                                $scope.order.order_status = 'accepted';
+                                $scope.order.order_status = 'ACCEPTED';
                                 $scope.order.actions.push({
-                                    "action_type": "accepted",
+                                    "action_type": "ACCEPTED",
                                     "action_at": new Date()
                                 });
                                 $scope.orders[$scope.current_order] = $scope.order;
@@ -152,12 +192,12 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
                 closeOnConfirm: false,
                 animation: 'slide-from-top'
             }, function(confirm) {
-                if(confirm) {
+                if (confirm) {
                     updated_order.reject_reason = reason;
                     consoleRESTSvc.updateOrder(updated_order).then(function(res) {
-                        $scope.order.order_status = 'rejected';
+                        $scope.order.order_status = 'REJECTED';
                         $scope.order.actions.push({
-                            "action_type": "rejected",
+                            "action_type": "REJECTED",
                             "action_at": new Date(),
                             "comments": reason
                         });
@@ -179,9 +219,9 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             updated_order.order_id = $scope.order._id;
             updated_order.am_email = $cookies.get('email');
             consoleRESTSvc.updateOrder(updated_order).then(function(res) {
-                $scope.order.order_status = 'dispatched';
+                $scope.order.order_status = 'DISPATCHED';
                 $scope.order.actions.push({
-                    action_type: 'dispatched',
+                    action_type: 'DISPATCHED',
                     action_at: new Date()
                 });
                 $scope.orders[$scope.current_order] = $scope.order;
@@ -192,6 +232,6 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
                 SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
             });
         };
-        
+
     }
 ])

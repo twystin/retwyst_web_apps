@@ -485,10 +485,10 @@
                                                     <tr ng-repeat='day in days'>
                                                         <th>{{day | uppercase}}</th>
                                                         <td>
-                                                            <input type='checkbox' bs-switch ng-model='offer.actions.reward.reward_hours[day].closed' switch-off-text='OPEN' switch-on-text='CLOSE' switch-off-color='success' switch-on-color='danger'>
+                                                            <input type='checkbox' bs-switch ng-model='offer.actions.reward.reward_hours[day].closed' switch-off-text='OPEN' ng-change='updateTimingSet(day, offer.actions.reward.reward_hours)' switch-on-text='CLOSE' switch-off-color='success' switch-on-color='danger'>
                                                         </td>
                                                         <td ng-repeat='i in getMaxRange() track by $index' ng-class='{"has-error": formFailure && errorDay===day}'>
-                                                            <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings.length>1 && offer.actions.reward.reward_hours[day].timings[$index]' ng-click='removeTiming(day, $index)' ng-init='initalizeTiming(day, $index, offer.actions.reward.reward_hours)'>
+                                                            <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings.length>1 && offer.actions.reward.reward_hours[day].timings[$index]' ng-click='removeTiming(day, $index, offer.actions.reward.reward_hours)' ng-init='initalizeTiming(day, $index, offer.actions.reward.reward_hours)'>
                                                                 <button class='btn btn-sm btn-danger pull-right'><i class='fa fa-trash-o'></i></button>
                                                             </div>
                                                             <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings[$index]'>

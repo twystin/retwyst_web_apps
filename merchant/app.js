@@ -16,7 +16,6 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
         $rootScope.subscribeOutlet = function(outlet_id) {
             $rootScope.faye.subscribe('/' + outlet_id, function(message) {
                 
-                console.log('check', $rootScope.handler);
                 if ($rootScope.handler) {
                     $rootScope.handler(message);
                 } else {
@@ -68,9 +67,11 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
             if (fromState.name === 'merchant.default') {
                 $rootScope.handler = undefined;
             }
+
             $('document').ready(function() {
                 $(window).scrollTop(0);
             });
+            
             $rootScope.current_state = toState.name;
         });
     }])

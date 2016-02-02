@@ -1,7 +1,7 @@
 angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies', '$notification',
     function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies, $notification) {
-        $scope.showing = "pending";
-        
+        $scope.showing = "PENDING";
+
         $scope.current_order = -1;
 
         $scope.reject_reasons = [
@@ -41,7 +41,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                         $rootScope.sound.stop();
                         $rootScope.sound.is_playing = false;
                     }
-                    $scope.updateShowing('pending');
+                    $scope.updateShowing('PENDING');
                 });
             }, function(err) {
                 console.log('unable to load order', err);
@@ -54,6 +54,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             $scope.showing = text;
             $scope.order = {};
             $scope.filterOrders();
+            $scope.getOrders();
         };
 
         $scope.updateSub = function(outlet_id) {
@@ -155,9 +156,9 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                             updated_order.estimate_time = estimate_time;
                             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                                 console.log(res);
-                                $scope.order.order_status = 'accepted';
+                                $scope.order.order_status = 'ACCEPTED';
                                 $scope.order.actions.push({
-                                    "action_type": "accepted",
+                                    "action_type": "ACCEPTED",
                                     "action_at": new Date()
                                 });
                                 $scope.orders[$scope.current_order] = $scope.order;
@@ -196,12 +197,12 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                 closeOnConfirm: false,
                 animation: 'slide-from-top'
             }, function(confirm) {
-                if(confirm) {
+                if (confirm) {
                     updated_order.reject_reason = reason;
                     merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                        $scope.order.order_status = 'rejected';
+                        $scope.order.order_status = 'REJECTED';
                         $scope.order.actions.push({
-                            "action_type": "rejected",
+                            "action_type": "REJECTED",
                             "action_at": new Date(),
                             "comments": reason
                         });
@@ -223,9 +224,9 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             updated_order.order_id = $scope.order._id;
             updated_order.am_email = $cookies.get('email');
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                $scope.order.order_status = 'dispatched';
+                $scope.order.order_status = 'DISPATCHED';
                 $scope.order.actions.push({
-                    action_type: 'dispatched',
+                    action_type: 'DISPATCHED',
                     action_at: new Date()
                 });
                 $scope.orders[$scope.current_order] = $scope.order;

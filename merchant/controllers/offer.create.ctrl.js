@@ -1,5 +1,5 @@
-angular.module('merchantApp').controller('OfferCreateController', ['$scope', 'merchantRESTSvc', '$q', 'SweetAlert', '$state', '$stateParams', '$filter', '$modal', 'WizardHandler',
-    function($scope, merchantRESTSvc, $q, SweetAlert, $state, $stateParams, $filter, $modal, WizardHandler) {
+angular.module('merchantApp').controller('OfferCreateController', ['$scope', 'merchantRESTSvc', '$q', 'SweetAlert', '$state', '$stateParams', '$filter', '$modal', 'WizardHandler', '$rootScope',
+    function($scope, merchantRESTSvc, $q, SweetAlert, $state, $stateParams, $filter, $modal, WizardHandler, $rootScope) {
 
         $scope.today = new Date();
         $scope.today.setMilliseconds(0);
@@ -182,6 +182,107 @@ angular.module('merchantApp').controller('OfferCreateController', ['$scope', 'me
             if ($scope.offer.offer_outlets) {
                 $scope.offer.offer_outlets.splice(index, 1);
             }
+        };
+
+        $scope.initalizeTiming = function(day, index, list) {
+
+            if (list[day].timings[index].open && list[day].timings[index].close) {
+                return;
+            }
+
+            var openTime = new Date();
+            if ($rootScope.isPaying) {
+                openTime.setHours(9);
+                openTime.setMinutes(0);
+                openTime.setSeconds(0);
+                openTime.setMilliseconds(0);
+            } else {
+                openTime.setHours(0);
+                openTime.setMinutes(1);
+                openTime.setSeconds(0);
+                openTime.setMilliseconds(0);
+            }
+
+            var closeTime = new Date();
+            if ($rootScope.isPaying) {
+                closeTime.setHours(21);
+                closeTime.setMinutes(0);
+                closeTime.setSeconds(0);
+                closeTime.setMilliseconds(0);
+            } else {
+                closeTime.setHours(0);
+                closeTime.setMinutes(0);
+                closeTime.setSeconds(0);
+                closeTime.setMilliseconds(0);
+            }
+
+            if ($rootScope.isPaying) {
+                list[day].timings[index] = {
+                    open: {
+                        hr: 9,
+                        min: 0,
+                        time: openTime
+                    },
+                    close: {
+                        hr: 21,
+                        min: 0,
+                        time: closeTime
+                    }
+                };
+            } else {
+                list[day].timings[index] = {
+                    open: {
+                        hr: 0,
+                        min: 1,
+                        time: openTime
+                    },
+                    close: {
+                        hr: 0,
+                        min: 0,
+                        time: closeTime
+                    }
+                };
+            }
+        };
+
+        $scope.updateTimingSet = function(day, list) {
+            if (list[day].closed) {
+                list[day].timings = [];
+            } else {
+                list[day].timings = [{}];
+                $scope.initalizeTiming(day, 0, list);
+            }
+        };
+
+        $scope.addNewTiming = function(day, list) {
+            list[day].timings.push({});
+        };
+
+        $scope.updateTime = function(day, index, list) {
+            var _timing = list[day].timings[index];
+
+            if (_timing.open.time) {
+                _timing.open.hr = _timing.open.time.getHours();
+                _timing.open.min = _timing.open.time.getMinutes();
+            }
+
+            if (_timing.close.time) {
+                _timing.close.hr = _timing.close.time.getHours();
+                _timing.close.min = _timing.close.time.getMinutes();
+            }
+        };
+
+        $scope.removeTiming = function(day, index, list) {
+            list[day].timings.splice(index, 1);
+        };
+
+        $scope.cloneToAllDays = function(the_day, list) {
+            _.each(list, function(schedule, day) {
+                if (day !== the_day) {
+                    schedule.timings = _.cloneDeep(list[the_day].timings);
+                    schedule.closed = list[the_day].closed;
+                }
+            });
         };
 
         $scope.addOutlet = function(newOutlet) {
