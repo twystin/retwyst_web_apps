@@ -135,7 +135,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'accept';
             updated_order.order_id = $scope.order._id;
-            updated_order.am_email = $cookies.get('email');
+            updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
             SweetAlert.swal({
                 title: 'Estimate Time?',
                 text: 'Provide an estimate time for delivery - in minutes.',
@@ -188,7 +188,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'reject';
             updated_order.order_id = $scope.order._id;
-            updated_order.am_email = $cookies.get('email');
+            updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
             SweetAlert.swal({
                 title: 'Are you sure?',
                 text: 'This is an irreversible change. Do you still want to proceed?',
@@ -222,7 +222,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'dispatch';
             updated_order.order_id = $scope.order._id;
-            updated_order.am_email = $cookies.get('email');
+            updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                 $scope.order.order_status = 'DISPATCHED';
                 $scope.order.actions.push({

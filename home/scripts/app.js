@@ -1,4 +1,4 @@
-angular.module('homeApp', ['oitozero.ngSweetAlert']).controller('MainController', ['$scope', '$http', 'SweetAlert', function($scope, $http, SweetAlert) {
+angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', 'SweetAlert', function($scope, $http, SweetAlert) {
 	
 	$scope.contact_us = function() {
 		if ($scope.disable_contact) {

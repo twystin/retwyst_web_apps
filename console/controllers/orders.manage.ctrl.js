@@ -130,7 +130,7 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'accept';
             updated_order.order_id = $scope.order._id;
-            updated_order.am_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('user');
             SweetAlert.swal({
                 title: 'Estimate Time?',
                 text: 'Provide an estimate time for delivery - in minutes.',
@@ -183,7 +183,7 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'reject';
             updated_order.order_id = $scope.order._id;
-            updated_order.am_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('user');
             SweetAlert.swal({
                 title: 'Are you sure?',
                 text: 'This is an irreversible change. Do you still want to proceed?',
@@ -217,7 +217,7 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'dispatch';
             updated_order.order_id = $scope.order._id;
-            updated_order.am_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('user');
             consoleRESTSvc.updateOrder(updated_order).then(function(res) {
                 $scope.order.order_status = 'DISPATCHED';
                 $scope.order.actions.push({
