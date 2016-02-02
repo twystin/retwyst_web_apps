@@ -1,5 +1,5 @@
-angular.module('consoleApp').controller('OrderManageController', ['$scope', 'consoleRESTSvc', 'SweetAlert',
-    function($scope, consoleRESTSvc, SweetAlert) {
+angular.module('consoleApp').controller('OrderManageController', ['$scope', 'consoleRESTSvc', 'SweetAlert', '$cookies',
+    function($scope, consoleRESTSvc, SweetAlert, $cookies) {
         $scope.showing = 'pending';
 
         $scope.current_order = -1;
@@ -13,11 +13,13 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
 
         $scope.updateShowing = function(text) {
             $scope.showing = text;
+            $scope.order = {};
             $scope.filterOrders();
         };
 
         consoleRESTSvc.getOutlets().then(function(res) {
             $scope.outlets = _.indexBy(res.data, '_id');
+            console.log('outlets', $scope.outlets);
             $scope.getOrders();
         }, function(err) {
             console.log(err);
@@ -32,7 +34,6 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             consoleRESTSvc.getOrders($scope.choosen_outlet).then(function(res) {
                 console.log(res);
                 $scope.orders = res.data;
-                $scope.orders.push($scope.order);
                 $scope.filterOrders();
             }, function(err) {
                 console.log(err);
@@ -45,155 +46,7 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
             });
         };
 
-        $scope.order = {
-            "_id": "569f74d6d485f59b2ec1cd36",
-            "user": {
-                "_id": "54e5740127d46ad4117742ae",
-                "first_name": "Full",
-                "last_name": "Name",
-                "phone": "4321233243",
-                "email": "email@domain.com"
-            },
-            "outlet": "540ea3d32f61834b5170eb10",
-            "order_number": "TWBBR116S5FT",
-            "offer_used": "56168becef75fc1f5d5647b8",
-            "order_status": "pending",
-            "order_value_without_offer": 3244,
-            "order_value_with_offer": 2919.5999999999999091,
-            "menu_id": "5680efbfe5b619416c628896",
-            "tax_paid": 552.5343000000000302,
-            "actual_amount_paid": 3472.1342999999997119,
-            "address": {
-                "line1": "A5/16",
-                "line2": "Sector 26A",
-                "landmark": "Near Qutab Plaza",
-                "pin": 122002,
-                "city": "Gurgaon",
-                "state": "Haryana",
-                "tag": "home"
-            },
-            "items": [{
-                "_id": "5680efc0e5b619416c628899",
-                "item_name": "Choco Mocha Cake",
-                "item_quantity": 1,
-                "item_cost": "130",
-                "option": {
-                    "option_cost": 365,
-                    "option_value": "Half Kg",
-                    "_id": "5680f18ce5b619416c6288aa",
-                    "is_vegetarian": true,
-                    "addons": [{
-                        "addon_title": "test",
-                        "addon_set": [{
-                            "addon_value": "qwer",
-                            "addon_cost": 10
-                        }]
-                    }],
-                    "sub_options": [{
-                        "sub_option_title": "test",
-                        "sub_option_set": [{
-                            "sub_option_value": "sda",
-                            "sub_option_cost": 20
-                        }]
-                    }],
-                    "option_is_addon": false
-                },
-                "item_tags": [
-                    "coffee cakes"
-                ]
-            }, {
-                "_id": "5680f18ce5b619416c6288a5",
-                "item_name": "Coffee Crunch Cake",
-                "item_quantity": 1,
-                "item_cost": "130",
-                "option": {
-                    "option_cost": 645,
-                    "option_value": "One Kg",
-                    "_id": "5680f18ce5b619416c6288a6",
-                    "is_vegetarian": true,
-                    "addons": [],
-                    "sub_options": [],
-                    "option_is_addon": false
-                },
-                "item_tags": [
-                    "coffee cakes"
-                ]
-            }, {
-                "_id": "5680f18ce5b619416c6288a1",
-                "item_name": "Tiramisu Cake",
-                "item_quantity": 1,
-                "item_cost": "130",
-                "option": {
-                    "option_cost": 645,
-                    "option_value": "One Kg",
-                    "_id": "5680f18ce5b619416c6288a2",
-                    "is_vegetarian": true,
-                    "addons": [],
-                    "sub_options": [],
-                    "option_is_addon": false
-                },
-                "item_tags": [
-                    "coffee cakes"
-                ]
-            }, {
-                "_id": "5680f18ce5b619416c62889a",
-                "item_name": "Coffee Almond and Berry Cake",
-                "item_quantity": 1,
-                "item_cost": "410",
-                "option": {
-                    "option_cost": 799,
-                    "option_value": "One Kg",
-                    "_id": "5680f18ce5b619416c62889b",
-                    "is_vegetarian": true,
-                    "addons": [],
-                    "sub_options": [],
-                    "option_is_addon": false
-                },
-                "item_tags": [
-                    "coffee cakes"
-                ]
-            }, {
-                "_id": "5680f330e5b619416c6288be",
-                "item_name": "Choco Marble Cake",
-                "item_quantity": 1,
-                "item_cost": "130",
-                "option": {
-                    "option_cost": 660,
-                    "option_value": "One Kg",
-                    "_id": "5680f330e5b619416c6288bf",
-                    "is_vegetarian": true,
-                    "addons": [],
-                    "sub_options": [],
-                    "option_is_addon": false
-                },
-                "item_tags": [
-                    "choco and cream combo"
-                ]
-            }, {
-                "_id": "5680f330e5b619416c6288b6",
-                "item_name": "Italian Cassatta Cake",
-                "item_quantity": 1,
-                "item_cost": "130",
-                "option": {
-                    "option_cost": 130,
-                    "option_value": "Two Pieces",
-                    "_id": "5680f330e5b619416c6288b9",
-                    "is_vegetarian": true,
-                    "addons": [],
-                    "sub_options": [],
-                    "option_is_addon": false
-                },
-                "item_tags": [
-                    "choco and cream combo"
-                ]
-            }],
-            "is_favourite": false,
-            "user_rating": 0,
-            "actions": [],
-            "cashback": 0,
-            "order_date": "2016-01-20T11:51:10.123Z",
-            "__v": 0
-        };
+        $scope.order = {};
 
         $scope.getItemPrice = function(item) {
             var total_price = 0;
@@ -236,6 +89,8 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
         $scope.acceptOrder = function() {
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'accept';
+            updated_order.order_id = $scope.order._id;
+            updated_order.am_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Estimate Time?',
                 text: 'Provide an estimate time for delivery - in minutes.',
@@ -287,6 +142,8 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
         $scope.rejectOrder = function(reason) {
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'reject';
+            updated_order.order_id = $scope.order._id;
+            updated_order.am_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Are you sure?',
                 text: 'This is an irreversible change. Do you still want to proceed?',
@@ -319,6 +176,8 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
         $scope.dispatchOrder = function() {
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'dispatch';
+            updated_order.order_id = $scope.order._id;
+            updated_order.am_email = $cookies.get('email');
             consoleRESTSvc.updateOrder(updated_order).then(function(res) {
                 $scope.order.order_status = 'dispatched';
                 $scope.order.actions.push({

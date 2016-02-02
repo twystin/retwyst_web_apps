@@ -1,5 +1,5 @@
 angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification', 'ngAudio'])
-    .run(['$rootScope', '$state', '$cookies', '$notification', 'ngAudio', function($rootScope, $state, $cookies, $notification, ngAudio) {
+    .run(['$rootScope', '$state', '$cookies', '$notification', 'ngAudio', 'consoleRESTSvc', function($rootScope, $state, $cookies, $notification, ngAudio, consoleRESTSvc) {
         $rootScope.faye = new Faye.Client('/faye');
         $rootScope.user = $cookies.get('user');
         $rootScope.token = $cookies.get('token');
@@ -11,6 +11,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
+                console.log('message', message);
                 $rootScope.notification_count += 1;
                 $rootScope.sound.play();
                 var notification = $notification('New Order', {
@@ -21,6 +22,22 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
 
                 notification.$on('click', function() {
                     console.debug('The user has clicked in my notification.');
+                    consoleRESTSvc.getOrder(message && message.order_id)
+                        .then(function(res) {
+                            var modalInstance = $modal.open({
+                                animation: true,
+                                templateUrl: '../common/templates/partials/view_order.tmpl.html',
+                                controller: 'OrderViewController',
+                                size: 'lg',
+                                resolve: {
+                                    order: function() {
+                                        return res.data;
+                                    }
+                                }
+                            });
+                        }, function(err) {
+                            console.log(err);
+                        });
                     notification.close();
                     // $rootScope.sound.stop();
                 });

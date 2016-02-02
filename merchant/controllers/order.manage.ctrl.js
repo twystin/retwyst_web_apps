@@ -1,5 +1,5 @@
-angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies',
-    function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies) {
+angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies', '$notification',
+    function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies, $notification) {
         $scope.showing = "pending";
         
         $scope.current_order = -1;
@@ -11,8 +11,48 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             'Reason 4'
         ];
 
+        $scope.faye_handler = function(message) {
+            merchantRESTSvc.getOrder(message.order_id).then(function(res) {
+                $rootScope.notification_count += 1;
+
+                if (!$rootScope.sound.is_playing) {
+                    $rootScope.sound.is_playing = true;
+                    $rootScope.sound.play();
+                };
+
+                var notification = $notification('New Order', {
+                    body: (message.message) || 'You have an order',
+                    delay: 0,
+                    dir: 'auto'
+                });
+
+                notification.$on('click', function() {
+                    console.debug('The user has clicked in my notification.');
+                    $scope.orders.push(res.data);
+                    $scope.updateShowing('pending');
+                    notification.close();
+                });
+
+                notification.$on('close', function() {
+                    console.debug('The user has closed my notification.');
+                    notification.close();
+                    $rootScope.notification_count -= 1;
+                    if (!$rootScope.notification_count) {
+                        $rootScope.sound.stop();
+                        $rootScope.sound.is_playing = false;
+                    }
+                    $scope.updateShowing('pending');
+                });
+            }, function(err) {
+                console.log('unable to load order', err);
+            });
+        };
+
+        $rootScope.setHandler($scope.faye_handler);
+
         $scope.updateShowing = function(text) {
             $scope.showing = text;
+            $scope.order = {};
             $scope.filterOrders();
         };
 
@@ -94,7 +134,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'accept';
             updated_order.order_id = $scope.order._id;
-            updated_order.acc_manager_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Estimate Time?',
                 text: 'Provide an estimate time for delivery - in minutes.',
@@ -147,7 +187,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'reject';
             updated_order.order_id = $scope.order._id;
-            updated_order.acc_manager_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Are you sure?',
                 text: 'This is an irreversible change. Do you still want to proceed?',
@@ -181,7 +221,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'dispatch';
             updated_order.order_id = $scope.order._id;
-            updated_order.acc_manager_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('email');
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                 $scope.order.order_status = 'dispatched';
                 $scope.order.actions.push({

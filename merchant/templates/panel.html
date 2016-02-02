@@ -36,10 +36,13 @@
                 <div class='panel panel-primary' ng-repeat='order in filtered_orders | orderBy:"order_date"'>
                     <div class='panel-body'>
                         <span class='pull-left'>Order #{{order.order_number}}</span>
-                        <div class='pull-right'><span class='label label-info' ><i class='fa fa-inr'></i>&nbsp;{{order.order_value_with_offer | number:2}}</span></div>
+                        <div class='pull-right'><span class='label label-info' ><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}}</span></div>
                         <div class='clearfix'></div>
                         <div>&nbsp;</div>
-                        <div class='pull-left'><span class='label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted" || order.order_status === "dispatched" || order.order_status === "delivered", "label-danger": order.order_status === "rejected" || order.order_status === "cancelled"}'>{{order.order_status | uppercase}}</span></div>
+                        <div class='pull-left'>
+                            <span ng-if='order.outlet_id' class='label label-default'>{{outlets[order.outlet_id].basics.name}}, {{outlets[order.outlet_id].contact.location.locality_1[0]?outlets[order.outlet_id].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet_id].contact.location.locality_2[0]}}</span>
+                            <span ng-if='!order.outlet_id' class='label label-default'>Outlet info missing</span>
+                        </div>
                         <div class='pull-right'><a class='btn btn-w-md btn-primary btn-block' ng-click='viewOrder(order, $index)'>View</a></div>
                     </div>
                 </div>
@@ -50,13 +53,14 @@
                 <legend>Order View</legend>
             </div>
             <div class='row'>
-                <div class='page page-invoice' ng-if='order.order_number'>
+                <div class='page page-invoice' ng-if='order._id'>
                     <div class='invoice-wrapper'>
                         <section class='invoice-container' id='invoice'>
                             <div class='invoice-inner'>
                                 <div class='row'>
                                     <div class='col-xs-4'>
-                                        <p class='size-h2 label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.order_value_with_offer | number:2}}</p>
+                                        <p class='label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}}</p><br>
+                                        <span ng-if='order.outlet_id' class='label label-default'>{{outlets[order.outlet_id].basics.name}}, {{outlets[order.outlet_id].contact.location.locality_1[0]?outlets[order.outlet_id].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet_id].contact.location.locality_2[0]}}</span>
                                     </div>
                                     <div class='col-xs-8 text-right'>
                                         <p class='size-h2'>#{{order.order_number}}</p>
@@ -130,7 +134,7 @@
                                         <strong>{{order.order_date | date: 'dd MMMM hh:mm a'}}</strong>
                                         <div class='clearfix'></div>
                                         <div>&nbsp;</div>
-                                        <p class='size-h2 label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted", "label-danger": order.order_status === "rejected" || order.order_status === "cancelled"}'>{{order.order_status | uppercase}}</p>
+                                        <p class='label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted", "label-danger": order.order_status === "rejected" || order.order_status === "cancelled"}'>{{order.order_status | uppercase}}</p>
                                     </div>
                                 </div>
                                 <div class="divider divider-lg"></div>
