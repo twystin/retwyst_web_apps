@@ -25,9 +25,7 @@ angular.module('consoleApp').controller('LoginController', ['$scope', '$cookies'
                     $rootScope.role = res.data.data.role;
                     $rootScope.paths = [];
                     if ($rootScope.role === 2) {
-                        $rootScope.paths = _.map(res.data.data.outlets, function(outlet) {
-                            return '/' + outlet;
-                        });
+                        $rootScope.paths = ['/' + res.data.data.email.replace('.', '').replace('@', '')];
                         $cookies.put('paths', JSON.stringify($rootScope.paths));
                     } else {
                         $rootScope.paths = ['/console'];

@@ -1,12 +1,15 @@
 angular.module('consoleApp').controller('CashbackOfferTemplateController', ['$scope', '$modalInstance', 'is_new', 'cashback_offer', 'SweetAlert', '$q',
     function($scope, $modalInstance, is_new, cashback_offer, SweetAlert, $q) {
         $scope.is_new = is_new;
-        $scope.cashback_offer = cashback_offer;
+        $scope.cashback_offer = {};
+        $scope.cashback_offer = _.merge($scope.cashback_offer, cashback_offer);
         console.log('cashback_offer', cashback_offer);
         $scope.days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
         $scope.resolveOffer = function() {
             $scope.validateOffer().then(function(res) {
+                $scope.cashback_offer._id = _id;
+                _id = undefined;
                 $modalInstance.close($scope.cashback_offer);
             }, function(err) {
                 SweetAlert.swal('Validation error', err, 'error');
@@ -120,6 +123,8 @@ angular.module('consoleApp').controller('CashbackOfferTemplateController', ['$sc
                 deferred.reject('Offer cost (in Twyst Bucks) required');
             } else if (!_.get($scope.cashback_offer, 'offer_processing_fee')) {
                 deferred.reject('Offer processing fee (in Twyst Bucks) required');
+            } else if (!_.get($scope.cashback_offer, 'offer_status')) {
+                deferred.reject('Please choose a valid offer status');
             } else if (!_.get($scope.cashback_offer, 'offer_start_date')) {
                 deferred.reject('Valid offer start date required');
             } else if (!_.get($scope.cashback_offer, 'offer_end_date')) {

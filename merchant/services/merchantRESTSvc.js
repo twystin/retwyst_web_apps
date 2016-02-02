@@ -177,10 +177,10 @@ angular.module('merchantApp').factory('merchantRESTSvc', ['$http', '$q', '$cooki
             return deferred.promise;
         }
 
-        merchantRESTSvc.getBills = function(status, sort) {
+        merchantRESTSvc.getBills = function() {
             var deferred = $q.defer();
             var token = $cookies.get('token');
-            $http.get('/api/v4/events/list/upload_bill?token=' + token + '&status=' + status + '&sort=' + sort)
+            $http.get('/api/v4/events/list/upload_bill?token=' + token)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
@@ -223,88 +223,6 @@ angular.module('merchantApp').factory('merchantRESTSvc', ['$http', '$q', '$cooki
                     deferred.reject(err);
                 });
             return deferred.promise;
-        }
-
-        merchantRESTSvc.checkinUser = function(req_obj) {
-            var deferred = $q.defer();
-            var token = $cookies.get('token');
-            $http.post('/api/v4/checkin/panel?token=' + token, req_obj)
-                .then(function(res) {
-                    if (res.data.response) {
-                        deferred.resolve(res.data);
-                    } else {
-                        deferred.reject(res.data);
-                    }
-                }, function(err) {
-                    deferred.reject(err);
-                });
-            return deferred.promise;
-        }
-
-        merchantRESTSvc.getVoucherByCode = function(outlet_id, code) {
-            var deferred = $q.defer();
-            var token = $cookies.get('token');
-            $http.get('/api/v4/outlets/' + outlet_id + '/code/' + code + '?token=' + token)
-                .then(function(res) {
-                    if (res.data.response) {
-                        deferred.resolve(res.data);
-                    } else {
-                        deferred.reject(res.data);
-                    }
-                }, function(err) {
-                    deferred.reject(err);
-                });
-            return deferred.promise;
-        }
-
-        merchantRESTSvc.getVouchersByPhone = function(outlet_id, phone) {
-            var deferred = $q.defer();
-            var token = $cookies.get('token');
-            $http.get('/api/v4/outlets/' + outlet_id + '/phone/' + phone + '?token=' + token)
-                .then(function(res) {
-                    if (res.data.response) {
-                        deferred.resolve(res.data);
-                    } else {
-                        deferred.reject(res.data);
-                    }
-                }, function(err) {
-                    deferred.reject(err);
-                });
-            return deferred.promise;
-        }
-
-        merchantRESTSvc.redeemUserCoupon = function(outlet_id, code) {
-            var deferred = $q.defer();
-            var token = $cookies.get('token');
-            $http.post('/api/v4/outlets/redeem_user_token?token=' + token, {
-                    code: code,
-                    outlet_id: outlet_id
-                })
-                .then(function(res) {
-                    if (res.data.response) {
-                        deferred.resolve(res.data);
-                    } else {
-                        deferred.reject(res.data);
-                    }
-                }, function(err) {
-                    deferred.reject(err);
-                });
-            return deferred.promise;
-        }
-
-        merchantRESTSvc.refreshMenus = function() {
-            var deferred = $q.defer();
-            var token = $cookies.get('token');
-            $http.get('/api/v4/menu?token=' + token).then(function(res) {
-                if (res.data.response) {
-                    $scope.menus = res.data.data;
-                    deferred.resolve(res.data);
-                } else {
-                    deferred.reject(res.data);
-                }
-            }, function(err) {
-                deferred.reject(err);
-            });
         }
 
         merchantRESTSvc.getAllMenus = function() {

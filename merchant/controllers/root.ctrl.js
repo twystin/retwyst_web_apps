@@ -11,10 +11,10 @@ angular.module('merchantApp').controller('RootController', ['$scope', '$rootScop
                 .then(function(data) {
                     $cookies.remove('token');
                     $cookies.remove('isPaying');
-                    $cookies.put('paths', '[]');
+                    $cookies.put('subscribed_outlet', '');
                     $rootScope.isPaying = undefined;
                     $rootScope.token = undefined;
-                    $rootScope.paths = [];
+                    $rootScope.subscribed_outlet = '';
                     SweetAlert.swal({
                         title: "Logged out successfully",
                         type: 'success',
