@@ -1,5 +1,6 @@
 angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification'])
     .run(['$rootScope', '$state', '$cookies', 'ngAudio', '$notification', 'merchantRESTSvc', '$modal', function($rootScope, $state, $cookies, ngAudio, $notification, merchantRESTSvc, $modal) {
+        $rootScope.handler = undefined;
         $rootScope.faye = new Faye.Client('/faye');
         $rootScope.token = $cookies.get('token');
         $rootScope.sound = ngAudio.load('sounds/song1.wav');
@@ -7,52 +8,49 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
         $rootScope.sound.is_playing = false;
         $rootScope.isPaying = $cookies.get('isPaying') == 'true' ? true : false;
         $rootScope.subscribed_outlet = $cookies.get('subscribed_outlet') || '';
-        console.log($rootScope.subscribed_outlet);
+
+        $rootScope.setHandler = function(handler) {
+            $rootScope.handler = handler;
+        }
+
         $rootScope.subscribeOutlet = function(outlet_id) {
             $rootScope.faye.subscribe('/' + outlet_id, function(message) {
-                console.log(message);
-                $rootScope.notification_count += 1;
+                
+                if ($rootScope.handler) {
+                    $rootScope.handler(message);
+                } else {
+                    console.log('message outside panel', message);
+                    $rootScope.notification_count += 1;
 
-                if (!$rootScope.sound.is_playing) {
-                    $rootScope.sound.is_playing = true;
-                    $rootScope.sound.play();
-                }
-                var notification =$notification('New Order', {
-                    body: (message.message) || 'You have an order',
-                    delay: 0,
-                    dir: 'auto'
-                });
-
-                notification.$on('click', function() {
-                    console.debug('The user has clicked in my notification.');
-                    merchantRESTSvc.getOrder(message && message.order_id)
-                        .then(function(res) {
-                            var modalInstance = $modal.open({
-                                animation: true,
-                                templateUrl: 'templates/partials/view_order.tmpl.html',
-                                controller: 'OrderViewController',
-                                size: 'lg',
-                                resolve: {
-                                    order: function() {
-                                        return res.data;
-                                    }
-                                }
-                            });
-                        }, function(err) {
-                            console.log(err);
-                        });
-                    notification.close();
-                });
-
-                notification.$on('close', function() {
-                    console.debug('The user has closed my notification.');
-                    notification.close();
-                    $rootScope.notification_count -= 1;
-                    if (!$rootScope.notification_count) {
-                        $rootScope.sound.stop();
-                        $rootScope.sound.is_playing = false;
+                    if (!$rootScope.sound.is_playing) {
+                        $rootScope.sound.is_playing = true;
+                        $rootScope.sound.play();
                     }
-                });
+                    var notification = $notification('New Order', {
+                        body: (message.message) || 'You have an order',
+                        delay: 0,
+                        dir: 'auto'
+                    });
+
+                    notification.$on('click', function() {
+                        console.debug('The user has clicked in my notification.');
+                        $state.go('merchant.default', {}, {
+                            reload: true
+                        });
+                        notification.close();
+                    });
+
+                    notification.$on('close', function() {
+                        console.debug('The user has closed my notification.');
+                        notification.close();
+                        $rootScope.notification_count -= 1;
+                        if (!$rootScope.notification_count) {
+                            $rootScope.sound.stop();
+                            $rootScope.sound.is_playing = false;
+                        }
+                    });
+                }
+                
             });
             if ($rootScope.subscribed_outlet) {
                 $rootScope.faye.unsubscribe('/' + $rootScope.subscribed_outlet);
@@ -65,10 +63,15 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
             $rootScope.subscribeOutlet($rootScope.subscribed_outlet);
         }
 
-        $rootScope.$on('$stateChangeStart', function(_, toState) {
+        $rootScope.$on('$stateChangeStart', function(_, toState, _, fromState) {
+            if (fromState.name === 'merchant.default') {
+                $rootScope.handler = undefined;
+            }
+
             $('document').ready(function() {
                 $(window).scrollTop(0);
             });
+            
             $rootScope.current_state = toState.name;
         });
     }])

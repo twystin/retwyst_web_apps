@@ -1,7 +1,7 @@
-angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies',
-    function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies) {
-        $scope.showing = "pending";
-        
+angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies', '$notification',
+    function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies, $notification) {
+        $scope.showing = "PENDING";
+
         $scope.current_order = -1;
 
         $scope.reject_reasons = [
@@ -11,9 +11,50 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             'Reason 4'
         ];
 
+        $scope.faye_handler = function(message) {
+            merchantRESTSvc.getOrder(message.order_id).then(function(res) {
+                $rootScope.notification_count += 1;
+
+                if (!$rootScope.sound.is_playing) {
+                    $rootScope.sound.is_playing = true;
+                    $rootScope.sound.play();
+                };
+
+                var notification = $notification('New Order', {
+                    body: (message.message) || 'You have an order',
+                    delay: 0,
+                    dir: 'auto'
+                });
+
+                notification.$on('click', function() {
+                    console.debug('The user has clicked in my notification.');
+                    $scope.orders.push(res.data);
+                    $scope.updateShowing('pending');
+                    notification.close();
+                });
+
+                notification.$on('close', function() {
+                    console.debug('The user has closed my notification.');
+                    notification.close();
+                    $rootScope.notification_count -= 1;
+                    if (!$rootScope.notification_count) {
+                        $rootScope.sound.stop();
+                        $rootScope.sound.is_playing = false;
+                    }
+                    $scope.updateShowing('PENDING');
+                });
+            }, function(err) {
+                console.log('unable to load order', err);
+            });
+        };
+
+        $rootScope.setHandler($scope.faye_handler);
+
         $scope.updateShowing = function(text) {
             $scope.showing = text;
+            $scope.order = {};
             $scope.filterOrders();
+            $scope.getOrders();
         };
 
         $scope.updateSub = function(outlet_id) {
@@ -94,7 +135,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'accept';
             updated_order.order_id = $scope.order._id;
-            updated_order.acc_manager_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Estimate Time?',
                 text: 'Provide an estimate time for delivery - in minutes.',
@@ -115,9 +156,9 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                             updated_order.estimate_time = estimate_time;
                             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                                 console.log(res);
-                                $scope.order.order_status = 'accepted';
+                                $scope.order.order_status = 'ACCEPTED';
                                 $scope.order.actions.push({
-                                    "action_type": "accepted",
+                                    "action_type": "ACCEPTED",
                                     "action_at": new Date()
                                 });
                                 $scope.orders[$scope.current_order] = $scope.order;
@@ -147,7 +188,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'reject';
             updated_order.order_id = $scope.order._id;
-            updated_order.acc_manager_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Are you sure?',
                 text: 'This is an irreversible change. Do you still want to proceed?',
@@ -156,12 +197,12 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                 closeOnConfirm: false,
                 animation: 'slide-from-top'
             }, function(confirm) {
-                if(confirm) {
+                if (confirm) {
                     updated_order.reject_reason = reason;
                     merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                        $scope.order.order_status = 'rejected';
+                        $scope.order.order_status = 'REJECTED';
                         $scope.order.actions.push({
-                            "action_type": "rejected",
+                            "action_type": "REJECTED",
                             "action_at": new Date(),
                             "comments": reason
                         });
@@ -181,11 +222,11 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'dispatch';
             updated_order.order_id = $scope.order._id;
-            updated_order.acc_manager_email = $cookies.get('email');
+            updated_order.am_email = $cookies.get('email');
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                $scope.order.order_status = 'dispatched';
+                $scope.order.order_status = 'DISPATCHED';
                 $scope.order.actions.push({
-                    action_type: 'dispatched',
+                    action_type: 'DISPATCHED',
                     action_at: new Date()
                 });
                 $scope.orders[$scope.current_order] = $scope.order;

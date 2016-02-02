@@ -1,5 +1,5 @@
 angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification', 'ngAudio'])
-    .run(['$rootScope', '$state', '$cookies', '$notification', 'ngAudio', function($rootScope, $state, $cookies, $notification, ngAudio) {
+    .run(['$rootScope', '$state', '$cookies', '$notification', 'ngAudio', 'consoleRESTSvc', function($rootScope, $state, $cookies, $notification, ngAudio, consoleRESTSvc) {
         $rootScope.faye = new Faye.Client('/faye');
         $rootScope.user = $cookies.get('user');
         $rootScope.token = $cookies.get('token');
@@ -7,38 +7,56 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
         $rootScope.sound = ngAudio.load('sounds/song1.wav');
         $rootScope.sound.loop = true;
         $rootScope.paths = JSON.parse($cookies.get('paths') || '[]');
-        console.log($rootScope.paths);
+
+        $rootScope.setHandler = function(handler) {
+            $rootScope.handler = handler;
+        }
+        
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
-                $rootScope.notification_count += 1;
-                $rootScope.sound.play();
-                var notification = $notification('New Order', {
-                    body: message.text || 'Message here',
-                    delay: 0,
-                    dir: 'auto'
-                });
+                
+                if ($rootScope.handler) {
+                    $rootScope.handler(message);
+                } else {
+                    $rootScope.notification_count += 1;
+                    $rootScope.sound.play();
 
-                notification.$on('click', function() {
-                    console.debug('The user has clicked in my notification.');
-                    notification.close();
-                    // $rootScope.sound.stop();
-                });
+                    var notification = $notification('New Order', {
+                        body: message.text || 'Message here',
+                        delay: 0,
+                        dir: 'auto'
+                    });
 
-                notification.$on('close', function() {
-                    console.debug('The user has closed my notification.');
-                    notification.close();
-                    $rootScope.notification_count -= 1;
-                    if (!$rootScope.notification_count) {
-                        $rootScope.sound.stop();
-                    }
-                });
+                    notification.$on('click', function() {
+                        console.debug('The user has clicked in my notification.');
+                        $state.go('console.orders_manage', {}, {
+                            reload: true
+                        });
+                        notification.close();
+                        // $rootScope.sound.stop();
+                    });
+
+                    notification.$on('close', function() {
+                        console.debug('The user has closed my notification.');
+                        notification.close();
+                        $rootScope.notification_count -= 1;
+                        if (!$rootScope.notification_count) {
+                            $rootScope.sound.stop();
+                        }
+                    });
+                }
             });
         });
-        $rootScope.$on('$stateChangeStart', function(_, toState) {
+        $rootScope.$on('$stateChangeStart', function(_, toState, _, fromState) {
+            if (fromState.name === 'console.orders_manage') {
+                $rootScope.handler = undefined;
+            }
+
             $('document').ready(function() {
                 $(window).scrollTop(0);
             });
+            
             $rootScope.current_state = toState.name;
         })
     }])
