@@ -9,9 +9,7 @@
                 <div class="row">
                     <label class='col-sm-2 control-label'>Pick Outlet</label>
                     <div class='col-sm-10'>
-                        <select ng-model='subscribed_outlet' ng-change='updateSub(subscribed_outlet)' ng-disabled='!subscribed_outlet' class='form-control'>
-                            <option value='' ng-if='!subscribed_outlet'>No outlets to pick from</option>
-                            <option value='{{outlet._id}}' ng-repeat='outlet in outlets'>{{outlet.basics.name}}{{outlets[id].contact.location.locality_1[0]?', ' + outlets[id].contact.location.locality_1[0]:''}}{{outlets[id].contact.location.locality_2[0]?', ' + outlets[id].contact.location.locality_2[0]:''}}</option>
+                        <select ng-model='subscribed_outlet' ng-change='updateSub(subscribed_outlet)' ng-disabled='!subscribed_outlet' class='form-control' ng-options='outlet._id as (outlet.basics.name + (outlet.contact.location.locality_1[0]?", " + outlet.contact.location.locality_1[0]:"") + (outlet.contact.location.locality_2[0]?", " + outlet.contact.location.locality_2[0]:"")) for outlet in outlets'>
                         </select>
                     </div>
                 </div>
