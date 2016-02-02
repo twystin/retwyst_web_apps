@@ -11,6 +11,7 @@ angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scop
         })
 
         $scope.addNewOffer = function() {
+            _id = undefined;
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: '../common/templates/partials/cashback_offer.tmpl.html',
@@ -58,12 +59,14 @@ angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scop
             });
 
             modalInstance.result.then(function(offer_obj) {
+                _id = undefined;
                 $scope.offer.offers.push(offer_obj);
             });
         };
 
         $scope.updateOffer = function(index) {
-        	console.log('_.cloneDeep($scope.offer.offers[index])', _.cloneDeep($scope.offer.offers[index]));
+            _id = $scope.offer.offers[index]._id;
+            
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: '../common/templates/partials/cashback_offer.tmpl.html',
@@ -80,6 +83,7 @@ angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scop
             });
 
             modalInstance.result.then(function(offer_obj) {
+                _id = undefined;
                 $scope.offer.offers[index] = offer_obj;
             });
         };

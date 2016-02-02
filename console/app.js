@@ -7,6 +7,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
         $rootScope.sound = ngAudio.load('sounds/song1.wav');
         $rootScope.sound.loop = true;
         $rootScope.paths = JSON.parse($cookies.get('paths') || '[]');
+        console.log($rootScope.paths);
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
@@ -80,30 +81,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
             .state('console.offers_manage', {
                 url: '/offers',
                 templateUrl: 'templates/offers/manage.html',
-                controller: 'OfferManageController',
-                resolve: {
-                    loadMyCtrl: function($ocLazyLoad) {
-
-                        // console.log('$ocLazyLoad', $ocLazyLoad);
-                        // return $ocLazyLoad.load({
-                        //   files: ['controllers/offers.manage.ctrl.js']
-                        // }).then(function(a, b, c) {
-                        //     console.log(a, b, c);
-                        // }, function(q, w, e) {
-                        //     console.log(q, w, e);
-                        // })
-                        return $ocLazyLoad.load('controllers/offers.manage.ctrl.js')
-                            .then(function(a, b, c) {
-                                console.log(a, b, c);
-                            }, function(q, w, e) {
-                                console.log(q, w, e);
-                            });
-                    },
-                    // loadAB: function() {
-                    //     console.log('ab');
-                    //     return 1;
-                    // }
-                }
+                controller: 'OfferManageController'
             })
             .state('console.offers_view', {
                 url: '/offers/:offer_id',

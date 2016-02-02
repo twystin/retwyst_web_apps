@@ -1,0 +1,133 @@
+<div class='page page-invoice' ng-if='order.order_number'>
+    <div class='invoice-wrapper'>
+        <section class='invoice-container' id='invoice'>
+            <div class='invoice-inner'>
+                <div class='row'>
+                    <div class='col-xs-4'>
+                        <p class='size-h2 label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.order_value_with_offer | number:2}}</p>
+                    </div>
+                    <div class='col-xs-8 text-right'>
+                        <p class='size-h2'>#{{order.order_number}}</p>
+                        <p>{{order.order_date | date: 'dd MMMM hh:mm a'}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        <div class="ui-timline-container">
+                            <section class="ui-timeline">
+                                <article class="tl-item">
+                                    <div class="tl-body">
+                                        <div class="tl-entry">
+                                            <div class="tl-time">{{order.order_date | date:'hh:mm a'}}</div>
+                                            <div class="tl-icon round-icon sm bg-primary"><i class="fa fa-check"></i></div>
+                                            <div class="tl-content">
+                                                <h4 class="tl-tile text-primary">RECEIVED</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="tl-item" ng-repeat='action in order.actions track by $index'>
+                                    <div class="tl-body">
+                                        <div class="tl-entry">
+                                            <div class="tl-time">{{action.action_at | date:'hh:mm a'}}</div>
+                                            <div class="tl-icon round-icon sm" ng-class='{"bg-primary": action.action_type!=="cancelled" && action.action_type!== "rejected", "bg-danger": action.action_type==="cancelled" || action.action_type=== "rejected"}'><i class="fa" ng-class='{"fa-check": action.action_type!=="cancelled" && action.action_type!== "rejected", "fa-times": action.action_type==="cancelled" || action.action_type=== "rejected"}'></i></div>
+                                            <div class="tl-content">
+                                                <h4 class="tl-tile text-primary">{{action.action_type | uppercase}}</h4>
+                                                <p ng-if='action.comments'>{{action.comments}}</p>
+                                                <p ng-if='action.action_type === "accepted"' class='label label-info'><i class='fa fa-clock-o'></i>&nbsp;{{order.estimate_time}} min</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </section>
+                            <div class='text-center' ng-if='order.order_status === "pending"'>
+                                <a class='btn btn-w-md btn-success' ng-click='acceptOrder()'>Accept</a>
+                                <a class='btn btn-w-md btn-warning' ng-click='showReject()'>Reject</a>
+                            </div>
+                            <div>&nbsp;</div>
+                            <div class='text-center' ng-if='order.order_status === "pending" && show_reject_msg'>
+                                <div class='input-group'>
+                                    <select type='text' ng-model='reject.reason' class='form-control'>
+                                        <option value='' ng-if='!reject.reason'>Choose a reason</option>
+                                        <option value='{{reason}}' ng-repeat='reason in reject_reasons'>{{reason}}</option>
+                                    </select>
+                                    <span class='input-group-btn'>
+                                        <button type='button' class='btn btn-w-md btn-danger' ng-disabled='!reject.reason' ng-click='rejectOrder(reject.reason)'>Reject</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class='text-center' ng-if='order.order_status === "accepted"'>
+                                <a class='btn btn-w-md btn-lg btn-info' ng-click='dispatchOrder()'>Dispatch</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class='row'>
+                    <div class='col-xs-6'>
+                        <strong>{{order.user.first_name}} {{order.user.last_name}}</strong>
+                        <br> {{order.address.line1}}
+                        <br> <span ng-if='order.address.line2'>{{order.address.line2}} <br/> </span> {{order.address.city}} {{order.address.state}}
+                        <span ng-if='order.address.pin'> - {{order.address.pin}}
+                        <br> {{order.user.phone}}
+                        <br> {{order.user.email}}
+                    </div>
+                    <div class='col-xs-6 text-right'>
+                        <p><strong>Order Details:</strong></p>
+                        <strong>{{order.order_date | date: 'dd MMMM hh:mm a'}}</strong>
+                        <div class='clearfix'></div>
+                        <div>&nbsp;</div>
+                        <p class='size-h2 label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted", "label-danger": order.order_status === "rejected" || order.order_status === "cancelled"}'>{{order.order_status | uppercase}}</p>
+                    </div>
+                </div>
+                <div class="divider divider-lg"></div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr class='bg-dark'>
+                            <th class='text-center'>#</th>
+                            <th>Item</th>
+                            <th class="text-center">Cost</th>
+                            <th class="text-center">Qty.</th>
+                            <th class="text-center">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='item in order.items track by $index'>
+                            <td class='text-right'>{{$index + 1}}</td>
+                            <td>{{item.item_name}}
+                                <span>&nbsp;</span>
+                                <span class='label label-default' ng-if='item.option.option_value'>{{item.option.option_value}}</span>
+                                <span ng-if='item.option.option_value'>&nbsp;</span>
+                                <span ng-repeat='sub_option in item.option.sub_options track by $index'>
+                                    <span class='label label-default' ng-repeat='sub_option_obj in sub_option.sub_option_set'>{{sub_option_obj.sub_option_value}}</span>
+                                    <span>&nbsp;</span>
+                                </span>
+                                <span ng-repeat='addon in item.option.addons track by $index'>
+                                    <span class='label label-default' ng-repeat='addon_obj in addon.addon_set track by $index'>
+                                        {{addon_obj.addon_value}}
+                                    </span>
+                                    <span ng-if='$index !== (item.option.addons.length - 1)'>&nbsp;</span>
+                                </span>
+                            </td>
+                            <td class="text-center">{{getItemPrice(item)}}
+                            </td>
+                            <td class="text-center">{{item.item_quantity || 1}}</td>
+                            <td class="text-center">{{getItemPrice(item) * (item.item_quantity || 1)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class='row'>
+                    <div class='col-xs-12 col-sm-offset-6 col-sm-6 invoice-sum text-right'>
+                        <ul class="list-unstyled">
+                            <li>Sub-Total amount: <i class='fa fa-inr'></i>{{order.order_value_without_offer | number:2}}</li>
+                            <li>Discount: <i class='fa fa-inr'></i>{{order.order_value_without_offer - order.order_value_with_offer | number:2}}</li>
+                            <li>Total Tax: <i class='fa fa-inr'></i>{{order.tax_paid | number:2}}</li>
+                            <li><strong>Grand Total: <i class='fa fa-inr'></i>{{order.order_value_with_offer | number:2}}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,5 +1,5 @@
-angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert',
-    function($scope, merchantRESTSvc, SweetAlert) {
+angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies',
+    function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies) {
         $scope.showing = "pending";
         
         $scope.current_order = -1;
@@ -16,12 +16,16 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             $scope.filterOrders();
         };
 
-        $scope.choosen_outlet;
+        $scope.updateSub = function(outlet_id) {
+            $rootScope.subscribeOutlet(outlet_id);
+            $scope.getOrders();
+        };
 
         merchantRESTSvc.getOutlets().then(function(res) {
+            console.log('res', res);
             $scope.outlets = _.indexBy(res.data, '_id');
-            if (Object.keys($scope.outlets).length) {
-                $scope.choosen_outlet = res.data[0]._id;
+            $scope.subscribed_outlet = $rootScope.subscribed_outlet;
+            if (res.data.length) {
                 $scope.getOrders();
             }
         }, function(err) {
@@ -33,7 +37,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         $scope.filtered_orders = [];
 
         $scope.getOrders = function() {
-            merchantRESTSvc.getOrders($scope.choosen_outlet).then(function(res) {
+            merchantRESTSvc.getOrders($rootScope.subscribed_outlet).then(function(res) {
                 console.log(res);
                 $scope.orders = res.data;
                 $scope.filterOrders();
@@ -50,7 +54,7 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
 
         $scope.getItemPrice = function(item) {
             var total_price = 0;
-            if (!item.option && !item.option._id) {
+            if (!(item.option && item.option._id)) {
                 return item.item_cost;
             } else {
                 total_price += item.option.option_cost;
@@ -89,6 +93,8 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         $scope.acceptOrder = function() {
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'accept';
+            updated_order.order_id = $scope.order._id;
+            updated_order.acc_manager_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Estimate Time?',
                 text: 'Provide an estimate time for delivery - in minutes.',
@@ -140,6 +146,8 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         $scope.rejectOrder = function(reason) {
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'reject';
+            updated_order.order_id = $scope.order._id;
+            updated_order.acc_manager_email = $cookies.get('email');
             SweetAlert.swal({
                 title: 'Are you sure?',
                 text: 'This is an irreversible change. Do you still want to proceed?',
@@ -172,6 +180,8 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         $scope.dispatchOrder = function() {
             var updated_order = _.cloneDeep($scope.order);
             updated_order.update_type = 'dispatch';
+            updated_order.order_id = $scope.order._id;
+            updated_order.acc_manager_email = $cookies.get('email');
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                 $scope.order.order_status = 'dispatched';
                 $scope.order.actions.push({

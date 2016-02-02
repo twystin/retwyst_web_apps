@@ -6,25 +6,26 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
         $rootScope.sound.loop = true;
         $rootScope.sound.is_playing = false;
         $rootScope.isPaying = $cookies.get('isPaying') == 'true' ? true : false;
-        $rootScope.paths = JSON.parse($cookies.get('paths') || '[]');
-        $rootScope.notification_count = 0;
-        _.each($rootScope.paths, function(path) {
-            $rootScope.faye.subscribe(path, function(message) {
+        $rootScope.subscribed_outlet = $cookies.get('subscribed_outlet') || '';
+        console.log($rootScope.subscribed_outlet);
+        $rootScope.subscribeOutlet = function(outlet_id) {
+            $rootScope.faye.subscribe('/' + outlet_id, function(message) {
+                console.log(message);
                 $rootScope.notification_count += 1;
-                console.log('state', $rootScope.sound);
-                if(!$rootScope.sound.is_playing) {
+
+                if (!$rootScope.sound.is_playing) {
                     $rootScope.sound.is_playing = true;
                     $rootScope.sound.play();
                 }
-                var notification = $notification('New Order', {
-                    body: (message.text && message.text.message) || 'You have an order',
-                    delay: 90000,
+                var notification =$notification('New Order', {
+                    body: (message.message) || 'You have an order',
+                    delay: 0,
                     dir: 'auto'
                 });
 
                 notification.$on('click', function() {
                     console.debug('The user has clicked in my notification.');
-                    merchantRESTSvc.getOrder(message.text && message.text.order_id)
+                    merchantRESTSvc.getOrder(message && message.order_id)
                         .then(function(res) {
                             var modalInstance = $modal.open({
                                 animation: true,
@@ -53,8 +54,16 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
                     }
                 });
             });
-        });
-        
+            if ($rootScope.subscribed_outlet) {
+                $rootScope.faye.unsubscribe('/' + $rootScope.subscribed_outlet);
+            }
+            $cookies.put('subscribed_outlet', outlet_id);
+            $rootScope.subscribed_outlet = outlet_id;
+        };
+
+        if ($rootScope.subscribed_outlet) {
+            $rootScope.subscribeOutlet($rootScope.subscribed_outlet);
+        }
 
         $rootScope.$on('$stateChangeStart', function(_, toState) {
             $('document').ready(function() {
