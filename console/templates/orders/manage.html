@@ -87,12 +87,12 @@
                                                     </div>
                                                 </article>
                                             </section>
-                                            <div class='text-center' ng-if='order.order_status === "pending"'>
+                                            <div class='text-center' ng-if='order.order_status === "PENDING"'>
                                                 <a class='btn btn-w-md btn-success' ng-click='acceptOrder()'>Accept</a>
                                                 <a class='btn btn-w-md btn-warning' ng-click='showReject()'>Reject</a>
                                             </div>
                                             <div>&nbsp;</div>
-                                            <div class='text-center' ng-if='order.order_status === "pending" && show_reject_msg'>
+                                            <div class='text-center' ng-if='order.order_status === "PENDING" && show_reject_msg'>
                                                 <div class='input-group'>
                                                     <select type='text' ng-model='reject.reason' class='form-control'>
                                                         <option value='' ng-if='!reject.reason'>Choose a reason</option>
@@ -103,7 +103,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class='text-center' ng-if='order.order_status === "accepted"'>
+                                            <div class='text-center' ng-if='order.order_status === "ACCEPTED"'>
                                                 <a class='btn btn-w-md btn-lg btn-info' ng-click='dispatchOrder()'>Dispatch</a>
                                             </div>
                                         </div>
@@ -124,7 +124,7 @@
                                         <strong>{{order.order_date | date: 'dd MMMM hh:mm a'}}</strong>
                                         <div class='clearfix'></div>
                                         <div>&nbsp;</div>
-                                        <p class='label' ng-class='{"label-warning": order.order_status === "pending", "label-success": order.order_status === "accepted", "label-danger": order.order_status === "rejected" || order.order_status === "cancelled"}'>{{order.order_status | uppercase}}</p>
+                                        <p class='label' ng-class='{"label-warning": order.order_status === "PENDING", "label-success": order.order_status === "ACCEPTED", "label-danger": order.order_status === "REJECTED" || order.order_status === "CANCELLED"}'>{{order.order_status | uppercase}}</p>
                                     </div>
                                 </div>
                                 <div class="divider divider-lg"></div>
