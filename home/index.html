@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html ng-app='homeApp'>
+
 <head>
     <title>Twyst</title>
     <!-- Meta -->
@@ -36,7 +37,7 @@
 
 <body id='body' data-spy='scroll' data-target='.one-page-header' class='demo-lightbox-gallery' ng-controller='MainController'>
     <!-- Header -->
-    <nav class='one-page-header navbar navbar-default navbar-fixed-animate homeapp-header' data-role='navigation'>
+    <nav class='one-page-header navbar navbar-default navbar-fixed-top homeapp-header' data-role='navigation'>
         <div class='container'>
             <div class='menu-container page-scroll'>
                 <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
@@ -81,168 +82,166 @@
         <div class="interactive-slider-v2">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-5 col-sm-12 col-xs-12 col-md-offset-1 promo-info">
+                    <div class="col-md-5 col-sm-12 col-xs-12 col-md-offset-1 promo-info page-scroll">
                         <h1>Order food,<br>
-						<strong>Get Cashback!</strong></h1>
+                        <strong>Get Cashback!</strong></h1>
                         <p>Do you order food frequently? User Twyst and get cashback everytime you order!</p>
-                        <a href="#" class="btn-u btn-banner btn-android"><i class="fa fa-android fa-2x"></i> Download App<br>
-						<span>From Play market</span></a>
+                        <a href="#get_app" class="btn-u btn-banner btn-android btn-lg">Get the app now!</a>
                     </div>
                     <div class="col-md-6 col-sm-12 col-xs-12 banner-img overflow-h">
-                        <img class="img-responsive animated slideInUp wow" style='max-height:100vh;max-width:100vw;width:auto;height:auto;' src="img/mockup_slider.jpg" alt="">
+                        <img class="img-responsive animated slideInUp wow" style='max-height:100vh;max-width:100vw;width:auto;height:auto;' src="img/mockup_slider.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- End Promo Block -->
-
-	<!-- Benefits -->
-	<section id="how_it_works">
-		<div class="container">
-			<div class="g-pt-90 g-pb-70">
-				<div class="g-heading-v10 g-mb-65 text-center">
-					<h2><em class="block-name"><span>01.</span> How it Works</em></h2>
-				</div>
-
-				<div class="row equal-height-columns">
-					<div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s">
-						<div class="benefit equal-height-column">
-							<i class="fa fa-search fa-3x"></i>
-							<h3>Order</h3>
-							<p>Order foor from your favourate outlets on Twyst. Let us know if there's an outlet you would like us to add and we'll do our best.</p>
-						</div>
-					</div>
-
-					<div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".3s">
-						<div class="benefit equal-height-column">
-							<i class="fa fa-sliders fa-3x"></i>
-							<h3>Get Cashback</h3>
-							<p>Get Cashback(!) on <strong>EVERY ORDER</strong> in the form of Twyst Bucks.</p>
-							<p class='text-center'> 1 <strong>Twyst Buck(s)</strong> = <i class='fa fa-inr'>&nbsp;<strong>1</strong></i></p>
-						</div>
-					</div>
-
-					<div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".5s">
-						<div class="benefit equal-height-column">
-							<i class="fa fa-cloud fa-3x"></i>
-							<h3>Redeem</h3>
-							<p>Use your Twyst Bucks to shop online, recharge/pay for your phone, or even order-in more food!</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Benefits -->
-
-	<!-- Subscribe -->
-	<section id="subscribe">
-		<div class="container-fluid with-bg-1">
-			<div class="subscribe">
-				<div class="g-heading-v10 g-mb-65">
-					<h2><em class="block-name"><span>02.</span> Get the APP</em>Download the app today.</h2>
-				</div>
-
-				<div class='row'>
-					<div class='col-sm-6'>
-						<div class="input-group">
-							<input type="text" class="form-control" name="email" placeholder="Enter your email">
-							<span class="input-group-btn">
-								<button class="btn-u btn-sub" type="button">Get Link</button>
-							</span>
-						</div>
-						<div class='input-group'>
-							<input type='text' class='form-control' name='phone' placeholder='Enter your mobile number'>
-							<span class='input-group-btn'>
-								<button class='btn-u btn-sub' type='button'>Get Link</button>
-							</span>
-						</div>
-					</div>
-					<div class='col-sm-6'>
-						<div class="overflow-h">
-							<img class="img-responsive animated slideInUp wow" src="img/mocup_sub1.png" alt="">
-						</div>
-					</div>
-				</div>
-
-				
-			</div>
-		</div>
-	</section>
-	<!-- End Subscribe -->
-
-	<!-- Footer -->
-	<section id="contact">
-		<div class="container-fluid with-bg-2 no-side-padding">
-			<div class="container">
-				<div class="footer">
-					<div class="row">
-						<div class="col-md-5">
-							<div class="g-heading-v10 g-mb-65">
-								<h2 class="g-color-white"><em class="block-name"><span class="g-color-white">3.</span> Contact us</em> Answers to <strong>your Questions</strong></h2>
-								<p>Feel free to reach out to us, or follow us below.</p>
-							</div>
-						</div>
-
-						<div class="col-md-7">
-							<form ng-submit='contact_us()' class="sky-form contact-style">
-								<fieldset>
-									<div class="row">
-										<div class="col-md-6 col-md-offset-0">
-											<div class="margin-bottom-30">
-												<input type="text" autocomplete='off' name="name" id="name" class="form-control" ng-model='contact.name' placeholder="Name">
-											</div>
-
-											<div class="margin-bottom-30">
-												<input type="text" autocomplete='off' name="email" id="email" class="form-control" ng-model='contact.email' placeholder="Email *">
-											</div>
-										</div>
-
-										<div class="col-md-6 col-md-offset-0">
-											<div class="margin-bottom-30">
-												<textarea rows="5" name="message" id="message" class="form-control g-textarea-noresize" ng-model='contact.comments' placeholder="Message"></textarea>
+    <!-- Benefits -->
+    <section id="how_it_works">
+        <div class="container">
+            <div class="g-pt-90 g-pb-70">
+                <div class="g-heading-v10 g-mb-65 text-center">
+                    <h2><em class="block-name"><span>01.</span> How it Works</em></h2>
+                </div>
+                <div class="row equal-height-columns">
+                    <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s">
+                        <div class="benefit equal-height-column">
+                            <i class="fa fa-search fa-3x"></i>
+                            <h3>Order</h3>
+                            <p>Order foor from your favourate outlets on Twyst. Let us know if there's an outlet you would like us to add and we'll do our best.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".3s">
+                        <div class="benefit equal-height-column">
+                            <i class="fa fa-sliders fa-3x"></i>
+                            <h3>Get Cashback</h3>
+                            <p>Get Cashback(!) on <strong>EVERY ORDER</strong> in the form of Twyst Bucks.</p>
+                            <p class='text-center'> 1 <strong>Twyst Buck(s)</strong> = <i class='fa fa-inr'>&nbsp;<strong>1</strong></i></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".5s">
+                        <div class="benefit equal-height-column">
+                            <i class="fa fa-cloud fa-3x"></i>
+                            <h3>Redeem</h3>
+                            <p>Use your Twyst Bucks to shop online, recharge/pay for your phone, or even order-in more food!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Benefits -->
+    <!-- Subscribe -->
+    <section id="get_app">
+        <div class="container-fluid with-bg-1">
+            <div class="subscribe">
+                <div class="g-heading-v10 g-mb-65">
+                    <h2 style='color:#F5F5F5;'><em class="block-name"><span>02.</span> Get the APP</em>Download the app today.</h2>
+                </div>
+                <div class='row'>
+                    <div class='col-sm-6'>
+                        <div class='input-group'>
+                            <a href="#" class="btn-u btn-banner btn-android" style='padding: 10px 20px 17px;'><i class="fa fa-android fa-2x"></i> Download App<br>
+                                <span>From Play market</span></a>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="email" placeholder="Enter your email">
+                            <span class="input-group-btn">
+                                <button class="btn-u btn-sub" type="button">Get Link</button>
+                            </span>
+                        </div>
+                        <div class='input-group'>
+                            <input type='text' class='form-control' name='phone' placeholder='Enter your mobile number'>
+                            <span class='input-group-btn'>
+                                <button class='btn-u btn-sub' type='button'>Get Link</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class='col-sm-6'>
+                        <div class="overflow-h">
+                            <carousel interval='2500'>
+                                <slide>
+                                    <img src='img/screen1.png' style='max-height:80vh;max-width:80vw;hieght:auto;width:auto;margin:auto;'>
+                                </slide>
+                                <slide>
+                                    <img src='img/screen2.png' style='max-height:80vh;max-width:80vw;hieght:auto;width:auto;margin:auto;'>
+                                </slide>
+                                <slide>
+                                    <img src='img/screen3.png' style='max-height:80vh;max-width:80vw;hieght:auto;width:auto;margin:auto;'>
+                                </slide>
+                            </carousel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Subscribe -->
+    <!-- Footer -->
+    <section id="contact">
+        <div class="container-fluid with-bg-2 no-side-padding">
+            <div class="container">
+                <div class="footer">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="g-heading-v10 g-mb-65">
+                                <h2 class="g-color-white"><em class="block-name"><span class="g-color-white">3.</span> Contact us</em> Answers to <strong>your Questions</strong></h2>
+                                <p>Feel free to reach out to us, or follow us below.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <form ng-submit='contact_us()' class="sky-form contact-style">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-0">
+                                            <div class="margin-bottom-30">
+                                                <input type="text" autocomplete='off' name="name" id="name" class="form-control" ng-model='contact.name' placeholder="Name">
+                                            </div>
+                                            <div class="margin-bottom-30">
+                                                <input type="text" autocomplete='off' name="email" id="email" class="form-control" ng-model='contact.email' placeholder="Email *">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-md-offset-0">
+                                            <div class="margin-bottom-30">
+                                                <textarea rows="5" name="message" id="message" class="form-control g-textarea-noresize" ng-model='contact.comments' placeholder="Message"></textarea>
                                                 <div class='help-block'>Atleast 50 characters required.</div>
-											</div>
-											<p>
+                                            </div>
+                                            <p>
                                                 <button type="submit" ng-disabled='disable_contact' class="btn-u btn-u-lg btn-u-upper rounded-2x">
                                                     <span ng-if='!disable_contact'>Submit</span>
                                                     <span ng-if='disable_contact'><i class='fa fa-spinner fa-spin'></i> Submitting...</span>
                                                 </button>
                                             </p>
-										</div>
-									</div>
-								</fieldset>
-
-								<div class="message">
-									<i class="rounded-x fa fa-check"></i>
-									<p>Your message was successfully sent!</p>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="container-fluid with-bg-2">
-			<div class="subfooter">
-				<div class="row">
-					<div class="col-md-12 no-side-padding">
-						<ul class="list-inline social-list text-center">
-							<li class="facebook social-item"><a class="btn-block" href="https://fb.me/twystin" target="_blank"><i class="fa fa-facebook"></i></a></li>
-							<li class="linkedin social-item"><a class="btn-block" href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-							<li class="angelco social-item"><a class="btn-block" href="https://angel.co/twyst-in" target="_blank"><i class="fa fa-angellist" style='color:#777;'></i></a></li>
-							<li class="twitter social-item"><a class="btn-block" href="https://twitter.com/twystin" target="_blank"><i class="fa fa-twitter"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Footer -->
-
-	<!--=== Footer v1 ===-->
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="message">
+                                    <i class="rounded-x fa fa-check"></i>
+                                    <p>Your message was successfully sent!</p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid with-bg-2">
+            <div class="subfooter">
+                <div class="row">
+                    <div class="col-md-12 no-side-padding">
+                        <ul class="list-inline social-list text-center">
+                            <li class="facebook social-item"><a class="btn-block" href="https://fb.me/twystin" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li class="linkedin social-item"><a class="btn-block" href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                            <li class="angelco social-item"><a class="btn-block" href="https://angel.co/twyst-in" target="_blank"><i class="fa fa-angellist" style='color:#777;'></i></a></li>
+                            <li class="twitter social-item"><a class="btn-block" href="https://twitter.com/twystin" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Footer -->
+    <!--=== Footer v1 ===-->
     <div id="footer-v1" class="footer-v1">
         <div class="footer">
             <div class="container">
@@ -251,58 +250,53 @@
                     <div class="col-md-3 md-margin-bottom-40">
                         <a href="index.html"><img id="logo-footer" class="footer-logo" src="img/logo-twyst.png" alt=""></a>
                         <p>Democratizing Loyalty.</p>
-                        
                     </div>
                     <!-- End About -->
-
                     <!-- Latest -->
                     <div class="col-md-3 md-margin-bottom-40">
                     </div>
                     <!-- End Latest -->
-
                     <!-- Link List -->
                     <div class="col-md-3 md-margin-bottom-40">
-                        <div class="headline"><h2>Useful Links</h2></div>
+                        <div class="headline">
+                            <h2>Useful Links</h2></div>
                         <ul class="list-unstyled link-list">
-                            <li><a href="#">About us</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-                            <li><a href="#">Portfolio</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-                            <li><a href="#">Latest jobs</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-                            <li><a href="#">Community</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-                            <li><a href="#">Contact us</a>&nbsp;<i class="fa fa-angle-right"></i></li>
+                            <li><a href="https://angel.co/twyst-in" target="_blank">Latest jobs</a>&nbsp;<i class="fa fa-angle-right"></i></li>
+                            <li><a href="#contact">Contact us</a>&nbsp;<i class="fa fa-angle-right"></i></li>
                         </ul>
                     </div>
                     <!-- End Link List -->
-
                     <!-- Address -->
                     <div class="col-md-3 map-img md-margin-bottom-40">
-                        <div class="headline"><h2>Contact Us</h2></div>
+                        <div class="headline">
+                            <h2>Contact Us</h2></div>
                         <address class="md-margin-bottom-40">
-                            Registered Office Address<br />
-                            To go HERE <br />
-                            Phone: 800 123 3456 <br />
-                            Email: <a href="mailto:info@anybiz.com" class="">contactus@twyst.in</a>
+                            Registered Office Address
+                            <br /> To go HERE
+                            <br /> Phone: 800 123 3456
+                            <br /> Email: <a href="mailto:contactus@twyst.in" class="">contactus@twyst.in</a>
                         </address>
                     </div>
                     <!-- End Address -->
                 </div>
             </div>
-        </div><!--/footer-->
-
+        </div>
+        <!--/footer-->
         <div class="copyright">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
                         <p>
                             2015 &copy; All Rights Reserved.
-                           <a href="/privacy_policy/" target='_blank'>Privacy Policy</a> | <a href="/terms_of_use/" target="_blank">Terms of Use</a>
+                            <a href="/privacy_policy/" target='_blank'>Privacy Policy</a> | <a href="/terms_of_use/" target="_blank">Terms of Use</a>
                         </p>
                     </div>
                 </div>
             </div>
-        </div><!--/copyright-->
+        </div>
+        <!--/copyright-->
     </div>
     <!--=== End Footer v1 ===-->
-
     <!-- JS Global Compulsory -->
     <script src='../bower_components/jquery/dist/jquery.min.js'></script>
     <script src='../bower_components/jquery-migrate/jquery-migrate.min.js'></script>
@@ -314,6 +308,7 @@
     <script src="../bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
     <script src='../bower_components/sweetalert/dist/sweetalert.min.js'></script>
     <script src='../bower_components/ngSweetAlert/SweetAlert.min.js'></script>
+    <script src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
     <script src="../common/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio-2.0.1.min.js"></script>
     <script src="../common/plugins/shhos/shhos.js"></script>
     <script src="scripts/app.js"></script>
@@ -331,7 +326,8 @@
     });
     </script>
     <!--[if lt IE 10]>
-	  <script src="../assets/plugins/sky-forms-pro/skyforms/js/jquery.placeholder.min.js"></script>
-	<![endif]-->
+      <script src="../assets/plugins/sky-forms-pro/skyforms/js/jquery.placeholder.min.js"></script>
+    <![endif]-->
 </body>
+
 </html>

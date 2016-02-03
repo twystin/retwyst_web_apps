@@ -3950,3 +3950,7 @@ img.img-center,
 						transform: translateY(36px);
 	}
 }
+
+.carousel-control, .carousel-indicators {
+	display: none;
+}
