@@ -15,14 +15,22 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
+                var title;
                 
                 if ($rootScope.handler) {
                     $rootScope.handler(message);
                 } else {
+                    console.log('faye message', message);
                     $rootScope.notification_count += 1;
                     $rootScope.sound.play();
 
-                    var notification = $notification('New Order', {
+                    if (message.type === 'new') {
+                        title = 'New Order'
+                    } else {
+                        title = 'Order Update'
+                    }
+
+                    var notification = $notification(title, {
                         body: message.text || 'Message here',
                         delay: 0,
                         dir: 'auto'
@@ -30,7 +38,9 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
 
                     notification.$on('click', function() {
                         console.debug('The user has clicked in my notification.');
-                        $state.go('console.orders_manage', {}, {
+                        $state.go('console.orders_manage', {
+                            show: message.type !== 'new'?message.type:undefined
+                        }, {
                             reload: true
                         });
                         notification.close();
@@ -107,7 +117,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 controller: 'OfferViewController'
             })
             .state('console.orders_manage', {
-                url: '/orders',
+                url: '/orders?show',
                 templateUrl: 'templates/orders/manage.html',
                 controller: 'OrderManageController'
             })

@@ -59,6 +59,72 @@
             </div>
         </div>
         <div class='form-group'>
+            <label class='col-sm-2 control-label'>Has Packaging Charge?</label>
+            <div class='col-sm-2'>
+                <input bs-switch type='checkbox' ng-model='delivery_zone.has_packaging_charge' ng-change='updatePackaging()' switch-on-text='YES' switch-off-text='NO'>
+            </div>
+            <label class='col-sm-2 control-label' ng-if='delivery_zone.has_packaging_charge'>Fixed Chages?</label>
+            <div class='col-sm-2' ng-if='delivery_zone.has_packaging_charge'>
+                <input bs-switch type='checkbox' ng-model='delivery_zone.packaging_charge.is_fixed' ng-change='updateFixedCharge()' switch-on-text='YES' switch-off-text='NO'>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-2 control-label'>Charges <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-8'>
+                <div class='form-group' ng-if='delivery_zone.packaging_charge.is_fixed === true'>
+                    <label class='col-sm-4 control-label'>Fixed <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <div class='input-group'>
+                            <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                            <input type='number' ng-model='delivery_zone.packaging_charge.value' class='form-control'>
+                        </div>
+                    </div>
+                </div>
+                <div class='form-group' ng-if='delivery_zone.packaging_charge.is_fixed === false'>
+                    <div class='col-sm-8'>
+                        <a class='btn btn-w-md btn-default' ng-click='addPackagingSlab()'><i class='fa fa-plus'></i>&nbsp;Add Slab</a>
+                    </div>
+                </div>
+                <div class='form-group' ng-if='delivery_zone.packaging_charge.is_fixed === false'>
+                    <table class='table table-bordered table-hover table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Charge</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='charge in delivery_zone.packaging_charge.charges'>
+                                <td>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                                        <input type='number' ng-model='charge.start' class='form-control'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                                        <input type='number' ng-model='charge.end' class='form-control'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group'>
+                                        <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                                        <input type='number' ng-model='charge.value' class='form-control'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a class='btn btn-danger' ng-if='delivery_zone.packaging_charge.charges.length > 1' ng-click='removePackagingSlab($index)'><i class='fa fa-trash-o'></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class='form-group'>
             <label class='col-sm-2 control-label'>Payment Modes</label>
             <div class='col-sm-6'>
                 <div class='btn-group'>

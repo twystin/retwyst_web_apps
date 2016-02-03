@@ -15,10 +15,12 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
 
         $rootScope.subscribeOutlet = function(outlet_id) {
             $rootScope.faye.subscribe('/' + outlet_id, function(message) {
+                var title;
                 
                 if ($rootScope.handler) {
                     $rootScope.handler(message);
                 } else {
+                    console.log('faye message', message);
                     console.log('message outside panel', message);
                     $rootScope.notification_count += 1;
 
@@ -26,7 +28,14 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
                         $rootScope.sound.is_playing = true;
                         $rootScope.sound.play();
                     }
-                    var notification = $notification('New Order', {
+
+                    if (message.type === 'new') {
+                        title = 'New Order';
+                    } else {
+                        title = 'Order Update';
+                    }
+
+                    var notification = $notification(title, {
                         body: (message.message) || 'You have an order',
                         delay: 0,
                         dir: 'auto'
@@ -34,7 +43,9 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
 
                     notification.$on('click', function() {
                         console.debug('The user has clicked in my notification.');
-                        $state.go('merchant.default', {}, {
+                        $state.go('merchant.default', {
+                            show: message.type
+                        }, {
                             reload: true
                         });
                         notification.close();
@@ -92,7 +103,7 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
                 controller: 'RootController'
             })
             .state('merchant.default', {
-                url: '/',
+                url: '/?show',
                 templateUrl: 'templates/panel.html',
                 controller: 'OrderManageController'
             })

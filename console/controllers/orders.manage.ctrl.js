@@ -1,6 +1,18 @@
-angular.module('consoleApp').controller('OrderManageController', ['$scope', 'consoleRESTSvc', 'SweetAlert', '$cookies', '$rootScope', '$notification',
-    function($scope, consoleRESTSvc, SweetAlert, $cookies, $rootScope, $notification) {
-        $scope.showing = 'PENDING';
+angular.module('consoleApp').controller('OrderManageController', ['$scope', 'consoleRESTSvc', 'SweetAlert', '$cookies', '$rootScope', '$notification', '$stateParams',
+    function($scope, consoleRESTSvc, SweetAlert, $cookies, $rootScope, $notification, $stateParams) {
+        $scope.showing;
+
+        if(!$stateParams.show) {
+            $scope.showing = "PENDING"
+        } else if ($stateParams.show === 'accept') {
+            $scope.showing = "ACCEPTED";
+        } else if ($stateParams.show === 'reject') {
+            $scope.showing = "REJECTED";
+        } else if ($stateParams.show === 'dispatch') {
+            $scope.showing = "DISPATCHED";
+        } else {
+            $scope.showing = "PENDING";
+        }
 
         $scope.current_order = -1;
 
@@ -12,6 +24,7 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
         ];
 
         $scope.faye_handler = function(message) {
+            console.log('faye message', message);
             consoleRESTSvc.getOrder(message.order_id).then(function(res) {
                 $rootScope.notification_count += 1;
 
