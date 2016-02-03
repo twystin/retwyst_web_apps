@@ -145,15 +145,21 @@
                                 <span>From Play market</span></a>
                         </div>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="email" placeholder="Enter your email">
+                            <input type="text" class="form-control" ng-model='req.phone' name="email" placeholder="Enter your mobile number, eg. 9876543210">
                             <span class="input-group-btn">
-                                <button class="btn-u btn-sub" type="button">Get Link</button>
+                                <button class="btn-u btn-sub" type="button" ng-click='get_link_on_phone()'>
+                                    <span ng-if='sending_phone'><i class='fa fa-spinner fa-spin'></i> Sending...</span>
+                                    <span ng-if='!sending_phone'>Get Link</span>
+                                </button>
                             </span>
                         </div>
                         <div class='input-group'>
-                            <input type='text' class='form-control' name='phone' placeholder='Enter your mobile number'>
+                            <input type='text' class='form-control' ng-model='req.email' name='phone' placeholder='Enter your email ID, eg. username@domain.com'>
                             <span class='input-group-btn'>
-                                <button class='btn-u btn-sub' type='button'>Get Link</button>
+                                <button class='btn-u btn-sub' type='button' ng-click='get_link_on_email()'>
+                                    <span ng-if='sending_email'><i class='fa fa-spinner fa-spin'></i> Sending...</span>
+                                    <span ng-if='!sending_email'>Get Link</span>
+                                </button>
                             </span>
                         </div>
                     </div>
@@ -308,7 +314,7 @@
     <script src="../bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
     <script src='../bower_components/sweetalert/dist/sweetalert.min.js'></script>
     <script src='../bower_components/ngSweetAlert/SweetAlert.min.js'></script>
-    <script src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+    <script src='scripts/ui-bootstrap-tpls.js'></script>
     <script src="../common/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio-2.0.1.min.js"></script>
     <script src="../common/plugins/shhos/shhos.js"></script>
     <script src="scripts/app.js"></script>

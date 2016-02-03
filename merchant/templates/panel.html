@@ -38,8 +38,8 @@
                         <div class='clearfix'></div>
                         <div>&nbsp;</div>
                         <div class='pull-left'>
-                            <span ng-if='order.outlet_id' class='label label-default'>{{outlets[order.outlet_id].basics.name}}, {{outlets[order.outlet_id].contact.location.locality_1[0]?outlets[order.outlet_id].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet_id].contact.location.locality_2[0]}}</span>
-                            <span ng-if='!order.outlet_id' class='label label-default'>Outlet info missing</span>
+                            <span ng-if='order.outlet' class='label label-default'>{{outlets[order.outlet].basics.name}}, {{outlets[order.outlet].contact.location.locality_1[0]?outlets[order.outlet].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet].contact.location.locality_2[0]}}</span>
+                            <span ng-if='!order.outlet' class='label label-default'>Outlet info missing</span>
                         </div>
                         <div class='pull-right'><a class='btn btn-w-md btn-primary btn-block' ng-click='viewOrder(order, $index)'>View</a></div>
                     </div>
@@ -58,7 +58,7 @@
                                 <div class='row'>
                                     <div class='col-xs-4'>
                                         <p class='label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}}</p><br>
-                                        <span ng-if='order.outlet_id' class='label label-default'>{{outlets[order.outlet_id].basics.name}}, {{outlets[order.outlet_id].contact.location.locality_1[0]?outlets[order.outlet_id].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet_id].contact.location.locality_2[0]}}</span>
+                                        <span ng-if='order.outlet' class='label label-default'>{{outlets[order.outlet].basics.name}}, {{outlets[order.outlet].contact.location.locality_1[0]?outlets[order.outlet].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet].contact.location.locality_2[0]}}</span>
                                     </div>
                                     <div class='col-xs-8 text-right'>
                                         <p class='size-h2'>#{{order.order_number}}</p>

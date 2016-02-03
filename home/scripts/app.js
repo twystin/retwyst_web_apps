@@ -31,4 +31,60 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 				});
 		}
 	};
+
+	$scope.get_link_on_phone = function() {
+		if ($scope.sending_phone) {
+			return;
+		} else if (!$scope.req || !$scope.req.phone) {
+			SweetAlert.swal('Validation error', 'Please enter your phone number first', 'warning');
+		} else if (!/^[0-9]{10}$/.test($scope.req.phone)) {
+			SweetAlert.swal('Validation error', 'Please enter a valid phone number', 'warning');
+		} else {
+			$scope.sending_phone = true;
+			$http.post('/api/v4/get_link', {
+				mobile: $scope.req.phone
+			}).then(function(res) {
+				console.log(res);
+				$scope.sending_phone = false;
+				if(res.data.response) {
+					$scope.req = {};
+					SweetAlert.swal("SUCCESS", "A link has been sent to your phone, and should be arriving shortly.", "success")
+				} else {
+					SweetAlert.Swal("ERROR", res.data.message?res.data.message: 'Sonething went wrong. Please try after sometime', 'error');
+				}
+			}, function(err) {
+				console.log(err);
+				$scope.sending_phone = false;
+				SweetAlert.swal('ERROR', 'Error establishing connection. Please check your internet', 'error');
+			});
+		}
+	};
+
+	$scope.get_link_on_email = function() {
+		if ($scope.sending_email) {
+			return;
+		} else if (!$scope.req || !$scope.req.email) {
+			SweetAlert.swal('Validation error', 'Please enter your email ID first', 'warning');
+		} else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test($scope.req.email)) {
+			SweetAlert.swal('Validation error', 'Please enter a valid email ID.', 'warning');
+		} else {
+			$scope.sending_email = true;
+			$http.post('/api/v4/get_link', {
+				email: $scope.req.email
+			}).then(function(res) {
+				console.log(res);
+				$scope.sending_email = false;
+				if(res.data.response) {
+					$scope.req = {};
+					SweetAlert.swal("SUCCESS", "A link has been sent to your mail, and should be arriving shortly.", "success")
+				} else {
+					SweetAlert.Swal("ERROR", res.data.message?res.data.message: 'Sonething went wrong. Please try after sometime', 'error');
+				}
+			}, function(err) {
+				console.log(err);
+				$scope.sending_email = false;
+				SweetAlert.swal('ERROR', 'Error establishing connection. Please check your internet', 'error');
+			});
+		}
+	}
 }])
