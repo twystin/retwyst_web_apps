@@ -70,6 +70,31 @@ angular.module('merchantApp').controller('DeliveryZoneController', ['$scope', '$
         $scope.delivery_zone.payment_options = payment_options;
     });
 
+    $scope.updatePackaging = function() {
+        if (!$scope.delivery_zone.has_packaging_charge) {
+            $scope.delivery_zone.packaging_charge = {};
+        } else {
+            $scope.delivery_zone.packaging_charge = {
+                is_fixed: true
+            }
+        }
+    };
+
+    $scope.updateFixedCharge = function() {
+        if ($scope.delivery_zone.packaging_charge.is_fixed) {
+            $scope.delivery_zone.packaging_charge.charges = [];
+        } else {
+            $scope.delivery_zone.packaging_charge.charges = [{}];
+        }
+    };
+
+    $scope.addPackagingSlab = function() {
+        $scope.delivery_zone.packaging_charge.charges.push({});
+    };
+
+    $scope.removePackagingSlab = function(index) {
+        $scope.delivery_zone.packaging_charge.charges.splice(index, 1);
+    };
 
     $scope.getMaxRange = function() {
         return new Array(_.reduce($scope.delivery_zone.delivery_timings, function(obj1, obj2) {
@@ -227,7 +252,65 @@ angular.module('merchantApp').controller('DeliveryZoneController', ['$scope', '$
             SweetAlert.swal('Validation error', 'Free delivery amount required', 'error');
         } else if (!$scope.delivery_zone.payment_options || !$scope.delivery_zone.payment_options.length) {
             $scope.formFailure = true;
-            SweetAlert.swal('Validation error', 'Atleast one payment option must be selected');
+            SweetAlert.swal('Validation error', 'Atleast one payment option must be selected', 'error');
+        } else if ($scope.delivery_zone.has_packaging_charge) {
+            if ($scope.delivery_zone.packaging_charge.is_fixed && !$scope.delivery_zone.packaging_charge.value) {
+                $scope.formFailure = true;
+                SweetAlert.swal('Validation error', 'Fixed charge amount required')
+            } else if (!$scope.delivery_zone.packaging_charge.is_fixed && !$scope.delivery_zone.packaging_charge.charges.length) {
+                SweetAlert.swal('Validation error', 'Atleast one slab reuqired for variable packaging charge', 'error');
+            } else {
+                var has_upper_packaging = false;
+                async.each($scope.delivery_zone.packaging_charge.charges, function(charge, callback) {
+                    if (!charge.start && charge.start !== 0) {
+                        callback('Start amount required for all slabs');
+                    } else if (!charge.value && charge.value !== 0) {
+                        callback('Charge amount required for all slabs');
+                    } else if (!charge.end) {
+                        if (has_upper_packaging) {
+                            callback('Exactly one slab should not have an upper bound');
+                        } else {
+                            has_upper_packaging = true;
+                            callback();
+                        }
+                    } else {
+                        async.each($scope.delivery_zone.packaging_charge.charges, function(charge2, callback) {
+                            if (charge === charge2) {
+                                callback();
+                            } else if (((charge.start<= (charge2.end || 999999)) && ((charge2.end || 999999) <= (charge.end || 999999))) || ((charge.start <= charge2.start) && (charge2.start <= (charge.end || 999999))) || ((charge2.start <= (charge.end || 999999)) && ((charge.end || 999999) <= (charge2.end || 999999)))) {
+                                callback('One or more slabs are colliding. Please recheck and fix to proceed');
+                            } else {
+                                callback();
+                            }
+                        }, function(err) {
+                            callback(err);
+                        });
+                    }
+                }, function(err) {
+                    if (err) {
+                        $scope.formFailure = true;
+                        SweetAlert.swal('Validation error', err, 'error');
+                    } else if (!$scope.delivery_zone.packaging_charge.is_fixed && !has_upper_packaging) {
+                        $scope.formFailure = true;
+                        SweetAlert.swal('Validation error', 'Exactly one slab should not have an upper bound', 'error');
+                    } else if (is_first) {
+                        var updated_params = _.cloneDeep(delivery_zone),
+                            original_params = _.cloneDeep($scope.delivery_zone);
+                        delete updated_params.coord;
+                        delete original_params.coord;
+                        delete updated_params.order_accepts_till.time;
+                        delete original_params.order_accepts_till.time;
+                        if (_.isEqual(updated_params, original_params)) {
+                            $scope.formFailure = true;
+                            SweetAlert.swal('Validation error', 'Please change atleast one parameter', 'error');
+                        } else {
+                            $modalInstance.close($scope.delivery_zone);
+                        }
+                    } else {
+                        $modalInstance.close($scope.delivery_zone);
+                    }
+                });
+            }
         } else if (is_first) {
             var updated_params = _.cloneDeep(delivery_zone),
                 original_params = _.cloneDeep($scope.delivery_zone);
