@@ -302,7 +302,7 @@ a:hover {
 /* Giving a min height */
 @media (min-width: 992px) {
 	.homeapp-header.one-page-header.navbar {
-	    padding: 23px 0px;
+	    padding: 18px 0px;
 	    transition: #000 0.3s ease-in-out 0s, padding 0.3s ease-in-out 0s;
 	}
 
