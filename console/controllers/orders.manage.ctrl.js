@@ -90,7 +90,7 @@ angular.module('consoleApp').controller('OrderManageController', ['$scope', 'con
 
         $scope.getItemPrice = function(item) {
             var total_price = 0;
-            if (!item.option && !item.option._id) {
+            if (!(item.option && item.option._id)) {
                 return item.item_cost;
             } else {
                 total_price += item.option.option_cost;
