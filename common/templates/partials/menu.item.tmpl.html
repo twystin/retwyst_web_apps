@@ -69,11 +69,15 @@
         </div>
         <div class='form-group'>
             <label class='col-sm-2 control-label'>Option Title</label>
-            <div class='col-sm-4'>
+            <div class='col-sm-2'>
                 <input type='text' ng-disabled='limit_access' ng-model='item.option_title' class='form-control'>
             </div>
-            <label class='col-sm-3 control-label'>Prices are Additive?</label>
-            <div class='col-sm-3'>
+            <label class='col-sm-2 control-label'>Prices are Additive?</label>
+            <div class='col-sm-2'>
+                <input bs-switch switch-active='{{!limit_access}}' ng-model='item.option_price_is_additive' type='checkbox' switch-off-text='NO' , switch-on-text='YES'>
+            </div>
+            <label class='col-sm-2 control-label'>Option is addon</label>
+            <div class='col-sm-2'>
                 <input bs-switch switch-active='{{!limit_access}}' ng-model='item.option_is_addon' type='checkbox' switch-off-text='NO' , switch-on-text='YES'>
             </div>
         </div>
