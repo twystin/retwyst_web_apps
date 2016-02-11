@@ -389,7 +389,7 @@
                                     <div class='form-group' ng-if='offer.offer_type==="offer"'>
                                         <label class='col-sm-2 control-label'>Offer Cost <i class='fa fa-sm fa-asterisk'></i></label>
                                         <div class='col-sm-6' ng-class='{"has-error": formFailure && !offer.offer_cost}'>
-                                            <input type='text' ng-model='offer.offer_cost'  class='form-control'>
+                                            <input type='number' ng-model='offer.offer_cost'  class='form-control'>
                                             <div class='help-block'>Cost above is defined in Twyst Bucks</div>
                                         </div>
                                     </div>

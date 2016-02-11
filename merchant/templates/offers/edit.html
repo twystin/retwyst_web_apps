@@ -392,7 +392,7 @@
                                         <label class='col-sm-2 control-label'>Offer Cost <i class='fa fa-sm fa-asterisk'></i></label>
                                         <div class='col-sm-6' ng-class='{"has-error": formFailure && !offer.offer_cost}'>
                                             <select class='form-control' ng-model='offer.offer_cost'>
-                                                <option ng-repeat='i in getRange(18) track by $index' value='{{100+ (25*$index)}}'>{{100 + (25*$index)}}</option>
+                                                <input type='number' ng-model='offer.offer_cost'  class='form-control'>
                                             </select>
                                             <div class='help-block'>Cost above is defined in Twyst Bucks</div>
                                         </div>
