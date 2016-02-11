@@ -587,6 +587,8 @@ angular.module('merchantApp').controller('OutletEditController', ['$scope', 'mer
                                 deferred.reject();
                             } else if (!_.get($scope.outlet, 'basics.account_mgr_email')) {
                                 $scope.showErrorMessage("Account manager's email ID required");
+                            }else if (!_.get($scope.outlet, 'basics.account_mgr_phone')) {
+                                $scope.showErrorMessage("Account manager's phone required");
                             } else {
                                 $scope.scrollToTop();
                                 $scope.formFailure = false;

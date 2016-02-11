@@ -206,6 +206,12 @@
                                         <div class='col-md-6' ng-class='{"has-error": formFailure && !outlet.basics.account_mgr_email}'>
                                             <input type='email' required class='form-control' ng-model='outlet.basics.account_mgr_email'>
                                         </div>
+                                        <label class='col-md-2 control-label'>
+                                            Phone <i class='fa fa-sm fa-asterisk'></i>
+                                        </label>
+                                        <div class='col-md-6' ng-class='{"has-error": formFailure && !outlet.basics.account_mgr_phone}'>
+                                            <input type='number' required class='form-control' ng-model='outlet.basics.account_mgr_phone'>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
