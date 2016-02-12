@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div>&nbsp;</div>
-            <div class='col-xs-12'>
+            <div class='col-md-12'>
                 <div class='btn-group btn-group-justified'>
                     <a class='btn' ng-click='updateShowing("PENDING")' ng-class='{"btn-primary": showing==="PENDING", "btn-dark": showing!=="PENDING"}'>Pending</a>
                     <a class='btn' ng-click='updateShowing("ACCEPTED")' ng-class='{"btn-primary": showing==="ACCEPTED", "btn-dark": showing!=="ACCEPTED"}'>Accepted</a>
@@ -23,6 +23,7 @@
                     <a class='btn' ng-click='updateShowing("DISPATCHED")' ng-class='{"btn-primary": showing==="DISPATCHED", "btn-dark": showing!=="DISPATCHED"}'>Dispatched</a>
                     <a class='btn' ng-click='updateShowing("DELIVERED")' ng-class='{"btn-primary": showing==="DELIVERED", "btn-dark": showing!=="DELIVERED"}'>Delivered</a>
                     <a class='btn' ng-click='updateShowing("CANCELLED")' ng-class='{"btn-primary": showing==="CANCELLED", "btn-dark": showing!=="CANCELLED"}'>Cancelled</a>
+                    
                 </div>
             </div>
             <div class='clearfix'></div>
@@ -57,7 +58,10 @@
                             <div class='invoice-inner'>
                                 <div class='row'>
                                     <div class='col-xs-4'>
-                                        <p class='label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}}</p><br>
+                                        <p class='label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}} </p>
+                                        <p ng-if='order.payment_info.payment_mode === "COD"'class='label label-info'><i class='fa'></i>&nbsp;{{order.payment_info.payment_mode | uppercase}} </p>
+                                        <p ng-if='order.payment_info.payment_mode !== "COD"'class='label label-info'><i class='fa'></i>&nbsp;Online Paid </p>
+                                        <br>
                                         <span ng-if='order.outlet' class='label label-default'>{{outlets[order.outlet].basics.name}}, {{outlets[order.outlet].contact.location.locality_1[0]?outlets[order.outlet].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet].contact.location.locality_2[0]}}</span>
                                     </div>
                                     <div class='col-xs-8 text-right'>
