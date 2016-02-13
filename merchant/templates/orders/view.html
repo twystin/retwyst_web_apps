@@ -5,6 +5,7 @@
                 <div class='row'>
                     <div class='col-xs-4'>
                         <p class='size-h2 label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.order_value_with_offer | number:2}}</p>
+                        <p class='size-h2 label'>{{order.payment_info.payment_mode | uppercase}}</p>
                     </div>
                     <div class='col-xs-8 text-right'>
                         <p class='size-h2'>#{{order.order_number}}</p>

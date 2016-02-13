@@ -6,6 +6,8 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             $scope.showing = "PENDING"
         } else if ($stateParams.show === 'accept') {
             $scope.showing = "ACCEPTED";
+        }else if ($stateParams.show === 'assumed_delivered') {
+            $scope.showing = "ASSUMED_DELIVERED";
         } else if ($stateParams.show === 'reject') {
             $scope.showing = "REJECTED";
         } else if ($stateParams.show === 'dispatch') {
