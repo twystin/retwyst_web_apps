@@ -462,7 +462,9 @@ angular.module('merchantApp').controller('MenuEditController', ['$scope', 'merch
             var deferred = $q.defer();
             if (!$scope.menu.menu_type) {
                 deferred.reject('Menu type required');
-            } else if (!$scope.menu.outlet) {
+            } else if (!$scope.menu.menu_item_type) {
+                deferred.reject('Please select menu items type');
+            }else if (!$scope.menu.outlet) {
                 deferred.reject('Please choose an outlet');
             } else if (!$scope.menu.menu_categories.length) {
                 deferred.reject('Atleast one category must be added');

@@ -31,7 +31,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                     }
 
                     var notification = $notification(title, {
-                        body: message.text || 'Message here',
+                        body: message.message || 'Message here',
                         delay: 0,
                         dir: 'auto'
                     });
