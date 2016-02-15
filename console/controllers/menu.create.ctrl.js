@@ -215,7 +215,7 @@ angular.module('consoleApp').controller('MenuCreateController', ['$scope', 'cons
                             item_type: 'type_1',
                             is_available: true,
                             option_price_is_additive: false,
-                            option_is_addon: false;
+                            option_is_addon: false,
                             is_vegetarian: true,
                             is_recommended: false,
                             item_available_on: [],

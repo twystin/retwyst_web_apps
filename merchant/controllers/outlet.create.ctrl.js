@@ -126,8 +126,8 @@ angular.module('merchantApp').controller('OutletCreateController', ['$scope', 'm
                 var path = polygon.getPath().getArray();
                 var coord = _.map(path, function(coord) {
                     return {
-                        latitude: coord.G,
-                        longitude: coord.K
+                        latitude: coord.lat(),
+                        longitude: coord.lng()
                     };
                 });
                 var index = $scope.outlet.attributes.delivery.delivery_zone.length - 1;

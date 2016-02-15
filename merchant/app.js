@@ -88,7 +88,7 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
     }])
     .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyALU-FlIm704rdvaZFVujipV4SVxR4Kt9A',
+            key: 'AIzaSyBnVRxlTwkki9mi7GwRNv3SRseL6RNQRSI',
             v: '3.17',
             libraries: 'weather,geometry,visualization,drawing'
         });

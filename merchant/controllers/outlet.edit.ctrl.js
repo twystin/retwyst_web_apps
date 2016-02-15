@@ -32,10 +32,11 @@ angular.module('merchantApp').controller('OutletEditController', ['$scope', 'mer
             polygoncomplete: function(drawingManager, eventName, scope, args) {
                 var polygon = args[0];
                 var path = polygon.getPath().getArray();
+
                 var coord = _.map(path, function(coord) {
                     return {
-                        latitude: coord.G,
-                        longitude: coord.K
+                        latitude: coord.lat(),
+                        longitude: coord.lng()
                     };
                 });
                 var index = $scope.outlet.attributes.delivery.delivery_zone.length - 1;
@@ -600,7 +601,7 @@ angular.module('merchantApp').controller('OutletEditController', ['$scope', 'mer
             }
             return deferred.promise;
         };
-
+        
         $scope.validateStep2 = function() {
             var deferred = $q.defer();
             if (!_.get($scope.outlet, 'basics.main_type')) {

@@ -1,0 +1,22 @@
+{
+  "name": "retwyst_web_apps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twystin/retwyst_web_apps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twystin/retwyst_web_apps/issues"
+  },
+  "homepage": "https://github.com/twystin/retwyst_web_apps#readme",
+  "dependencies": {
+    "grunt": "^0.4.5"
+  }
+}
