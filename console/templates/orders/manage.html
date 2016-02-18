@@ -175,7 +175,10 @@
                                             <li>Sub-Total amount: <i class='fa fa-inr'></i>{{order.order_value_without_offer | number:2}}</li>
                                             <li>Discount: <i class='fa fa-inr'></i>{{(order.order_value_without_offer && order.order_value_with_offer)?order.order_value_without_offer - order.order_value_with_offer:0 | number:2}}</li>
                                             <li>Total Tax: <i class='fa fa-inr'></i>{{order.tax_paid | number:2}}</li>
+                                            <li>Delivery Charge: <i class='fa fa-inr'></i>{{order.delivery_charge | number:2}}</li>
                                             <li><strong>Grand Total: <i class='fa fa-inr'></i>{{order.actual_amount_paid | number:2}}</strong></li>
+                                            <li ng-if='order.payment_info.payment_mode === "COD"' ><strong class='fa text-primary'> <i ></i>Collect Cash</strong></li>
+                                            <li ng-if='order.payment_info.payment_mode !== "COD"'><strong class='fa text-primary'><i ></i>Paid Online</strong></li>
                                         </ul>
                                     </div>
                                 </div>

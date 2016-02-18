@@ -10,6 +10,12 @@
                         <input type='text' ng-model='menu.menu_type' typeahead='mType for mType in menu_types | filter:$viewValue | limitTo: 8' class='form-control' disabled>
                     </div>
                 </div>
+                <div class='form-group'>
+                    <label class='col-sm-2 control-label'>Menu Status <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <input type='text' ng-model='menu.status'  class='form-control' disabled>
+                    </div>
+                </div>
                 <div class='clearfix'></div>
                 <div class='form-group'>
                     <label class='col-sm-2 control-label'>Menu Items Type <i class='fa fa-sm fa-asterisk'></i></label>
@@ -20,6 +26,13 @@
                             <option value='type_2' > type 2</option>
                             <option value='type_3' > type 3</option>
                         </select>
+                    </div>
+                </div>
+                <div class='clearfix'></div>
+                <div class='form-group'>
+                    <label class='col-sm-2 control-label'>Charges Service Tax  <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-2'>
+                        <input bs-switch switch-active='{{!limit_access}}' ng-model='menu.charge_service_tax' type='checkbox' switch-off-text='NO' , switch-on-text='YES' disabled>   
                     </div>
                 </div>
                 <div class='clearfix'></div>

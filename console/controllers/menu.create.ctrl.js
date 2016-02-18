@@ -11,6 +11,7 @@ angular.module('consoleApp').controller('MenuCreateController', ['$scope', 'cons
 
         $scope.menu = {
             status: 'active',
+            charge_service_tax: true,
             menu_categories: []
         };
 

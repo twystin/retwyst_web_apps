@@ -25,6 +25,13 @@
                     </div>
                 </div>
                 <div class='clearfix'></div>
+                <div class='form-group'>
+                    <label class='col-sm-2 control-label'>Charges Service Tax  <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-2'>
+                        <input bs-switch switch-active='{{!limit_access}}' ng-model='menu.charge_service_tax' type='checkbox' switch-off-text='NO' , switch-on-text='YES'>   
+                    </div>
+                </div>
+                <div class='clearfix'></div>
                 <div class='form-group' ng-class='{"has-error": formFailure && !menu.outlet}'>
                     <label for='outlet' class='col-md-2 control-label'>Outlet <i class='fa fa-sm fa-asterisk'></i></label>
                     <div class='col-md-8'>
