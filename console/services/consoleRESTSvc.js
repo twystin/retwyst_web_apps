@@ -224,14 +224,14 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         };
 
         consoleRESTSvc.updateEvent = function(event) {
-            var deferred = Q.defer();
+            var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.put('/api/v4/events/update/' + event._id + '?token=' + token, event)
                 .then(function(res) {
                     if (res.data.response) {
-                        deferred.resolve(data.data);
+                        deferred.resolve(res.data);
                     } else {
-                        deferred.reject(data.data);
+                        deferred.reject(res.data);
                     }
                 }, function(err) {
                     deferred.reject(err);
