@@ -79,8 +79,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat='outlet in current_page_outlets' ui-sref='^.outlets_view({outlet_id: outlet._id})' style='cursor:pointer;'>
-                            <td>{{outlet.basics.name}}</td>
+                        <tr ng-repeat='outlet in current_page_outlets' >
+                            <td ui-sref='^.outlets_view({outlet_id: outlet._id})' style='cursor:pointer;'>{{outlet.basics.name}}</td>
                             <td>{{outlet._id}}</td>
                             <td>{{outlet.contact.location.locality_1[0]}}</td>
                             <td>{{outlet.contact.location.locality_2[0]}}</td>
