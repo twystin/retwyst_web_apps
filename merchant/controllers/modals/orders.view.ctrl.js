@@ -28,9 +28,12 @@ angular.module('merchantApp').controller('OrderViewController', ['$scope', '$mod
         var item_total = 0;
         _.each(order.items, function(item) {
             if (!item.option || !item.option._id) {
-                item_total += item.item_price;
+                item_total += item.item_cost;
             } else {
                 var price = item.option.option_cost;
+                if (item.option_is_addon === true || item.option_price_is_additive === true) {
+                    price += item.item_cost;
+                }
                 _.each(item.sub_options, function(sub_option) {
                     price += sub_option.sub_option_set[0].sub_option_cost;
                 });

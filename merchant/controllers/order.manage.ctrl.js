@@ -114,9 +114,10 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                 return item.item_cost;
             } else {
                 total_price += item.option.option_cost;
-                if (item.option.option_price_is_additive === true) {
+                if (item.option_is_addon === true || item.option_price_is_additive === true) {
                     total_price += item.item_cost;
                 }
+                
                 if (item.option.sub_options && item.option.sub_options.length) {
                     _.each(item.option.sub_options, function(sub_option) {
                         total_price += sub_option.sub_option_set[0].sub_option_cost;
