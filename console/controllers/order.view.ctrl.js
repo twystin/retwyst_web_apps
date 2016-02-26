@@ -7,6 +7,9 @@ angular.module('consoleApp').controller('OrderViewController', ['$scope', '$moda
         if (!item.option || !item.option._id) {
             return item.item_price;
         } else {
+            if (item.option.option_is_addon === true || item.option_price_is_additive === true) {
+                price += item.item_cost;
+            }
             price += item.option.option_cost;
             _.each(item.sub_options, function(sub_option) {
                 price += sub_option.sub_option_set[0].sub_option_cost;
