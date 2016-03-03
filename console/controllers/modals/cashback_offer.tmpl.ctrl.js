@@ -111,8 +111,8 @@ angular.module('consoleApp').controller('CashbackOfferTemplateController', ['$sc
             var deferred = $q.defer();
             if (!$scope.cashback_offer) {
                 deferred.reject('Form not filled in yet');
-            } else if (!_.get($scope.cashback_offer, 'offer_source')) {
-                deferred.reject('Offer source cannot be left blank.');
+            } else if (!_.get($scope.cashback_offer, 'offer_value')) {
+                deferred.reject('Offer value cannot be left blank.');
             } else if (!_.get($scope.cashback_offer, 'offer_type')) {
                 deferred.reject('Please choose the offer type');
             } else if (!_.get($scope.cashback_offer, 'offer_voucher_count')) {

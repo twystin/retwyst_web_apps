@@ -30,7 +30,6 @@ angular.module('consoleApp').directive('imagereader', ['imageSvc', 'toastr',
                                 req_obj.item = ngModel.$modelValue;
                             }
                             imageSvc.uploadImage(req_obj).then(function(res) {
-                                console.log(res);
                                 _id = res.data.id;
                                 $(imgElement).attr('src', loadEvent.target.result);
                                 ngModel.$setViewValue(res.data.key.toString());

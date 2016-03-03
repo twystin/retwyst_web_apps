@@ -355,7 +355,14 @@
                                         <div class='col-md-6'>
                                             <input class='form-control' ng-model='newCuisine' ng-list placeholder='Add cuisine...' typeahead="cuisine for cuisine in cuisines | filter:$viewValue | limitTo:8" typeahead-on-select="addCuisine(newCuisine)" />
                                         </div>
+
                                     </div>
+                                    <div class='form-group'>
+                                        <label class='col-md-3 control-label'>Add outlet rating</label>
+                                        <div class='col-md-6'>
+                                            <input class='form-control' type='number' ng-model='outlet.twyst_meta.rating.value'>
+                                        </div>
+                                    </div>                                
                                 </form>
                             </div>
                             <div class='well well-lg'>

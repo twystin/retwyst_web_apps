@@ -497,6 +497,10 @@ angular.module('merchantApp').controller('OutletEditController', ['$scope', 'mer
         };
 
         $scope.updateOutlet = function() {
+            if($scope.outlet.twyst_meta.rating.value &&
+                !$scope.outlet.twyst_meta.rating.count) {
+                $scope.outlet.twyst_meta.rating.count = 1;   
+            }
             merchantRESTSvc.updateOutlet($scope.outlet)
                 .then(function(res) {
                     SweetAlert.swal({

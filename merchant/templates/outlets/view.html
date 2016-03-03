@@ -51,6 +51,11 @@
                             <li class='list-group-item' ng-repeat='cuisine in outlet.attributes.cuisines track by $index'>{{cuisine}}</li>
                         </ul>
                     </div>
+                    <div class='col-md-6'>
+                        <h4>Rating</h4>
+                        <span class='label label-primary'>{{outlet.twyst_meta.rating.value}}</span>
+                    </div>
+
                 </div>
             </div>
             <div class='panel panel-default'>

@@ -582,6 +582,10 @@ angular.module('merchantApp').controller('OutletCreateController', ['$scope', 'm
         $scope.createOutlet = function() {
             var temp_outlet = _.cloneDeep($scope.outlet);
             temp_outlet._id = _id;
+            if($scope.outlet.twyst_meta.rating.value &&
+                !$scope.outlet.twyst_meta.rating.count) {
+                $scope.outlet.twyst_meta.rating.count = 1;   
+            }
             merchantRESTSvc.createOutlet($scope.outlet)
                 .then(function(res) {
                     SweetAlert.swal({

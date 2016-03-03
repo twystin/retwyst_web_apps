@@ -107,7 +107,12 @@ angular.module('consoleApp').controller('CashbackOfferCreateController', ['$scop
         		SweetAlert.swal('Validation Error', 'Contact person\'s email required', 'warning');
         	} else if (!_.get($scope.offer, 'phone')) {
         		SweetAlert.swal('Validation Error', 'Contact person\'s phone number required', 'warning');
-        	} else if (!_.get($scope.offer, 'offers') || !$scope.offer.offers.length) {
+        	} else if (!_.get($scope.offer, 'source')) {
+                SweetAlert.swal('Validation Error', 'offer source required', 'warning');
+            } else if (!_.get($scope.offer, 'logo')) {
+                SweetAlert.swal('Validation Error', 'source logo required', 'warning');
+            }
+            else if (!_.get($scope.offer, 'offers') || !$scope.offer.offers.length) {
         		SweetAlert.swal('Validation Error', 'Atleast add one cashback offer', 'warning');
         	} else {
         		consoleRESTSvc.createCashbackOffer($scope.offer).then(function(res) {
