@@ -172,13 +172,9 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                             updated_order.estimate_time = estimate_time;
                             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                                 console.log(res);
-                                $scope.order.order_status = 'ACCEPTED';
-                                $scope.order.actions.push({
-                                    "action_type": "ACCEPTED",
-                                    "action_at": new Date()
-                                });
+                                $scope.order = res.data;
                                 $scope.orders[$scope.current_order] = $scope.order;
-                                SweetAlert.swal('SUCCESS', 'Order accepted successfully', 'success');
+                                SweetAlert.swal('SUCCESS', res.message, 'success');
                                 $scope.filterOrders();
                             }, function(err) {
                                 console.log(err);
@@ -216,14 +212,10 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                 if (confirm) {
                     updated_order.reject_reason = reason;
                     merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                        $scope.order.order_status = 'REJECTED';
-                        $scope.order.actions.push({
-                            "action_type": "REJECTED",
-                            "action_at": new Date(),
-                            "comments": reason
-                        });
+                        console.log('ordr rejected');
+                        $scope.order = res.data;
                         $scope.orders[$scope.current_order] = $scope.order;
-                        SweetAlert.swal('SUCCESS', 'Order rejected successfully', 'info');
+                        SweetAlert.swal('SUCCESS', res.message, 'info');
                         $scope.filterOrders();
                     }, function(err) {
                         console.log(err);
@@ -240,13 +232,9 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             updated_order.order_id = $scope.order._id;
             updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                $scope.order.order_status = 'DISPATCHED';
-                $scope.order.actions.push({
-                    action_type: 'DISPATCHED',
-                    action_at: new Date()
-                });
+                $scope.order = res.data;
                 $scope.orders[$scope.current_order] = $scope.order;
-                SweetAlert.swal('SUCCESS', 'Order dispatch updated successfully', 'success');
+                SweetAlert.swal('SUCCESS', res.message, 'success');
                 $scope.filterOrders();
             }, function(err) {
                 console.log(err);

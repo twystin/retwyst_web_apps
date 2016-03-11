@@ -60,7 +60,7 @@ angular.module('consoleApp').controller('CashbackOfferCreateController', ['$scop
         };
 
         $scope.updateOffer = function(index) {
-            _id = $scope.offer.offers[index]._id;
+            _id = $scope.offer._id;
         	
             var modalInstance = $modal.open({
                 animation: true,
