@@ -33,10 +33,14 @@
     <link rel="stylesheet" href='../common/plugins/shhos/shhos.css'>
     <!-- CSS Theme -->
     <link rel="stylesheet" href='styles/app.style.css'>
+    <!-- Custom Edits -->
+    <link rel="stylesheet" href='styles/style.css'>
 </head>
 
-<body id='body' data-spy='scroll' data-target='.one-page-header' class='demo-lightbox-gallery' ng-controller='MainController'>
+<body id='body' data-spy='scroll' data-target='.one-page-header' class='demo-lightbox-gallery relative' ng-controller='MainController'>
     <!-- Header -->
+    <div class="login-popup sublime" ng-if='login_notification.verified'>Welcome {{login_notification.name}}!<br><span>Your email-id:{{login_notification.email}} has been verified successfully</span></div>
+    <div class="login-popup sublime" ng-if='!login_notification.verified'>Couldn't verify your account.</div>
     <nav class='one-page-header navbar navbar-default navbar-fixed-top homeapp-header' data-role='navigation'>
         <div class='container'>
             <div class='menu-container page-scroll'>
@@ -82,10 +86,10 @@
         <div class="interactive-slider-v2">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-5 col-sm-12 col-xs-12 col-md-offset-1 promo-info page-scroll">
-                        <h1>Order food,<br>
-                        <strong>Get Cashback!</strong></h1>
-                        <p>Do you order food frequently? User Twyst and get cashback everytime you order!</p>
+                    <div class="col-md-5 col-sm-12 col-xs-12 col-md-offset-1 promo-info page-scroll frost-screen">
+                        <h1 style="text-shadow:1px 1px 4px #000;"><strong>Order food,<br>
+                        Get Cashback Everytime!</strong></h1>
+                        <p style="text-shadow:1px 1px 4px #000;font-size:20px;">Use Twyst and get cashback everytime you order!</p>
                         <a href="#get_app" class="btn-u btn-banner btn-android btn-lg">Get the app now!</a>
                     </div>
                     <div class="col-md-6 col-sm-12 col-xs-12 banner-img overflow-h">
@@ -97,33 +101,33 @@
     </section>
     <!-- End Promo Block -->
     <!-- Benefits -->
+    <hr>
     <section id="how_it_works">
         <div class="container">
-            <div class="g-pt-90 g-pb-70">
+            <div class="g-pt-20 g-pb-20">
                 <div class="g-heading-v10 g-mb-65 text-center">
-                    <h3><em class="block-name">How it Works</em></h3>
+                    <h1>With us, you get:</h1>
                 </div>
                 <div class="row equal-height-columns">
                     <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s">
                         <div class="benefit equal-height-column">
-                            <i class="fa fa-search fa-3x"></i>
-                            <h3>Order</h3>
-                            <p>Order food from your favourate outlets on Twyst. Let us know if there's an outlet you would like us to add and we'll do our best.</p>
+                            <i class="fa fa-pie-chart fa-4x"></i>
+                            <h3>Order Food</h3>
+                            <p>Order food from your favourate outlets on the Twyst App. With discounts and other amazing offers, which are upadated timely, you can be assured that each transaction would be easy as pie. </p>
                         </div>
                     </div>
                     <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".3s">
                         <div class="benefit equal-height-column">
-                            <i class="fa fa-sliders fa-3x"></i>
+                            <i class="fa fa-money fa-4x"></i>
                             <h3>Get Cashback</h3>
-                            <p>Get Cashback(!) on <strong>EVERY ORDER</strong> in the form of Twyst Bucks.</p>
-                            <p class='text-center'> 1 <strong>Twyst Buck(s)</strong> = <i class='fa fa-inr'>&nbsp;<strong>1</strong></i></p>
+                            <p>Get cashback on <strong>EVERY ORDER</strong> in the form of Twyst Cash.</p>
                         </div>
                     </div>
                     <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".5s">
                         <div class="benefit equal-height-column">
-                            <i class="fa fa-cloud fa-3x"></i>
+                            <i class="fa fa-rupee fa-4x"></i>
                             <h3>Redeem</h3>
-                            <p>Use your Twyst Bucks to shop online, recharge/pay for your phone, or even order-in more food!</p>
+                            <p>Use your Twyst Cash to shop online: recharge, pay for phone bills, or for ordering even more food!</p>
                         </div>
                     </div>
                 </div>
@@ -135,15 +139,19 @@
     <section id="get_app">
         <div class="container-fluid with-bg-1">
             <div class="subscribe">
-                <div class="g-heading-v10 g-mb-65">
-                    <h2 style='color:#F5F5F5;'><em class="block-name"> Get the APP</em>Download the app today.</h2>
+                <div class="g-heading-v10 g-mb-65 frost-screen">
+                    <!-- <h2 style='color:#FFF;'>Get the APP</h2> -->
+                    <h2 style='color:#FFF;font-size:50px;text-shadow:1px 1px 4px #000;'><strong>Download the app today!</strong></h2>
                 </div>
                 <div class='row'>
+
                     <div class='col-sm-6'>
-                        <div class='input-group'>
-                            <a href="#" class="btn-u btn-banner btn-android" style='padding: 10px 20px 17px;'><i class="fa fa-android fa-2x"></i> Download App<br>
-                                <span>From Play market</span></a>
-                        </div>
+
+                      <div class='input-group g-pb-30'>
+                          <a href="#" class="btn-u btn-banner btn-android" style='padding: 10px 20px 17px;'><i class="fa fa-android fa-2x"></i> Download App<br>
+                              <span>From Google Play</span></a>
+                      </div>
+
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model='req.phone' name="email" placeholder="Enter your mobile number, eg. 9876543210">
                             <span class="input-group-btn">
@@ -153,7 +161,8 @@
                                 </button>
                             </span>
                         </div>
-                        <div class='input-group'>
+
+                        <!-- <div class='input-group'>
                             <input type='text' class='form-control' ng-model='req.email' name='phone' placeholder='Enter your email ID, eg. username@domain.com'>
                             <span class='input-group-btn'>
                                 <button class='btn-u btn-sub' type='button' ng-click='get_link_on_email()'>
@@ -161,7 +170,7 @@
                                     <span ng-if='!sending_email'>Get Link</span>
                                 </button>
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class='col-sm-6'>
                         <div class="overflow-h">
@@ -191,7 +200,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="g-heading-v10 g-mb-65">
-                                <h2 class="g-color-white"><em class="block-name">Contact us</em> Answers to <strong>your Questions</strong></h2>
+                                <h2 class="g-color-white">Answers to <strong>your Questions</strong></h2>
                                 <p>Feel free to reach out to us, or follow us below.</p>
                             </div>
                         </div>
@@ -236,10 +245,10 @@
                 <div class="row">
                     <div class="col-md-12 no-side-padding">
                         <ul class="list-inline social-list text-center">
-                            <li class="facebook social-item"><a class="btn-block" href="https://fb.me/twystin" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li class="linkedin social-item"><a class="btn-block" href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                            <li class="angelco social-item"><a class="btn-block" href="https://angel.co/twyst-in" target="_blank"><i class="fa fa-angellist" style='color:#777;'></i></a></li>
-                            <li class="twitter social-item"><a class="btn-block" href="https://twitter.com/twystin" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li class="facebook social-item"><a class="btn-block" href="https://fb.me/twystin" target="_blank"><i class="fa fa-facebook fa-2x"></i></a></li>
+                            <li class="linkedin social-item"><a class="btn-block" href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                            <li class="angelco social-item"><a class="btn-block" href="https://angel.co/twyst-in" target="_blank"><i class="fa fa-angellist fa-2x" style='color:#777;'></i></a></li>
+                            <li class="twitter social-item"><a class="btn-block" href="https://twitter.com/twystin" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -255,7 +264,7 @@
                     <!-- About -->
                     <div class="col-md-3 md-margin-bottom-40">
                         <a href="index.html"><img id="logo-footer" class="footer-logo" src="img/logo-twyst.png" alt=""></a>
-                        <p></p>
+                        <p>Food, Ordering and Cashback</p>
                     </div>
                     <!-- End About -->
                     <!-- Latest -->
@@ -268,7 +277,7 @@
                             <h2>Useful Links</h2></div>
                         <ul class="list-unstyled link-list">
                             <li><a href="https://angel.co/twyst-in" target="_blank">Latest jobs</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-                            
+
                         </ul>
                     </div>
                     <!-- End Link List -->
@@ -321,6 +330,7 @@
     <script src="scripts/owl-carousel2.js"></script>
     <script src="scripts/cube-portfolio.js"></script>
     <script src="scripts/contact.js"></script>
+    <script src="scripts/style.js"></script>
     <script>
     $(function() {
         App.init();

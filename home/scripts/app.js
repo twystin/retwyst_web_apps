@@ -1,6 +1,16 @@
-angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', 'SweetAlert', function($scope, $http, SweetAlert) {
-	
-	$scope.contact_us = function() {
+angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', function($scope, $http, $location, SweetAlert) {
+
+	$scope.login_notification = {};
+
+	var verifiedObject = $location.search();
+	console.log(verifiedObject);
+	if(verifiedObject.verified) {
+		$scope.login_notification.verified = verifiedObject.verified;
+		$scope.login_notification.name = verifiedObject.user;
+		$scope.login_notification.email = verifiedObject.email;
+	}
+
+		$scope.contact_us = function() {
 		if ($scope.disable_contact) {
 			return;
 		} else if (!$scope.contact) {
@@ -88,3 +98,9 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 		}
 	}
 }])
+	.config(function($locationProvider){
+		$locationProvider.html5Mode({
+			enabled: true,
+			requireBase: false
+		});
+	});
