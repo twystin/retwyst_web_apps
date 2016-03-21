@@ -39,8 +39,9 @@
 
 <body id='body' data-spy='scroll' data-target='.one-page-header' class='demo-lightbox-gallery relative' ng-controller='MainController'>
     <!-- Header -->
-    <div class="login-popup sublime" ng-if='login_notification.verified'>Welcome {{login_notification.name}}!<br><span>Your email-id:{{login_notification.email}} has been verified successfully</span></div>
-    <div class="login-popup sublime" ng-if='!login_notification.verified'>Couldn't verify your account.</div>
+    <div class="login-popup sublime" ng-if='login_notification.verified==="true"'>Welcome {{login_notification.name}}!<br><span>Your email-id:{{login_notification.email}} has been verified successfully</span></div>
+    <div class="login-popup sublime" ng-if='login_notification.verified==="false"'>Couldn't verify your account.</div>
+
     <nav class='one-page-header navbar navbar-default navbar-fixed-top homeapp-header' data-role='navigation'>
         <div class='container'>
             <div class='menu-container page-scroll'>
@@ -59,7 +60,7 @@
                 <div class="menu-container">
                     <ul class="nav navbar-nav">
                         <li class="page-scroll home">
-                            <a href="#body">Home</a>
+                            <a href="#body">Home{{login_notification.verified}}</a>
                         </li>
                         <li class="page-scroll">
                             <a href="#how_it_works">How It Works</a>

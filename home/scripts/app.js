@@ -3,11 +3,15 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 	$scope.login_notification = {};
 
 	var verifiedObject = $location.search();
-	console.log(verifiedObject);
 	if(verifiedObject.verified) {
-		$scope.login_notification.verified = verifiedObject.verified;
-		$scope.login_notification.name = verifiedObject.user;
-		$scope.login_notification.email = verifiedObject.email;
+		if(verifiedObject.verified === "true"){
+			$scope.login_notification.verified = "true";
+			$scope.login_notification.name = verifiedObject.user;
+			$scope.login_notification.email = verifiedObject.email;
+		} else if (verifiedObject.verified === "false") {
+			$scope.login_notification.verified = "false";
+		}
+		console.log($scope.login_notification);
 	}
 
 		$scope.contact_us = function() {
