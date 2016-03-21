@@ -392,7 +392,7 @@
                                         <label class='col-sm-2 control-label'>Offer Cost <i class='fa fa-sm fa-asterisk'></i></label>
                                         <div class='col-sm-6' ng-class='{"has-error": formFailure && !offer.offer_cost}'>
                                             <select class='form-control' ng-model='offer.offer_cost'>
-                                                <option ng-repeat='i in getRange(18) track by $index' value='{{100+ (25*$index)}}'>{{100 + (25*$index)}}</option>
+                                                <input type='number' ng-model='offer.offer_cost'  class='form-control'>
                                             </select>
                                             <div class='help-block'>Cost above is defined in Twyst Bucks</div>
                                         </div>
@@ -485,10 +485,10 @@
                                                     <tr ng-repeat='day in days'>
                                                         <th>{{day | uppercase}}</th>
                                                         <td>
-                                                            <input type='checkbox' bs-switch ng-model='offer.actions.reward.reward_hours[day].closed' switch-off-text='OPEN' switch-on-text='CLOSE' switch-off-color='success' switch-on-color='danger'>
+                                                            <input type='checkbox' bs-switch ng-model='offer.actions.reward.reward_hours[day].closed' switch-off-text='OPEN' ng-change='updateTimingSet(day, offer.actions.reward.reward_hours)' switch-on-text='CLOSE' switch-off-color='success' switch-on-color='danger'>
                                                         </td>
                                                         <td ng-repeat='i in getMaxRange() track by $index' ng-class='{"has-error": formFailure && errorDay===day}'>
-                                                            <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings.length>1 && offer.actions.reward.reward_hours[day].timings[$index]' ng-click='removeTiming(day, $index)' ng-init='initalizeTiming(day, $index, offer.actions.reward.reward_hours)'>
+                                                            <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings.length>1 && offer.actions.reward.reward_hours[day].timings[$index]' ng-click='removeTiming(day, $index, offer.actions.reward.reward_hours)' ng-init='initalizeTiming(day, $index, offer.actions.reward.reward_hours)'>
                                                                 <button class='btn btn-sm btn-danger pull-right'><i class='fa fa-trash-o'></i></button>
                                                             </div>
                                                             <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings[$index]'>
@@ -588,8 +588,8 @@
                                             <div ng-if='offer.actions.reward.reward_meta.reward_type=="reduced"'>
                                                 Get
                                                 <span class='label label-success'>{{offer.actions.reward.reward_meta.what}}</span> worth
-                                                <span class='label label-success'>{{'Rs.' + offer.actions.reward.reward_meta.worth}}</span> for just
-                                                <span class='label label-success'>{{'Rs.' + offer.actions.reward.reward_meta.for_what}}</span>
+                                                <span class='label label-success'><i class='fa fa-inr'></i>&nbsp;{{offer.actions.reward.reward_meta.worth}}</span> for just
+                                                <span class='label label-success'><i class='fa fa-inr'></i>&nbsp;{{offer.actions.reward.reward_meta.for_what}}</span>
                                             </div>
                                             <div ng-if='offer.actions.reward.reward_meta.reward_type=="custom"'>
                                                 <label class='control-label'>{{offer.actions.reward.reward_meta.title}}</label>
@@ -597,7 +597,7 @@
                                             <div ng-if='offer.actions.reward.reward_meta.reward_type=="unlimited"'>
                                                 Unlimited
                                                 <span class='label label-success'>{{offer.actions.reward.reward_meta.item}}</span> for
-                                                <span class='label label-success'>{{'Rs.' + offer.actions.reward.reward_meta.conditions}}</span>
+                                                <span class='label label-success'><i class='fa fa-inr'></i>&nbsp;{{offer.actions.reward.reward_meta.conditions}}</span>
                                             </div>
                                             <div ng-if='offer.actions.reward.reward_meta.reward_type=="onlyhappyhours"'>
                                                 During happy hours get
@@ -607,12 +607,12 @@
                                             <div ng-if='offer.actions.reward.reward_meta.reward_type=="combo"'>
                                                 Combo of
                                                 <span class='label label-default'>{{offer.actions.reward.reward_meta.items}}</span> for just
-                                                <span class='label label-default'>{{'Rs.' + offer.actions.reward.reward_meta._for}}</span>
+                                                <span class='label label-default'><i class='fa fa-inr'></i>&nbsp;{{offer.actions.reward.reward_meta._for}}</span>
                                             </div>
                                             <div ng-if='offer.actions.reward.reward_meta.reward_type=="buffet"'>
                                                 Buffet
                                                 <span class='label label-success'>{{offer.actions.reward.reward_meta.title}}</span> at
-                                                <span class='label label-success'>{{'Rs.' + offer.actions.reward.reward_meta.cost}}</span>
+                                                <span class='label label-success'><i class='fa fa-inr'></i>&nbsp;{{offer.actions.reward.reward_meta.cost}}</span>
                                             </div>
                                         </div>
                                         <div ng-if='offer.offer_type==="checkin"'>

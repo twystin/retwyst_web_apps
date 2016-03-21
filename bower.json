@@ -10,7 +10,7 @@
     "angular-aria": "1.4.1",
     "angular-bootstrap": "0.12.0",
     "angular-cookies": "1.4.1",
-    "angular-google-maps": "2.1.5",
+    "angular-google-maps": "2.3.2",
     "angular-loading-bar": "0.8.0",
     "angular-material": "0.10.0",
     "angular-moment": "0.10.1",
@@ -57,7 +57,14 @@
     "angular-route": "1.4.1",
     "ngSweetAlert": "angular-sweetalert#~1.1.0",
     "faye-client": "~1.1.2",
-    "angular-notification": "~1.1.1"
+    "angular-notification": "~1.1.1",
+    "oclazyload": "~1.0.9",
+    "jquery-migrate": "^1.2.1",
+    "smoothscroll-for-websites": "^1.4.2",
+    "PACE": "pace#^1.0.2",
+    "modernizr": "^3.3.1",
+    "simple-line-icons": "^2.2.3",
+    "owl.carousel": "owl-carousel2#^2.0.0-beta.3"
   },
   "resolutions": {
     "lodash": "3.9.3"

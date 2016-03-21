@@ -17,8 +17,19 @@
                 </li>
             </ul>
             <ul class='nav navbar-nav nav-right pull-right list-unstyled'>
-                <li>
-                    <a class='btn btn-link' ng-click='logout()'><span class='text-primary'><i class='fa fa-lg fa-sign-out'></i> &nbsp; Logout</span></a>
+                <li role='presentation' class='dropdown'>
+                    <a class='btn btn-link dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+                       <span class='text-primary'> Hi, {{user}} <span class='caret'></span></span>
+                    </a>
+                    <ul class='dropdown-menu' style='left:-20px;'>
+                        <li>
+                            <a class='btn btn-link'><span class='text-default'>&nbsp;Change Password</span></a>
+                        </li>
+                        <li class='divider'></li>
+                        <li>
+                            <a class='btn btn-link' ng-click='logout()'><span class='text-default'><i class='fa fa-lg fa-sign-out'></i> &nbsp; Logout</span></a>
+                        </li>
+                    </ul>
                 </li>
                 <li>&nbsp;</li>
             </ul>
@@ -29,44 +40,50 @@
     <aside id='nav-container' class='nav-container nav-fixed nav-vertical' ng-if='token'>
         <div class='nav-wrapper' style='overflow-x: auto;'>
             <ul id='nav' class='nav' data-collapse-nav data-highlight-active>
-                <li ng-if='role !== 2 && role !== "2"'>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.default" || current_state === "console.register_merchant"}'>
                     <a ui-sref='.default'> <i class='fa fa-dashboard'></i><span>MERCHANTS</span></a>
                 </li>
-                <li>
-                    <a ui-sref='.outlets_manage'> <i class='fa fa-map-marker'></i>OUTLETS</a>
+                <li ng-class='{active: current_state === "console.outlets_manage" || current_state === "console.outlets_view"}'>
+                    <a ui-sref='.outlets_manage'> <i class='fa fa-map-marker'></i><span>OUTLETS</span></a>
                 </li>
-                <li>
-                    <a ui-sref='.offers_manage'> <i class='fa fa-gift'></i>OFFERS</a>
+                <li ng-class='{active: current_state === "console.offers_manage" || current_state === "console.offers_view"}'>
+                    <a ui-sref='.offers_manage'> <i class='fa fa-gift'></i><span>OFFERS</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"'>
-                    <a ui-sref='.bills_manage'> <i class='fa fa-file-text-o'></i>BILLS</a>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.bills_manage" || current_state === "console.bills_view"}'>
+                    <a ui-sref='.bills_manage'> <i class='fa fa-file-text-o'></i><span>BILLS</span></a>
                 </li>
-                <li ng-if='role === 2 || role === "2"'>
-                    <a ui-sref='.menus_manage'> <i class='fa fa-code'></i>MENUS</a>
+                <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.menus_create" || current_state === "console.menus_manage" || current_state === "console.menus_edit" || current_state === "console.menus_view"}'>
+                    <a ui-sref='.menus_manage'> <i class='fa fa-code'></i><span>MENUS</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"'>
-                    <a ui-sref='.suggested_outlets_manage'> <i class='fa fa-code'></i>SUGGESTED OUTLETS</a>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.menus_create" || current_state === "console.suggested_outlets_manage"}'>
+                    <a ui-sref='.suggested_outlets_manage'> <i class='fa fa-code'></i><span>SUGGESTED OUTLETS</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"'>
-                    <a ui-sref='.suggested_offers_manage'> <i class='fa fa-code'></i>SUBMITTED OFFERS</a>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.suggested_offers_manage" || current_state === "console.suggested_offers_view"}'>
+                    <a ui-sref='.suggested_offers_manage'> <i class='fa fa-code'></i><span>SUBMITTED OFFERS</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"'>
-                    <a ui-sref='.user_feedbacks_manage'> <i class='fa fa-code'></i>USER FEEDBACK</a>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.user_feedbacks_manage"}'>
+                    <a ui-sref='.user_feedbacks_manage'> <i class='fa fa-code'></i><span>USER FEEDBACK</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"'>
-                    <a ui-sref='.write_to_twysts_manage'> <i class='fa fa-code'></i>WRITE TO TWYST</a>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.write_to_twysts_manage"}'>
+                    <a ui-sref='.write_to_twysts_manage'> <i class='fa fa-code'></i><span>WRITE TO TWYST</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"'>
-                    <a ui-sref='.reported_problems_manage'> <i class='fa fa-code'></i>REPORTED PROBLEMS</a>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.reported_problems_manage"}'>
+                    <a ui-sref='.reported_problems_manage'> <i class='fa fa-code'></i><span>REPORTED PROBLEMS</span></a>
                 </li>
-                <li>
-                    <a ui-sref='.bulk_checkin'> <i class='fa fa-code'></i>BULK CHECKIN</a>
+                <li ng-class='{active: current_state === "console.bulk_checkin"}'>
+                    <a ui-sref='.bulk_checkin'> <i class='fa fa-code'></i><span>BULK CHECKIN</span></a>
                 </li>
-                <li>
-                    <a ui-sref='.orders_manage'> <i class='fa fa-code'></i>ORDERS</a>
+                <li ng-class='{active: current_state === "console.orders_manage" ||  current_state === "console.orders_view"}'>
+                    <a ui-sref='.orders_manage'> <i class='fa fa-code'></i><span>ORDERS</span></a>
                 </li>
-                <li ng-if='role === 2 || role === "2"'>
-                    <a ui-sref='.menu_update_requests_manage'> <i class='fa fa-code'></i>MENU REQUESTS</a>
+                <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.menu_update_requests_manage"}'>
+                    <a ui-sref='.menu_update_requests_manage'> <i class='fa fa-code'></i><span>MENU REQUESTS</span></a>
+                </li>
+                <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.cashback_offers_manage" || current_state === "console.cashback_offers_create" || current_state === "console.cashback_offers_edit"}'>
+                    <a ui-sref='.cashback_offers_manage'> <i class='fa fa-code'></i><span>CASHBACK OFFERS</span></a>
+                </li>
+                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.test_payment"}'>
+                    <a ui-sref='.test_payment'> <i class='fa fa-code'></i><span>Test Payment</span></a>
                 </li>
             </ul>
         </div>

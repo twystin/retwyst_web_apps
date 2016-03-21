@@ -1,0 +1,71 @@
+<div class='modal-header'>
+    <span size='size-h2'>Item Availability Info</span>
+</div>
+<div class='modal-body'>
+    <form class='form-horizontal' role='form'>
+        <div class='form-group'>
+            <label class='col-sm-2 control-label'>Start Date</label>
+            <div class='col-sm-8'>
+                <input type='date' ng-model='item.item_availability.start_date'>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-2 control-label'>End Date</label>
+            <div class='col-sm-8'>
+                <input type='date' ng-model='item.item_availability.end_date'>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-2 control-label'>Days Available&nbsp;<i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-10'>
+                <div class='btn-group'>
+                    <label class='btn' ng-repeat='day in days' ng-class='{"btn-primary": check_days[day], "btn-default": check_days[day]}' ng-model='check_days[day]' btn-checkbox>{{day | uppercase}}</label>
+                </div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-2 control-label'>Available Hours&nbsp;<i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-10 table-responsive'>
+                <table class='table table-bordered table-condensed'>
+                    <thead>
+                        <th>Day</th>
+                        <th>Is Available?</th>
+                        <th ng-repeat='i in getMaxRange() track by $index'>Timing #{{$index+1}}</th>
+                        <th>Add Timing</th>
+                        <th>Apply to all days</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='day in days'>
+                            <th>{{day | uppercase}}</th>
+                            <td>
+                                <input bs-switch type='checkbox' ng-model='item.item_availability.available_hours[day].closed' switch-off-text='YES' switch-on-text='NO' switch-on-color='danger' switch-off-color='success' ng-change='updateTiming(day, item.item_availability.available_hours)'>
+                            </td>
+                            <td ng-repeat='i in getMaxRange() track by $index'>
+                                <div class='col-xs-12' ng-if='item.item_availability.available_hours[day].timings.length && item.item_availability.available_hours[day].timings[$index]' ng-click='removeTiming(day, $index, item.item_availability.available_hours)' ng-show='item.item_availability.available_hours[day].timings.length>1' ng-init='initializeTiming(day, $index, item.item_availability.available_hours)'>
+                                    <button class='btn btn-sm btn-danger pull-right'><i class='fa fa-trash-o'></i></button>
+                                </div>
+                                <div class='col-xs-12' ng-if='item.item_availability.available_hours[day].timings[$index]'>
+                                    <input type='time' ng-model='item.item_availability.available_hours[day].timings[$index].open.time' placeholder='HH:MM A/P' class='form-control' ng-change='updateTime(day, $index, item.item_availability.available_hours)'>
+                                </div>
+                                <div class='col-xs-12 text-center' ng-if='item.item_availability.available_hours[day].timings[$index]'> to </div>
+                                <div class='col-xs-12' ng-if='item.item_availability.available_hours[day].timings[$index]'>
+                                    <input type='time' ng-model='item.item_availability.available_hours[day].timings[$index].close.time' placeholder='HH:MM A/P' class='form-control' ng-change='updateTime(day, $index, item.item_availability.available_hours)'>
+                                </div>
+                            </td>
+                            <td>
+                                <button type='button' class='btn btn-sm btn-default' ng-click='addNewTiming(day, item.item_availability.available_hours)' ng-show='!item.item_availability.available_hours[day].closed'><i class='fa fa-sm fa-plus'></i> Add Timing</button>
+                            </td>
+                            <td>
+                                <button type='button' class='btn btn-sm btn-default' ng-click='cloneToAllDays(day, item.item_availability.available_hours)'>Apply to all days</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<div class='modal-footer'>
+    <button type='button' class='btn btn-w-md btn-gap-v btn-primary' ng-click='resolveChanges()'>Confirm</button>
+    <button type='button' class='btn btn-w-md btn-gap-v btn-warning' ng-click='discardChanges()'>Discard</button>
+</div>

@@ -1,0 +1,136 @@
+<div class='modal-header'>
+    <span class='size-h2' ng-if='is_new'>Add New Offer</span>
+    <span class='size-h2' ng-if='!is_new'>Update Offer</span>
+</div>
+<div class='modal-body'>
+    <form class='form-horizontal' role='form'>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Offer Type <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <select ng-model='cashback_offer.offer_type' class='form-control'>
+                    <option value='' ng-if='!cashback_offer.offer_type'>Choose an Offer Type</option>
+                    <option value='gift_card'>Gift Card</option>
+                    <option value='coupon'>Coupon</option>
+                </select>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Available Count<i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <div class='input-group'>
+                    <input type='number' ng-model='cashback_offer.offer_voucher_count' class='form-control text-right'>
+                </div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Offer Value </label>
+            <div class='col-sm-5'>
+                <input type='text' ng-model='cashback_offer.offer_value' class='form-control'>
+                <div class='help-block'>user saving in rupees </div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Minimum Bill Value</label>
+            <div class='col-sm-5'>
+                <input type='text' ng-model='cashback_offer.min_bill_value' class='form-control'>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Offer Text <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <input type='text' ng-model='cashback_offer.offer_text' class='form-control'>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Offer Tnc <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <input type='text' ng-model='cashback_offer.offer_tnc' class='form-control'>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Offer Cost <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <input type='number' ng-model='cashback_offer.offer_cost' class='form-control'>
+                <div class='help-block'>Cost above is in <strong>Twyst Bucks</strong></div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Processing Fee <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <input type='number' ng-model='cashback_offer.offer_processing_fee' class='form-control'>
+                <div class='help-block'>Above cost is in <strong>Twyst Bucks</strong></div>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Offer Status</label>
+            <div class='col-sm-5'>
+                <select ng-model='cashback_offer.offer_status' class='form-control'>
+                    <option value='draft'>Draft</option>
+                    <option value='active'>Active</option>
+                    <option value='archived'>Archived</option>
+                </select>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Start Date <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <datepicker ng-model='cashback_offer.offer_start_date'  show-weeks='true' class='well well-sm'></datepicker>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>End Date <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-5'>
+                <datepicker ng-model='cashback_offer.offer_end_date'  show-weeks='true' class='well well-sm'></datepicker>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label class='col-sm-3 control-label'>Applicability <i class='fa fa-sm fa-asterisk'></i></label>
+            <div class='col-sm-9 table-responsive'>
+                <table class='table table-bordered table-condensed'>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Is Closed?</th>
+                            <th ng-repeat='i in getMaxRange() track by $index'>Timing #{{$index + 1}}</th>
+                            <th>Add Timing</th>
+                            <th>Apply to all days</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='day in days'>
+                            <th>{{day | uppercase}}</th>
+                            <td>
+                                <input bs-switch type='checkbox' ng-model='cashback_offer.offer_applicability[day].closed' switch-off-text='Open' switch-on-text='Close' switch-on-color='danger' switch-off-color='success' ng-change='updateTiming(day, cashback_offer.offer_applicability)'>
+                            </td>
+                            <td ng-repeat='i in getMaxRange() track by $index'>
+                                <div class='col-sm-12' ng-if='cashback_offer.offer_applicability[day].timings.length && cashback_offer.offer_applicability[day].timings[$index]' ng-click='removeTiming(day, $index, cashback_offer.offer_applicability)' ng-show='cashback_offer.offer_applicability[day].timings.length>1' ng-init='initalizeTiming(day, $index, cashback_offer.offer_applicability)'>
+                                    <button class='btn btn-sm btn-danger pull-right'><i class='fa fa-trash-o'></i></button>
+                                </div>
+                                <div class='col-sm-12' ng-if='cashback_offer.offer_applicability[day].timings[$index]'>
+                                    <input type='time' ng-model='cashback_offer.offer_applicability[day].timings[$index].open.time' placeholder='HH:MM A/P' class='form-control' ng-change='updateTime(day, $index, cashback_offer.offer_applicability)'>
+                                </div>
+                                <div class='col-sm-12 text-center' ng-if='cashback_offer.offer_applicability[day].timings[$index]'> to </div>
+                                <div class='col-sm-12' ng-if='cashback_offer.offer_applicability[day].timings[$index]'>
+                                    <input type='time' ng-model='cashback_offer.offer_applicability[day].timings[$index].close.time' placeholder='HH:MM A/P' class='form-control' ng-change='updateTime(day, $index, cashback_offer.offer_applicability)'>
+                                </div>
+                            </td>
+                            <td>
+                                <button type='button' class='btn btn-sm btn-default' ng-click='addNewTiming(day, cashback_offer.offer_applicability)' ng-show='!cashback_offer.offer_applicability[day].closed'><i class='fa fa-sm fa-plus'></i>&nbsp;Add Timing</button>
+                            </td>
+                            <td>
+                                <button type='button' class='btn btn-sm btn-default' ng-click='cloneToAllDays(day, cashback_offer.offer_applicability)'>Apply to all days.</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<div class='modal-footer'>
+    <button type='button' class='btn btn-w-md btn-gap-v btn-primary' ng-click='resolveOffer()'>
+        <span ng-if='is_new'><i class='fa fa-plus'></i> Add Offer</span>
+        <span ng-if='!is_new'>&nbsp;Update Offer</span>
+    </button>
+    <button type='button' class='btn btn-w-md btn-gap-v btn-warning' ng-click='discardOffer()'>Cancel</button>
+</div>

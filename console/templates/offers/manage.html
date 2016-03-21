@@ -86,8 +86,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat='offer in current_page_offers' ui-sref='^.offers_view({offer_id: offer._id})' style='cursor:pointer;'>
-                            <td>{{offer.outlet.name}}</td>
+                        <tr ng-repeat='offer in current_page_offers'>
+                            <td ui-sref='^.offers_view({offer_id: offer._id})' style='cursor:pointer;'>{{offer.outlet.name}}</td>
                             <td>{{offer.outlet.loc1}}</td>
                             <td>{{offer.outlet.loc2}}</td>
                             <td>{{offer.offer_type}}</td>

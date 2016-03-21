@@ -1,28 +1,87 @@
-angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$state', '$q', '$modal', '$rootScope', 'ngAudio', '$notification',
-    function($scope, merchantRESTSvc, SweetAlert, $state, $q, $modal, $rootScope, ngAudio, $notification) {
-        $scope.showing = "pending";
-        $scope.show_checkin = false;
+angular.module('merchantApp').controller('OrderManageController', ['$scope', 'merchantRESTSvc', 'SweetAlert', '$rootScope', '$cookies', '$notification', '$stateParams',
+    function($scope, merchantRESTSvc, SweetAlert, $rootScope, $cookies, $notification, $stateParams) {
+        $scope.showing;
+
+        if(!$stateParams.show) {
+            $scope.showing = "PENDING"
+        } else if ($stateParams.show === 'accept') {
+            $scope.showing = "ACCEPTED";
+        }else if ($stateParams.show === 'assumed_delivered') {
+            $scope.showing = "ASSUMED_DELIVERED";
+        } else if ($stateParams.show === 'reject') {
+            $scope.showing = "REJECTED";
+        } else if ($stateParams.show === 'dispatch') {
+            $scope.showing = "DISPATCHED";
+        } else {
+            $scope.showing = "PENDING";
+        }
+
+        $scope.current_order = -1;
+
+        $scope.reject_reasons = [
+            'Reason 1',
+            'Reason 2',
+            'Reason 3',
+            'Reason 4'
+        ];
+
+        $scope.faye_handler = function(message) {
+            console.log('faye message', message);
+            merchantRESTSvc.getOrder(message.order_id).then(function(res) {
+                $rootScope.notification_count += 1;
+
+                if (!$rootScope.sound.is_playing) {
+                    $rootScope.sound.is_playing = true;
+                    $rootScope.sound.play();
+                };
+
+                var notification = $notification('New Order', {
+                    body: (message.message) || 'You have an order',
+                    delay: 0,
+                    dir: 'auto'
+                });
+
+                notification.$on('click', function() {
+                    console.debug('The user has clicked in my notification.');
+                    $scope.orders.push(res.data);
+                    $scope.updateShowing('pending');
+                    notification.close();
+                });
+
+                notification.$on('close', function() {
+                    console.debug('The user has closed my notification.');
+                    notification.close();
+                    $rootScope.notification_count -= 1;
+                    if (!$rootScope.notification_count) {
+                        $rootScope.sound.stop();
+                        $rootScope.sound.is_playing = false;
+                    }
+                    $scope.updateShowing('PENDING');
+                });
+            }, function(err) {
+                console.log('unable to load order', err);
+            });
+        };
+
+        $rootScope.setHandler($scope.faye_handler);
 
         $scope.updateShowing = function(text) {
             $scope.showing = text;
+            $scope.order = {};
             $scope.filterOrders();
+            $scope.getOrders();
         };
 
-        $scope.maxDate = new Date();
-        $scope.minDate = new Date($scope.maxDate.getTime() - (7 * 24 * 60 * 60 * 1000));
-
-        $scope.checkin = {
-            date: new Date()
+        $scope.updateSub = function(outlet_id) {
+            $rootScope.subscribeOutlet(outlet_id);
+            $scope.getOrders();
         };
-
-        $scope.search = {};
-
-        $scope.choosen_outlet;
 
         merchantRESTSvc.getOutlets().then(function(res) {
+            console.log('res', res);
             $scope.outlets = _.indexBy(res.data, '_id');
-            if (Object.keys($scope.outlets).length) {
-                $scope.choosen_outlet = res.data[0]._id;
+            $scope.subscribed_outlet = $rootScope.subscribed_outlet;
+            if (res.data.length) {
                 $scope.getOrders();
             }
         }, function(err) {
@@ -33,63 +92,8 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
         $scope.orders = [];
         $scope.filtered_orders = [];
 
-        $scope.$watchCollection('choosen_outlet', function(newVal, oldVal) {
-            if (!newVal) {
-                return;
-            }
-
-            if (newVal !== oldVal && oldVal !== undefined) {
-                $rootScope.faye.unsubscribe('/' + oldVal);
-            }
-
-            $rootScope.faye.subscribe('/' + newVal, function(message) {
-                $scope.$apply(function() {
-                    $rootScope.sound.play();
-                    var notification = $notification('New Order', {
-                        body: (message.text && message.text.message) || 'You have a new order',
-                        delay: 900000,
-                        dir: 'auto'
-                    });
-
-                    notification.$on('click', function() {
-                        console.debug('The user has clicked in my notification.');
-                        merchantRESTSvc.getOrder(message.text && message.text.order_id)
-                            .then(function(res) {
-                                $scope.orders.push(res.data);
-                                var modalInstance = $modal.open({
-                                    animation: true,
-                                    templateUrl: 'templates/partials/view_order.tmpl.html',
-                                    controller: 'OrderViewController',
-                                    size: 'lg',
-                                    resolve: {
-                                        order: function() {
-                                            return res.data;
-                                        }
-                                    }
-                                });
-
-                                modalInstance.result.then(function(order) {
-                                    $scope.orders[$scope.orders.length - 1] = order;
-                                    $scope.filterOrders();
-                                });
-                            }, function(err) {
-                                console.log(err);
-                            });
-                        notification.close();
-                        $rootScope.sound.stop();
-                    });
-
-                    notification.$on('close', function() {
-                        console.debug('The user has closed my notification.');
-                        notification.close();
-                        $rootScope.sound.stop();
-                    });
-                });
-            });
-        });
-
         $scope.getOrders = function() {
-            merchantRESTSvc.getOrders($scope.choosen_outlet).then(function(res) {
+            merchantRESTSvc.getOrders($rootScope.subscribed_outlet).then(function(res) {
                 console.log(res);
                 $scope.orders = res.data;
                 $scope.filterOrders();
@@ -104,81 +108,27 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             });
         };
 
-
-        $scope.orders.push({
-            "_id": "56794462b6a6a6231406f320",
-            "outlet": "5316d59326b019ee59000026",
-            "order_number": "TWCG1-1115-KL5X",
-            "order_value_without_offer": 500,
-            "order_value_with_offer": 400,
-            "order_actual_cost": 400,
-            "amount_paid": 400,
-            "tax_paid": 12,
-            "cash_back": 20,
-            "delivery_charge": 0,
-            "estimate_time": 30,
-            "order_status": "pending",
-            "user": {
-                "_id": "5493e99cc9c13a127929fcaf",
-                "email": "hemantwadhwa47@gmail.com",
-                "phone": "7838250206"
-            },
-            "items": [{
-                "item_id": "56740f13b6188687102c8be4",
-                "item_name": "Veg Calzone",
-                "item_description": "",
-                "item_photo": "",
-                "item_tags": ["calzone"],
-                "item_cost": 135,
-                "_id": "56794462b6a6a6231406f321",
-                "addons": [],
-                "item_quantity": 2,
-                "option_id": "5673fd82b6188687102c8b71",
-                "option": "6 inch",
-                "option_cost": 177,
-                "sub_options": [{
-                    "_id": "5673fd82b6188687102c8b72",
-                    "sub_option_title": "Options",
-                    "sub_option_set": [{
-                        "_id": "56740f13b6188687102c8be2",
-                        "sub_option_value": "Chicken Keema Khaasa",
-                        "is_vegetarian": false,
-                        "sub_option_cost": 0
-                    }]
-                }],
-            }],
-            "is_favourite": false,
-            "order_date": "2015-12-22T12:38:42.729Z",
-            "address": {
-                "line1": "A 5/16",
-                "line2": "DLF Phase 1",
-                "landmark": "Kutubplaza",
-                "pin": 123456,
-                "city": "Gurgaon",
-                "state": "Haryana",
-                "delivery_zone": "zone1",
-                "tags": "office",
-                "coords": {
-                    "lat": "744112",
-                    "long": "123456"
-                }
-            },
-            "payment_info": {
-                "mode": "cod"
-            },
-            "__v": 0
-        });
-
         $scope.getItemPrice = function(item) {
             var total_price = 0;
-            if (!item.option) {
+            if (!(item.option && item.option._id)) {
                 return item.item_cost;
             } else {
-                total_price += item.option_cost;
-                if (item.sub_options && item.sub_options.length) {
-                    for (var i = 0; i < item.sub_options.length; i++) {
-                        total_price += item.sub_options[i].sub_option_set[0].sub_option_cost;
-                    }
+                total_price += item.option.option_cost;
+                if (item.option_is_addon === true || item.option_price_is_additive === true) {
+                    total_price += item.item_cost;
+                }
+                
+                if (item.option.sub_options && item.option.sub_options.length) {
+                    _.each(item.option.sub_options, function(sub_option) {
+                        total_price += sub_option.sub_option_set[0].sub_option_cost;
+                    });
+                }
+                if (item.option.addons && item.option.addons.length) {
+                    _.each(item.option.addons, function(addon) {
+                        _.each(addon.addon_set, function(addon_obj) {
+                            total_price += addon_obj.addon_cost;
+                        });
+                    });
                 }
                 return total_price;
             }
@@ -192,164 +142,105 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             return (order.order_value_without_offer - order.order_value_with_offer) + (order.order_value_with_offer * (order.cash_back / 100));
         }
 
-        $scope.checkinUser = function() {
-            if (!$scope.checkin || !$scope.checkin.number) {
-                SweetAlert.swal('Number required', 'Please enter the customer\'s mobile number', 'warning');
-            } else if (!/^[0-9]{10}$/.test($scope.checkin.number)) {
-                SweetAlert.swal('Invalid number!', 'Number entered is invalid. Please recheck', 'warning');
-            } else {
-                $scope.checking_in = true;
-                var req_obj = {
-                    event_meta: {
-                        phone: $scope.checkin.number
-                    },
-                    event_outlet: $scope.choosen_outlet
-                };
-                if ($scope.checkin.date) {
-                    var today = new Date();
-                    $scope.checkin.date.setHours(today.getHours());
-                    $scope.checkin.date.setMinutes(today.getMinutes());
-                    req_obj.event_date = $scope.checkin.date;
-                    req_obj.event_meta.date = new Date();
-                }
-                merchantRESTSvc.checkinUser(req_obj)
-                    .then(function(res) {
-                        $scope.checking_in = false;
-                        $scope.checkin.number = '';
-                        if (!_.has(res, 'data.checkins_to_go')) {
-                            SweetAlert.swal({
-                                title: 'Checkin successful',
-                                text: 'Customer has also unlocked a new voucher',
-                                type: 'success'
-                            }, function(confirm) {
-                                if (confirm) {
-                                    $modal.open({
-                                        animation: true,
-                                        templateUrl: 'templates/partials/panel.voucher.tmpl.html',
-                                        size: 'lg',
-                                        controller: 'PanelVoucherController',
-                                        resolve: {
-                                            vouchers: function() {
-                                                return [data.data];
-                                            },
-                                            outlet: function() {
-                                                return $scope.choosen_outlet;
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            SweetAlert.swal('Checkin successful', '', 'success');
-                        }
-                    }, function(err) {
-                        $scope.checking_in = false;
-                        $scope.checkin.number = '';
-                        var error_msg;
-                        if (err.data.indexOf('-') === -1) {
-                            error_msg = err.data;
-                        } else {
-                            error_msg = err.data.slice(err.data.indexOf('-') + 2)
-                        }
-                        SweetAlert.swal('ERROR', error_msg, 'error');
-                    });
-            }
-        }
-
-        $scope.getVoucherByCode = function() {
-            console.log($scope.search);
-            if (!$scope.search.code || $scope.search.code.length !== 6) {
-                SweetAlert.swal('Missing/Invalid Voucher Code', 'Please provide a valid voucher code to search', 'error');
-            } else {
-                $scope.searchingByCode = true;
-                merchantRESTSvc.getVoucherByCode($scope.choosen_outlet, $scope.search.code)
-                    .then(function(data) {
-                        $scope.searchingByCode = false;
-                        $scope.search = {};
-                        if (data.data) {
-                            // show voucher in modal
-                            $modal.open({
-                                animation: true,
-                                templateUrl: 'templates/partials/panel.voucher.tmpl.html',
-                                size: 'lg',
-                                controller: 'PanelVoucherController',
-                                resolve: {
-                                    vouchers: function() {
-                                        return [data.data];
-                                    },
-                                    outlet: function() {
-                                        return $scope.choosen_outlet;
-                                    }
-                                }
-                            });
-                            console.log(data);
-                        } else {
-                            SweetAlert.swal('Not Found', 'No active voucher found with that code', 'warning');
-                        }
-                    }, function(err) {
-                        $scope.searchingByCode = false;
-                        SweetAlert.swal('Error', err.message ? err.message : 'Something went wrong', 'error');
-                    });
-            }
-        }
-
-        $scope.getVouchersByPhone = function() {
-            if (!$scope.search || !$scope.search.number) {
-                SweetAlert.swal('Missing number', 'Please enter the customer\'s number to search', 'warning');
-            } else if (!/^[0-9]{10}$/.test($scope.search.number)) {
-                SweetAlert.swal('Invalid number', 'Phone number entered is invalid. Please recheck', 'error');
-            } else {
-                $scope.seachingByPhone = true;
-                merchantRESTSvc.getVouchersByPhone($scope.choosen_outlet, $scope.search.number)
-                    .then(function(data) {
-                        $scope.seachingByPhone = false;
-                        $scope.search = {};
-                        if (!data.data.length) {
-                            SweetAlert.swal('No active vouchers', 'No active vouchers found for the customer');
-                        } else {
-                            $modal.open({
-                                animation: true,
-                                templateUrl: 'templates/partials/panel.voucher.tmpl.html',
-                                size: 'lg',
-                                controller: 'PanelVoucherController',
-                                resolve: {
-                                    vouchers: function() {
-                                        return data.data;
-                                    },
-                                    outlet: function() {
-                                        return $scope.choosen_outlet;
-                                    }
-                                }
-                            });
-                            console.log(data);
-                        }
-                    }, function(err) {
-                        $scope.seachingByPhone = false;
-                        SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong', 'error');
-                    });
-            }
-        }
-
         $scope.viewOrder = function(order, index) {
-            if (order.order_status === 'accepted') {
-                order.end_time = new Date(order.order_date).getTime() + (order.estimate_time * 60 * 1000);
-            }
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: 'templates/partials/view_order.tmpl.html',
-                controller: 'OrderViewController',
-                size: 'lg',
-                resolve: {
-                    order: function() {
-                        return order;
+            $scope.order = order;
+            $scope.current_order = index;
+        };
+
+        $scope.acceptOrder = function() {
+            var updated_order = _.cloneDeep($scope.order);
+            updated_order.update_type = 'accept';
+            updated_order.order_id = $scope.order._id;
+            updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
+            SweetAlert.swal({
+                title: 'Estimate Time?',
+                text: 'Provide an estimate time for delivery - in minutes.',
+                type: 'input',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: 'slide-from-top'
+            }, function(inputValue) {
+                var estimate_time;
+
+                if (!inputValue) {
+                    swal.showInputError('Estimate delivery time (in mins.) required');
+                    return false;
+                } else {
+                    try {
+                        estimate_time = Number(inputValue);
+                        if (estimate_time === estimate_time) {
+                            updated_order.estimate_time = estimate_time;
+                            merchantRESTSvc.updateOrder(updated_order).then(function(res) {
+                                console.log(res);
+                                $scope.order = res.data;
+                                $scope.orders[$scope.current_order] = $scope.order;
+                                SweetAlert.swal('SUCCESS', res.message, 'success');
+                                $scope.filterOrders();
+                            }, function(err) {
+                                console.log(err);
+                                SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
+                            });
+                        } else {
+                            swal.showInputError('Valid estimate delivery time(in minutes) required');
+                            return false;
+                        }
+                    } catch (e) {
+                        swal.showInputError('Valid estimate delivery time(in minutes) required');
+                        return false
                     }
                 }
             });
+        };
 
-            modalInstance.result.then(function(order) {
-                $scope.orders[index] = order;
-                $scope.filterOrders();
+        $scope.showReject = function() {
+            $scope.show_reject_msg = true;
+        };
+
+        $scope.rejectOrder = function(reason) {
+            var updated_order = _.cloneDeep($scope.order);
+            updated_order.update_type = 'reject';
+            updated_order.order_id = $scope.order._id;
+            updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
+            SweetAlert.swal({
+                title: 'Are you sure?',
+                text: 'This is an irreversible change. Do you still want to proceed?',
+                type: 'warning',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: 'slide-from-top'
+            }, function(confirm) {
+                if (confirm) {
+                    updated_order.reject_reason = reason;
+                    merchantRESTSvc.updateOrder(updated_order).then(function(res) {
+                        console.log('ordr rejected');
+                        $scope.order = res.data;
+                        $scope.orders[$scope.current_order] = $scope.order;
+                        SweetAlert.swal('SUCCESS', res.message, 'info');
+                        $scope.filterOrders();
+                    }, function(err) {
+                        console.log(err);
+                        SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
+                    });
+                    return true;
+                }
             });
         };
+
+        $scope.dispatchOrder = function() {
+            var updated_order = _.cloneDeep($scope.order);
+            updated_order.update_type = 'dispatch';
+            updated_order.order_id = $scope.order._id;
+            updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
+            merchantRESTSvc.updateOrder(updated_order).then(function(res) {
+                $scope.order = res.data;
+                $scope.orders[$scope.current_order] = $scope.order;
+                SweetAlert.swal('SUCCESS', res.message, 'success');
+                $scope.filterOrders();
+            }, function(err) {
+                console.log(err);
+                SweetAlert.swal('ERROR', err.message ? err.message : 'Something went wrong. Please try after sometime.', 'error');
+            });
+        };
+
     }
 ]);

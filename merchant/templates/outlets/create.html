@@ -8,7 +8,7 @@
                 </div>
                 <div class='panel-body'>
                     <wizard on-finish='createOutlet()'>
-                        <wz-step title='Outlet Basics' canexit='validateStep1'>
+                        <wz-step title='Outlet Basics' canexit=''>
                             <div class='well well-lg'>
                                 <form class='form-horizontal' role='form'>
                                     <legend>Outlet Info</legend>
@@ -206,6 +206,12 @@
                                         <div class='col-md-6' ng-class='{"has-error": formFailure && !outlet.basics.account_mgr_email}'>
                                             <input type='email' required class='form-control' ng-model='outlet.basics.account_mgr_email'>
                                         </div>
+                                        <label class='col-md-2 control-label'>
+                                            Phone <i class='fa fa-sm fa-asterisk'></i>
+                                        </label>
+                                        <div class='col-md-6' ng-class='{"has-error": formFailure && !outlet.basics.account_mgr_phone}'>
+                                            <input type='number' required class='form-control' ng-model='outlet.basics.account_mgr_phone'>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -350,92 +356,10 @@
                                             <input class='form-control' ng-model='newCuisine' ng-list placeholder='Add cuisine...' typeahead="cuisine for cuisine in cuisines | filter:$viewValue | limitTo:8" typeahead-on-select="addCuisine(newCuisine)" />
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div class='well well-lg'>
-                                <form class='form-horizontal' role='form'>
-                                    <legend>Commisssion & Cashback</legend>
                                     <div class='form-group'>
-                                        <label class='col-md-2 control-label'>Cashback <i class='fa fa-sm fa-asterisk'></i></label>
-                                        <div class='col-md-8'>
-                                            <div>
-                                                <label class='col-md-2 control-label'>Min <i class='fa fa-sm fa-asterisk'></i></label>
-                                                <div class='col-md-3'>
-                                                    <div class='input-group'>
-                                                        <input type='number' ng-model='outlet.twyst_meta.cashback.min' class='form-control'>
-                                                        <span class='input-group-addon'> % </span>
-                                                    </div>
-                                                </div>
-                                                <label class='col-md-2 control-label'>Max <i class='fa fa-sm fa-asterisk'></i></label>
-                                                <div class='col-md-3'>
-                                                    <div class='input-group'>
-                                                        <input type='number' ng-model='outlet.twyst_meta.cashback.max' class='form-control'>
-                                                        <span class='input-group-addon'> % </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class='form-group'>
-                                        <div class='col-md-offset-1 col-md-3'>
-                                            <input bs-switch type='checkbox' ng-model='outlet.twyst_meta.twyst_commission.is_fixed' switch-off-text='Variable' switch-on-text='Fixed' ng-change='updateCommission()'>
-                                        </div>
-                                        <label class='col-md-2 control-label' ng-if='outlet.twyst_meta.twyst_commission.is_fixed'>Fixed Commission <i class='fa fa-sm fa-asterisk'></i></label>
-                                        <div class='col-md-2' ng-if='outlet.twyst_meta.twyst_commission.is_fixed'>
-                                            <div class='input-group'>
-                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                <input type='number' ng-model='outlet.twyst_meta.twyst_commission.value' class='form-control'>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class='form-group' ng-if='!outlet.twyst_meta.twyst_commission.is_fixed'>
-                                        <label class='col-md-2 control-label'>Commission Slabs <i class='fa fa-sm fa-asterisk'></i></label>
-                                        <div class='clearfix'></div>
-                                        <div>&nbsp;</div>
-                                        <div class='col-md-offset-2 col-md-8'>
-                                            <button type='button' class='btn btn-primary' ng-click='addCommissionSlab()'><i class='fa fa-plus'></i> Add Slab</button>
-                                            <div>&nbsp;</div>
-                                            <table class='table table-hover table-bordered table-responsive'>
-                                                <thead>
-                                                    <tr>
-                                                        <th>S. No.</th>
-                                                        <th>From <i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th>Upto <i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th>Commission <i class='fa fa-sm fa-asterisk'></i></th>
-                                                        <th>Upper Bound</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat='slab in outlet.twyst_meta.twyst_commission.commission_slab track by $index'>
-                                                        <td class='text-right'>{{$index + 1}}</td>
-                                                        <td>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input type='number' ng-model='slab.start' class='form-control'>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input type='number' ng-model='slab.end' class='form-control' ng-disabled='!slab.has_upper_bound'>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class='input-group'>
-                                                                <span class='input-group-addon'><i class='fa fa-inr'></i></span>
-                                                                <input type='number' ng-model='slab.value' class='form-control'>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input bs-switch type='checkbox' ng-model='slab.has_upper_bound' switch-on-text='YES' switch-off-text='NO' class='form-control'>
-                                                        </td>
-                                                        <td>
-                                                            <button type='button' ng-if='outlet.twyst_meta.twyst_commission.commission_slab.length>1' ng-click='removeSlab($index)' class='btn btn-danger'><i class='fa fa-trash-o'></i></button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <label class='col-md-3 control-label'>Add outlet rating</label>
+                                        <div class='col-md-6'>
+                                            <input class='form-control' type='number' ng-model='outlet.twyst_meta.rating.value'>
                                         </div>
                                     </div>
                                 </form>
@@ -610,9 +534,62 @@
                                         <span class='label label-warning' ng-if='!outlet.attributes.alcohol'>Do Not Serve</span>
                                         <span class='label label-primary' ng-if='outlet.attributes.alcohol'>Serves</span>
                                         <h4>Cost for two: 
-                                            From: <span class='label label-primary'>Rs.{{outlet.attributes.cost_for_two.min}}</span> 
-                                            To:   <span class='label label-primary'>Rs.{{outlet.attributes.cost_for_two.max}}</span>
+                                            From: <span class='label label-primary'><i class='fa fa-inr'></i>&nbsp;{{outlet.attributes.cost_for_two.min}}</span> 
+                                            To:   <span class='label label-primary'><i class='fa fa-inr'></i>&nbsp;{{outlet.attributes.cost_for_two.max}}</span>
                                         </h4>
+                                        <h4><strong>Commission</strong></h4>
+                                        <span ng-if='outlet.twyst_meta.twyst_commission.is_fixed === true'>FIXED: 
+                                            <span class='label label-info'>{{outlet.twyst_meta.twyst_commission.value}}&</span>
+                                        </span>
+                                        <table class='table table-hover table-condensed table-striped' ng-if='outlet.twyst_meta.twyst_commission.is_fixed === false'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Start</th>
+                                                    <th>End</th>
+                                                    <th>Commission</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat='slab in outlet.twyst_meta.twyst_commission.commission_slab track by $index'>
+                                                    <td>{{slab.start}}</td>
+                                                    <td>{{slab.end}}</td>
+                                                    <td><span class='label label-info'>{{slab.value}}%</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <h4><strong>Cashback</strong></h4>
+                                        <table class='table table-hover table-condensed table-striped'>
+                                            <tr>
+                                                <th colspan='3'>Base Cashback</th>
+                                                <td class='text-right'>
+                                                    <span class='label label-info'>{{outlet.twyst_meta.cashback_info.base_cashback | number:2}}%</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan='3'>In-App Cashback</th>
+                                                <td class='text-right'>
+                                                    <span class='label label-info'>{{(outlet.twyst_meta.cashback_info.base_cashback * outlet.twyst_meta.cashback_info.in_app_ratio) | number:2}}&nbsp;%</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan='3'>COD Cashback</th>
+                                                <td class='text-right'>
+                                                    <span class='label label-info'>{{(outlet.twyst_meta.cashback_info.base_cashback * outlet.twyst_meta.cashback_info.cod_ratio) | number:2}}&nbsp;%</span>
+                                                </td>
+                                            </tr>
+                                            <tr ng-if='outlet.twyst_meta.cashback_info.order_amount_slab.length !== 0'>
+                                                <th class='text-center'>Start</th>
+                                                <th class='text-center'>End</th>
+                                                <th class='text-center'>Eff. In-App</th>
+                                                <th class='text-center'>Eff. COD</th>
+                                            </tr>
+                                            <tr ng-repeat='slab in outlet.twyst_meta.cashback_info.order_amount_slab'>
+                                                <td><i class='fa fa-inr'></i>&nbsp;{{slab.start}}</td>
+                                                <td><i class='fa fa-inr'></i>&nbsp;{{slab.end}}</td>
+                                                <td>{{(slab.ratio * outlet.twyst_meta.cashback_info.cod_ratio * outlet.twyst_meta.cashback_info.base_cashback) | number:2}}%</td>
+                                                <td>{{(slab.ratio* outlet.twyst_meta.cashback_info.in_app_ratio * outlet.twyst_meta.cashback_info.base_cashback) | number:2}}%</td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div class='col-md-6'>
                                         <h4>Cuisines</h4>

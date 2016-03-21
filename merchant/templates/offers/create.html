@@ -389,9 +389,7 @@
                                     <div class='form-group' ng-if='offer.offer_type==="offer"'>
                                         <label class='col-sm-2 control-label'>Offer Cost <i class='fa fa-sm fa-asterisk'></i></label>
                                         <div class='col-sm-6' ng-class='{"has-error": formFailure && !offer.offer_cost}'>
-                                            <select class='form-control' ng-model='offer.offer_cost'>
-                                                <option ng-repeat='i in getRange(18) track by $index' value='{{100+ (25*$index)}}'>{{100 + (25*$index)}}</option>
-                                            </select>
+                                            <input type='number' ng-model='offer.offer_cost'  class='form-control'>
                                             <div class='help-block'>Cost above is defined in Twyst Bucks</div>
                                         </div>
                                     </div>
@@ -483,10 +481,10 @@
                                                     <tr ng-repeat='day in days'>
                                                         <th>{{day | uppercase}}</th>
                                                         <td>
-                                                            <input type='checkbox' bs-switch ng-model='offer.actions.reward.reward_hours[day].closed' switch-off-text='OPEN' switch-on-text='CLOSE' switch-off-color='success' switch-on-color='danger'>
+                                                            <input type='checkbox' bs-switch ng-model='offer.actions.reward.reward_hours[day].closed' switch-off-text='OPEN' ng-change='updateTimingSet(day, offer.actions.reward.reward_hours)' switch-on-text='CLOSE' switch-off-color='success' switch-on-color='danger'>
                                                         </td>
                                                         <td ng-repeat='i in getMaxRange() track by $index' ng-class='{"has-error": formFailure && errorDay===day}'>
-                                                            <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings.length>1 && offer.actions.reward.reward_hours[day].timings[$index]' ng-click='removeTiming(day, $index)' ng-init='initalizeTiming(day, $index, offer.actions.reward.reward_hours)'>
+                                                            <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings.length>1 && offer.actions.reward.reward_hours[day].timings[$index]' ng-click='removeTiming(day, $index, offer.actions.reward.reward_hours)' ng-init='initalizeTiming(day, $index, offer.actions.reward.reward_hours)'>
                                                                 <button class='btn btn-sm btn-danger pull-right'><i class='fa fa-trash-o'></i></button>
                                                             </div>
                                                             <div class='col-md-12' ng-if='offer.actions.reward.reward_hours[day].timings[$index]'>

@@ -10968,6 +10968,7 @@ button.close {
 
 .pull-left {
     float: left !important;
+    padding-left: 8px;
 }
 
 

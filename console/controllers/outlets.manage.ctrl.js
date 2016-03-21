@@ -1,5 +1,5 @@
-angular.module('consoleApp').controller('OutletManageController', ['$scope', '$rootScope', 'consoleRESTSvc', '$filter',
-    function($scope, $rootScope, consoleRESTSvc, $filter) {
+angular.module('consoleApp').controller('OutletManageController', ['$scope', '$rootScope', 'consoleRESTSvc', '$filter', 'SweetAlert',
+    function($scope, $rootScope, consoleRESTSvc, $filter, SweetAlert) {
 
         $scope.searchKeywords = '';
 
@@ -80,6 +80,20 @@ angular.module('consoleApp').controller('OutletManageController', ['$scope', '$r
                 return outlet.outlet_meta.status.indexOf(sort_by) !== -1;
             });
             $scope.onFilterChange();
+        };
+
+        $scope.updateOutletStatus = function(outlet) {
+            consoleRESTSvc.updateOutlet(outlet).then(function(res) {
+                console.log(res);
+                SweetAlert.swal("SUCCESS", "Outlet status updated", 'success');
+            }, function(err) {
+                console.log(err);
+                if (err.message) {
+                    SweetAlert.swal('ERROR', err.message, 'error');
+                } else {
+                    SweetAlert.swal('ERROR', 'Unable to update the outlet status right now', 'error');
+                }
+            });
         };
     }
 ])

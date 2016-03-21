@@ -11,18 +11,22 @@ angular.module('consoleApp').controller('MenuEditController', ['$scope', 'consol
         consoleRESTSvc.getOutlets().then(function(res) {
             console.log(res);
             $scope.outlets = res.data;
+            $scope.getMenu();
         }, function(err) {
             console.log(err);
+            $scope.getMenu();
         });
 
-        consoleRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
-            console.log(res);
-            $scope.menu = _.extend($scope.menu, res.data);
-            _id = $scope.menu._id;
-        }, function(err) {
-            console.log(err);
-            SweetAlert.swal('Service Error', err.message ? err.message : 'Somthing went wrong.', 'error');
-        });
+        $scope.getMenu = function() {
+            consoleRESTSvc.getMenu($stateParams.menu_id).then(function(res) {
+                console.log(res);
+                $scope.menu = _.extend($scope.menu, res.data);
+                _id = $scope.menu._id;
+            }, function(err) {
+                console.log(err);
+                SweetAlert.swal('Service Error', err.message ? err.message : 'Somthing went wrong.', 'error');
+            });
+        };
 
         $scope.toggle = function(scope) {
             scope.toggle();
@@ -36,7 +40,9 @@ angular.module('consoleApp').controller('MenuEditController', ['$scope', 'consol
             var deferred = $q.defer();
             if (!$scope.menu.menu_type) {
                 deferred.reject('Menu type required');
-            } else if (!$scope.menu.outlet) {
+            } else if (!$scope.menu.menu_item_type) {
+                deferred.reject('Please select menu items type');
+            }else if (!$scope.menu.outlet) {
                 deferred.reject('Please choose an outlet');
             } else if (!$scope.menu.menu_categories.length) {
                 deferred.reject('Atleast one category must be added');
@@ -352,6 +358,7 @@ angular.module('consoleApp').controller('MenuEditController', ['$scope', 'consol
                         return {
                             item_type: 'type_1',
                             is_available: true,
+                            option_price_is_additive: false,
                             option_is_addon: false,
                             is_vegetarian: true,
                             is_recommended: false,

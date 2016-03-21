@@ -29,19 +29,19 @@
     <aside id='nav-container' class='nav-container nav-fixed nav-vertical' ng-if='token'>
         <div class='nav-wrapper'>
             <ul id='nav' class='nav' data-slim-scroll data-collapse-nav data-highlight-active>
-                <li>
+                <li ng-class='{active: current_state === "merchant.default"}'>
                     <a ui-sref='.default'> <i class='fa fa-dashboard'></i><span>PANEL</span></a>
                 </li>
-                <li>
+                <li ng-class='{active: current_state === "merchant.outlets_manage" || current_state === "merchant.outlets_create" || current_state === "merchant.outlets_edit" || current_state === "merchant.outlets_view"}'>
                     <a ui-sref='.outlets_manage'> <i class='fa fa-magic'></i><span>OUTLETS</span></a>
                 </li>
-                <li>
+                <li ng-class='{active: current_state === "merchant.menus_manage" || current_state === "merchant.menus_edit" || current_state === "merchant.menus_view"}'>
                     <a ui-sref='.menus_manage'> <i class='fa fa-file-text-o'></i><span>MENUS</span></a>
                 </li>
-                <li>
+                <li ng-class='{active: current_state === "merchant.offers_manage" || current_state === "merchant.offers_create" || current_state === "merchant.offers_edit" || current_state === "merchant.offers_view"}'>
                     <a ui-sref='.offers_manage'> <i class='fa fa-table'></i><span>OFFERS</span></a>
                 </li>
-                <li>
+                <li ng-class='{active: current_state === "merchant.bills_manage" || current_state === "merchant.bills_view"}'>
                     <a ui-sref='.bills_manage'> <i class='fa fa-pencil'></i><span>BILLS</span></a>
                 </li>
             </ul>

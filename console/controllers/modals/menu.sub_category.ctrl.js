@@ -1,5 +1,5 @@
-angular.module('consoleApp')
-    .controller('MenuSubCategoryController', function($scope, $modalInstance, sub_category, is_new, SweetAlert) {
+angular.module('consoleApp').controller('MenuSubCategoryController', ['$scope', '$modalInstance', 'sub_category', 'is_new', 'SweetAlert',
+    function($scope, $modalInstance, sub_category, is_new, SweetAlert) {
 
         $scope.is_new = is_new;
         $scope.sub_category = sub_category;
@@ -16,4 +16,5 @@ angular.module('consoleApp')
         $scope.discardSubCategory = function() {
             $modalInstance.dismiss('Cancel');
         };
-    });
+    }
+]);

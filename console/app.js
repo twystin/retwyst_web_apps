@@ -1,40 +1,76 @@
 angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angularMoment', 'oitozero.ngSweetAlert', 'angular-loading-bar', 'ngAnimate', 'ngStorage', 'ordinal', 'ngFileUpload', 'uiGmapgoogle-maps', 'mgo-angular-wizard', 'ui.select2', 'frapontillo.bootstrap-switch', 'ui.tree', 'toastr', 'ordinal', 'notification', 'ngAudio'])
-    .run(function($rootScope, $state, $cookies, $notification, ngAudio) {
+    .run(['$rootScope', '$state', '$cookies', '$notification', 'ngAudio', 'consoleRESTSvc', function($rootScope, $state, $cookies, $notification, ngAudio, consoleRESTSvc) {
         $rootScope.faye = new Faye.Client('/faye');
+        $rootScope.user = $cookies.get('user');
         $rootScope.token = $cookies.get('token');
         $rootScope.role = $cookies.get('role');
         $rootScope.sound = ngAudio.load('sounds/song1.wav');
         $rootScope.sound.loop = true;
         $rootScope.paths = JSON.parse($cookies.get('paths') || '[]');
+
+        $rootScope.setHandler = function(handler) {
+            $rootScope.handler = handler;
+        }
+        
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
-                $rootScope.notification_count += 1;
-                $rootScope.sound.play();
-                var notification = $notification('New Order', {
-                    body: message.text || 'Message here',
-                    delay: 0,
-                    dir: 'auto'
-                });
+                var title;
+                
+                if ($rootScope.handler) {
+                    $rootScope.handler(message);
+                } else {
+                    console.log('faye message', message);
+                    $rootScope.notification_count += 1;
+                    $rootScope.sound.play();
 
-                notification.$on('click', function() {
-                    console.debug('The user has clicked in my notification.');
-                    notification.close();
-                    // $rootScope.sound.stop();
-                });
-
-                notification.$on('close', function() {
-                    console.debug('The user has closed my notification.');
-                    notification.close();
-                    $rootScope.notification_count -= 1;
-                    if (!$rootScope.notification_count) {
-                        $rootScope.sound.stop();
+                    if (message.type === 'new') {
+                        title = 'New Order'
+                    } else {
+                        title = 'Order Update'
                     }
-                });
+
+                    var notification = $notification(title, {
+                        body: message.message || 'Message here',
+                        delay: 0,
+                        dir: 'auto'
+                    });
+
+                    notification.$on('click', function() {
+                        console.debug('The user has clicked in my notification.');
+                        $state.go('console.orders_manage', {
+                            show: message.type !== 'new'?message.type:undefined
+                        }, {
+                            reload: true
+                        });
+                        notification.close();
+                        // $rootScope.sound.stop();
+                    });
+
+                    notification.$on('close', function() {
+                        console.debug('The user has closed my notification.');
+                        notification.close();
+                        $rootScope.notification_count -= 1;
+                        if (!$rootScope.notification_count) {
+                            $rootScope.sound.stop();
+                        }
+                    });
+                }
             });
         });
-    })
-    .config(function($stateProvider, $urlRouterProvider) {
+        $rootScope.$on('$stateChangeStart', function(_, toState, _, fromState) {
+            if (fromState.name === 'console.orders_manage') {
+                $rootScope.handler = undefined;
+            }
+
+            $('document').ready(function() {
+                $(window).scrollTop(0);
+            });
+            
+            $rootScope.current_state = toState.name;
+        })
+    }])
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.when('', '/');
         $urlRouterProvider.otherwise('/');
@@ -81,7 +117,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 controller: 'OfferViewController'
             })
             .state('console.orders_manage', {
-                url: '/orders',
+                url: '/orders?show',
                 templateUrl: 'templates/orders/manage.html',
                 controller: 'OrderManageController'
             })
@@ -159,5 +195,25 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 url: '/menu_update_requests',
                 templateUrl: 'templates/menu_update_requests/manage.html',
                 controller: 'MenuUpdateRequestManageController'
+            })
+            .state('console.cashback_offers_manage', {
+                url: '/cashback_offers',
+                templateUrl: 'templates/cashback_offers/manage.html',
+                controller: 'CashbackOffersManageController'
+            })
+            .state('console.cashback_offers_create', {
+                url: '/cashback_offers/create',
+                templateUrl: 'templates/cashback_offers/create.html',
+                controller: 'CashbackOfferCreateController'
+            })
+            .state('console.cashback_offers_edit', {
+                url: '/cashback_offers/:offer_id',
+                templateUrl: 'templates/cashback_offers/edit.html',
+                controller: 'CashbackOfferUpdateController'
+            })
+            .state('console.test_payment', {
+                url: '/test_payment',
+                templateUrl: 'templates/test_payment.html',
+                controller: 'TestPaymentController'
             });
-    });
+    }]);

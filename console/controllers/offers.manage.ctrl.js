@@ -1,5 +1,5 @@
-angular.module('consoleApp').controller('OfferManageController', ['$scope', 'consoleRESTSvc', '$filter',
-    function($scope, consoleRESTSvc, $filter) {
+angular.module('consoleApp').controller('OfferManageController', ['$scope', 'consoleRESTSvc', '$filter', 'SweetAlert',
+    function($scope, consoleRESTSvc, $filter, SweetAlert) {
 
         $scope.searchKeywords = '';
 
@@ -81,6 +81,20 @@ angular.module('consoleApp').controller('OfferManageController', ['$scope', 'con
                 return offer.offer_status.indexOf(sort_by) !== -1;
             });
             $scope.onFilterChange();
+        };
+
+        $scope.updateOfferStatus = function(offer) {
+            consoleRESTSvc.updateOfferStatus(offer).then(function(res) {
+                console.log(res);
+                SweetAlert.swal("SUCCESS", "Offer status updated", 'success');
+            }, function(err) {
+                console.log(err);
+                if (err.message) {
+                    SweetAlert.swal('ERROR', err.message, 'error');
+                } else {
+                    SweetAlert.swal('ERROR', 'Unable to update the offer status right now', 'error');
+                }
+            });
         };
     }
 ])
