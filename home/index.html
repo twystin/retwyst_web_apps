@@ -41,6 +41,7 @@
     <!-- CSS Customization -->
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel='stylesheet' href='../bower_components/sweetalert/dist/sweetalert.css'>
 
 </head>
 
@@ -88,7 +89,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                     </ul>
                     <ul class="log-reg-block visible-md-block visible-lg-block">
                         <li>
-                            <a href="/merchant" class="btn theme-orange" type="button">Merchant</a>
+                            <a href="/merchant" target = '_blank'class="btn theme-orange" type="button">Merchant</a>
                         </li>
                     </ul>
                 </div>
@@ -109,7 +110,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                   <h1 class='shadow-heading'>
                     <strong>Order food,<br>Get Cashback<br>Everytime!</strong></h1>
                   <p style="text-shadow:1px 1px 4px #000;font-size:20px;">Use Twyst and get cashback everytime you order!</p>
-                  <a href="https://play.google.com/store/apps/details?id=com.twyst.app.android&hl=en" class="btn-u btn-banner btn-android theme-orange">
+                  <a href="https://play.google.com/store/apps/details?id=com.twyst.app.android&hl=en" class="btn-u btn-banner btn-android theme-orange" target = "_blank">
                     <i class="fa fa-android fa-2x"></i> Download App<br>
                     <span>From Google Play</span>
                   </a>
@@ -175,7 +176,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                     <div class="service-block service-block-default">
                         <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-communication-068"></i>
                         <h2 class="heading-md">Step 3: REDEEM</h2>
-                        <p>Use your Twyst Cash to shop online: recharge, pay for phone bills, or for ordering even more food!</p>
+                        <p>Use your Twyst Cash to shop online, recharge, pay for phone bills, or for ordering even more food!</p>
                        
                     </div>
                 </div>
@@ -217,7 +218,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                                 <h2>- OR -</h2>
                             </div>
                             <div class='input-group'>
-                                <a href="https://play.google.com/store/apps/details?id=com.twyst.app.android&hl=en" class="btn-u btn-banner btn-android theme-orange">
+                                <a href="https://play.google.com/store/apps/details?id=com.twyst.app.android&hl=en" class="btn-u btn-banner btn-android theme-orange" target = "_blank">
                                     <i class="fa fa-android fa-2x"></i> Download App<br>
                                     <span>From Google Play</span></a>
                             </div>
@@ -292,7 +293,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                     <!-- About -->
                     <div class="col-md-6 md-margin-bottom-40">
                         <a href="index.html"><img id="logo-footer" class="footer-logo" src="assets/img/twyst_transparent_logo_tight_200x59.png" alt=""></a>
-                        <p>Food, Ordering and Cashback</p>
+                        <p>Food, Ordering and Cashback Everytime</p>
                     </div>
                     <!-- End About -->
 
@@ -316,21 +317,31 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                         </p>
                         <p>Connect with us on:</p>
                           <div class="social-items fb">
-                            <div class='social'>
-                              <i class='fa fa-facebook fa-2x'></i>
+                            
+                                <a href="https://fb.me/twystin" target="_blank">
+                                    <div class='social'>
+                                    <i class='fa fa-facebook fa-2x'></i>                             
                             </div>
+                            </a>
                           </div>
 
                           <div class="social-items linked_in">
-                            <div class='social'>
-                              <i class='fa fa-linkedin fa-2x'></i>
-                            </div>
+                            <a href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank">
+                                <div class='social'>
+                                <i class='fa fa-linkedin fa-2x'></i>
+                                </div>
+                            </a>
+                              
+                            
                           </div>
 
                           <div class="social-items twitter">
-                            <div class='social'>
+                            <a href="https://twitter.com/twystin" target="_blank">
+                                <div class='social'>
                               <i class='fa fa-twitter fa-2x'></i>
                             </div>
+                            </a>
+                            
                           </div>
                     </div>
                     <!-- /Social -->
@@ -359,12 +370,27 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
     <!--=== /Footer v1 ===-->
 
     <!-- JS Global Compulsory -->
-    <script src="assets/plugins/jquery/jquery.min.js"></script>
-    <script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src='../bower_components/jquery/dist/jquery.min.js'></script>
+    <script src='../bower_components/jquery-migrate/jquery-migrate.min.js'></script>
+    <script src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+    <script src='../bower_components/angular/angular.min.js'></script>
     <!-- JS Implementing Plugins -->
-    <script src="assets/plugins/smoothScroll.js"></script>
-    <script src="assets/plugins/owl.carousel.2.0.0-beta.3/owl.carousel.min.js"></script>
+    <script src='../bower_components/smoothscroll-for-websites/SmoothScroll.js'></script>
+    <script src='../bower_components/jquery.easing/js/jquery.easing.min.js'></script>
+    <script src="../bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src='../bower_components/sweetalert/dist/sweetalert.min.js'></script>
+    <script src='../bower_components/ngSweetAlert/SweetAlert.min.js'></script>
+    <script src='scripts/ui-bootstrap-tpls.js'></script>
+    <script src="../common/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio-2.0.1.min.js"></script>
+    <script src="../common/plugins/shhos/shhos.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/wow-ini-themes.js"></script>
+    <!-- JS Page Level-->
+    <script src="scripts/one.app.js"></script>
+    <script src="scripts/owl-carousel2.js"></script>
+    <script src="scripts/cube-portfolio.js"></script>
+    <script src="scripts/contact.js"></script>
+    <script src="scripts/style.js"></script>
 
 
     <!-- JS Page Level-->
@@ -380,7 +406,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                 play : 10000,
                 pagination : true
             });
-            $('appslideshow').owlCarousel();
+            //$('appslideshow').owlCarousel();
             /*$("appslideshow").owlCarousel();*/
             /*OwlCarousel.initOwlCarousel();*/
             /*ContactForm.initContactForm();*/
