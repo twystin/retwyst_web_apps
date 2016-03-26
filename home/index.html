@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> 
+<!--[if !IE]><!-->
 <html lang="en" ng-app='homeApp'> <!--<![endif]-->
 <head>
     <title>Twyst | Order Food, Get Cashback</title>
@@ -87,9 +87,10 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                             <a href="http://blog.twyst.in">BLOG</a>
                         </li> -->
                     </ul>
-                    <ul class="log-reg-block visible-md-block visible-lg-block">
+                    <!-- log-reg-block visible-md-block visible-lg-block -->
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="/merchant" target = '_blank'class="btn theme-orange" type="button">Merchant</a>
+                            <a href="/merchant" target = '_blank' class="btn theme-orange" type="button">Merchant</a>
                         </li>
                     </ul>
                 </div>
@@ -114,7 +115,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                     <i class="fa fa-android fa-2x"></i> Download App<br>
                     <span>From Google Play</span>
                   </a>
-                  <a href="#getapp" class="btn-u btn-banner btn-android theme-red">
+                  <a href="#getapp" class="page-scroll btn-u btn-banner btn-android theme-red">
                     <i class="fa fa-mobile fa-2x"></i>&emsp;Link as SMS?<br>
                     <span>for android device</span>
                   </a>
@@ -127,9 +128,9 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
 
                   <div class='sliding-image'>
                       <ul class='image_slider'>
-                          <li><img class='inset-slides' src='assets/img/screenshots/6.png'></li>
-                          <li><img class='inset-slides' src='assets/img/screenshots/4.png'></li>
-                          <li><img class='inset-slides' src='assets/img/screenshots/5.png'></li>
+                          <li><img id="slide1" class='inset-slides' src='assets/img/screenshots/6.png'></li>
+                          <li><img id="slide2" class='inset-slides' src='assets/img/screenshots/4.png'></li>
+                          <li><img id="slide3" class='inset-slides' src='assets/img/screenshots/5.png'></li>
                       </ul>
                   </div>
 
@@ -161,7 +162,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                         <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-food-003"></i>
                         <h2 class="heading-md">Step 1: ORDER FOOD</h2>
                         <p>Order food from your favourite restaurants on Twyst.</p>
-                       
+
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -169,7 +170,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                         <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-finance-150"></i>
                         <h2 class="heading-md">Step 2: GET CASHBACK</h2>
                         <p>Earn Cashback on every order in the form of Twyst Cash. 1 Twyst Cash = 1 Rupee!</p>
-                      
+
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12">
@@ -177,7 +178,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                         <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-communication-068"></i>
                         <h2 class="heading-md">Step 3: REDEEM</h2>
                         <p>Use your Twyst Cash to shop online, recharge, pay for phone bills, or for ordering even more food!</p>
-                       
+
                     </div>
                 </div>
             </div>
@@ -198,10 +199,9 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
 
         <div class="container-fluid">
             <div class="row getapprow">
-                <div class="col-md-6 getappcontent getappcol">
+                <div class="col-xs-12 getappcontent getappcol">
                     <div class="row">
-                        <div class="col-xs-3"></div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
                             <div>
                                 <h2>Get a Download Link:<br><br></h2>
                             </div>
@@ -213,7 +213,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                                     <span ng-if='!sending_phone'>Get Link</span>
                                 </span>
                             </div>
-                            
+
                             <div>
                                 <h2>- OR -</h2>
                             </div>
@@ -223,8 +223,8 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                                     <span>From Google Play</span></a>
                             </div>
                         </div>
-                        <div class="col-xs-3">
-                          <img src='assets/img/screenshots/2.png' style="width:400px !important;height:700px !important;margin-top:-120px;margin-left:300px">
+                        <div class="col-xs-12 col-sm-6 col-md-6 text-center">
+                          <img src='assets/img/screenshots/2.png' style="margin:5px auto;width:50% !important;">
                         </div>
                     </div>
                 </div>
@@ -235,7 +235,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                         <div class="item"><img src='assets/img/screen2.png'></div>
                         <div class="item"><img src='assets/img/screen3.png'></div>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -245,7 +245,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
 
     <!--=== Contact Section ===-->
     <section id="contact" class="news-section content-md">
-     
+
       <div class='container'>
       <div class='row contacts-section-style'>
         <div class='col-md-4'>
@@ -317,10 +317,10 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                         </p>
                         <p>Connect with us on:</p>
                           <div class="social-items fb">
-                            
+
                                 <a href="https://fb.me/twystin" target="_blank">
                                     <div class='social'>
-                                    <i class='fa fa-facebook fa-2x'></i>                             
+                                    <i class='fa fa-facebook fa-2x'></i>
                             </div>
                             </a>
                           </div>
@@ -331,8 +331,8 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                                 <i class='fa fa-linkedin fa-2x'></i>
                                 </div>
                             </a>
-                              
-                            
+
+
                           </div>
 
                           <div class="social-items twitter">
@@ -341,7 +341,7 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
                               <i class='fa fa-twitter fa-2x'></i>
                             </div>
                             </a>
-                            
+
                           </div>
                     </div>
                     <!-- /Social -->
