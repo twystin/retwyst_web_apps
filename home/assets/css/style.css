@@ -57,12 +57,9 @@
   .fixed-slide-right{
     display: none;
   }
-<<<<<<< HEAD
   .sm-hide{
     display: none;
   }
-=======
->>>>>>> f6bf45ec277f642bdff1ccaf5c6a730056a0b2a4
   .btn-u.btn-banner.btn-android {
     text-align: center;
     width:100%;
@@ -86,12 +83,9 @@
     top:45px;
     right:10px;
   }
-<<<<<<< HEAD
   .sm-hide{
     display: block;
   }
-=======
->>>>>>> f6bf45ec277f642bdff1ccaf5c6a730056a0b2a4
   .one-page-header {
     background: transparent;
   }
@@ -100,11 +94,6 @@
   }
 }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> f6bf45ec277f642bdff1ccaf5c6a730056a0b2a4
 @media screen and (min-width:1200px) {
   .one-page-header {
     background: transparent;
@@ -115,13 +104,9 @@
     top:45px;
     right:150px;
   }
-<<<<<<< HEAD
   .sm-hide{
     display: block;
   }
-
-=======
->>>>>>> f6bf45ec277f642bdff1ccaf5c6a730056a0b2a4
 }
 
 /*ec1c24*/
