@@ -12,14 +12,17 @@ jQuery(function($){
       image1.css("display","block");
       image2.css("display","none");
       image3.css("display","none");
-    } else if (timer === 2) {
+      console.log("img1");
+    } else if (timer === 1) {
       image1.css("display","none");
       image2.css("display","block");
       image3.css("display","none");
-    } else if (timer === 3) {
+      console.log("img2");
+    } else if (timer === 2) {
       image1.css("display","none");
       image2.css("display","none");
       image3.css("display","block");
+      console.log("img3");
     }
   },3000);
 });
