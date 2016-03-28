@@ -46,7 +46,7 @@
 
 @media screen and (min-width:100px) {
   .fixed-slide-left{
-    top: 5%;
+    top: 15%;
   }
   .one-page-header {
     background: white;
@@ -68,7 +68,7 @@
 }
 @media screen and (min-width:500px) {
   .fixed-slide-left{
-    top: -5%;
+    top: 5%;
   }
 
   .btn-u.btn-banner.btn-android {
@@ -107,7 +107,7 @@
   .sm-hide{
     display: block;
   }
-}
+``}
 
 /*ec1c24*/
 h1,h2,h3,h4,h5,h5,h6,p,li {
@@ -161,16 +161,24 @@ h1,h2,h3,h4,h5,h5,h6,p,li {
   .screenshot-text {
     text-align: center;
   }
+  .screenshot-text strong{
+    text-transform: uppercase;
+    font-size: 31px;
+  }
+
 }
 @media only screen and (min-width:500px) {
   .screenshot-text {
     text-align: left;
   }
+  .screenshot-text strong{
+    text-transform: uppercase;
+    font-size: 40px;
+  }
 }
 
 .screenshot-text strong{
   text-transform: uppercase;
-  font-size: 40px;
 }
 
 .btn-u.btn-banner.btn-android.btn-lg{
