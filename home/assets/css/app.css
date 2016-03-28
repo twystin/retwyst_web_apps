@@ -192,7 +192,6 @@ h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
   z-index: 1;
   position: relative;
   text-align: center;
-  margin-bottom: 60px;
 }
 
 .title-v1 h1,
@@ -3604,8 +3603,8 @@ img.image-md {
 }
 
 .content {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .content-sm {
