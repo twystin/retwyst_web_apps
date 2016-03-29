@@ -5,7 +5,7 @@
 .transparent-phone{
   width:320px;
   height: 600px;
-  background-image: url(../img/screenshots/transparent.png);
+  background-image: url(../../img/screenshots/transparent.png);
   background-size: cover;
 }
 .sliding-image{
@@ -123,14 +123,14 @@ h1,h2,h3,h4,h5,h5,h6,p,li {
 }
 
 .slides-container .bg1{
-  background-image:  linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(../img/bg1.jpg);
+  background-image:  linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(../../img/bg1.jpg);
   background-position: center center;
   /*background-attachment: fixed;*/
   background-size: cover;
 }
 
 .slides-container .bg2{
-  background-image:  linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(../img/bg2.jpg);
+  background-image:  linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(../../img/bg2.jpg);
   background-position: center center;
   /*background-attachment: fixed;*/
   background-size: cover;

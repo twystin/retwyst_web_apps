@@ -3,8 +3,7 @@
 .contacts-section {
   color: #fff;
   position: relative;
-  background: #333 url(../../img/contacts_bg.jpg) center fixed;
-  /*background: url(../../img/contacts_bg.jpg) center fixed;*/
+  background: #333 url(../../../img/contacts_bg.jpg) center fixed;
   background-size: cover;
   z-index: 1;
 }
