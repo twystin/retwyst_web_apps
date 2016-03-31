@@ -1,4 +1,4 @@
-angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', function($scope, $http, $location, SweetAlert) {
+angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', '$window', function($scope, $http, $location, SweetAlert, $window) {
 
 	$scope.login_notification = {};
 	$scope.optout = {};
@@ -6,14 +6,15 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 
 	if($location.path() === "/home/optout_sms.html") {
 		$scope.outlet_image = $location.search()._id;
+		$scope.outlet_name = $location.search().name;
 	}
 	
 	$scope.smsOptout = function(optout) {
 		var data = {};
 		data.block_all	= optout.block_all;
-		data.phone 					= optout.phone;
-		var channel					= $location.search().channel;
-		data.outlet_id				= $location.search()._id;
+		data.phone = optout.phone;
+		var channel	= $location.search().channel;
+		data.outlet_id = $location.search()._id;		
 		var error = false;
 
 		if (!optout || !optout.phone) {
@@ -30,7 +31,7 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 				if (data.data.response) {
 					console.log(data);
 					SweetAlert.swal("SUCCESS", data.data.message, "success");
-
+					$window.location.href = 'http://twy.st/app';
 				} 
 				else {
 					console.log(data);
