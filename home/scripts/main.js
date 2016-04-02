@@ -1,17 +1,52 @@
+var twystApp = angular.module('twystApp',['ui.router', 'oitozero.ngSweetAlert', 'ui.bootstrap']);
+twystApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+  // $locationProvider.html5Mode(true);
+  $urlRouterProvider.when('','/home');
+  $urlRouterProvider.when('/','/home');
+  $urlRouterProvider.otherwise('/404');
+
+  $stateProvider
+    .state('home',{
+      url: '/home',
+      templateUrl: 'home/templates/home.html',
+      controller: 'MainController'
+    })
+    .state('optout',{
+      url: '/optout/:channel/:_id/:name',
+      templateUrl: 'home/templates/optout_sms.html'
+    })
+    .state('email_verification',{
+      url:'/verify/:is_verified/:user/:email',
+      templateUrl: 'home/templates/home.html',
+      controller: 'MainController'
+    })
+    .state('dunno',{
+      url: '/404',
+      templateUrl: 'home/templates/404.html'
+    });
+
+});
+
 twystApp.controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', function($scope, $http, $location, SweetAlert) {
 
-	$scope.login_notification = {};
+  $scope.login_notification = {};
 	$scope.optout = {};
 	$scope.optout.block_all = false;
 	var verifiedObject = $location.path();
-	console.log($scope.login_notification);
-	console.log(user);
-	if(verifiedObject.is_verified) {
+  var verifiedObject = verifiedObject.split('/').splice(2,verifiedObject.split('/').length);
+
+  verifiedObject.is_verified  = verifiedObject[0];
+  verifiedObject.user         = verifiedObject[1];
+  verifiedObject.email        = verifiedObject[2];
+
+	if(typeof verifiedObject !== "undefined") {
 		if(verifiedObject.is_verified === "true"){
-			$scope.login_notification = "Congratulations "+ verifiedObject.user +" , your email: "+ verifiedObject.email + " is now verified.";
+			$scope.login_notification = "Congratulations "+ verifiedObject.user +"! your email: "+ verifiedObject.email + " is now verified.";
+      $(".notifications").delay(1000).fadeIn(500,"linear").delay(2000).fadeOut(1000);
 		} else if (verifiedObject.verified === "false") {
 			$scope.login_notification = "Sorry! Seems like that was an invalid link.";
 		}
+    console.log("Notif:-");
 		console.log($scope.login_notification);
 	}
 
