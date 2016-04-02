@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" ng-app='homeApp'> <!--<![endif]-->
+<head>
+    <title>Twyst | Order Food, Get Cashback</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Twyst lets you order food and earn cashback on every order!">
+    <meta name="author" content="Team Twyst">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="twyst_icon_48.png">
+
+    <!-- Web Fonts -->
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/one.style.css">
+    <link rel='stylesheet' href='../bower_components/sweetalert/dist/sweetalert.css'>
+    <link rel='stylesheet' href='assets/css/optout.css'>
+</head>
+
+<!--
+The #page-top ID is part of the scrolling feature.
+The data-spy and data-target are part of the built-in Bootstrap scrollspy function.
+-->
+<body id="body" data-spy="scroll" data-target=".one-page-header" class="demo-lightbox-gallery" ng-controller='MainController'>
+
+    <!--=== Header ===-->
+    <nav class="one-page-header one-page-header-style-2 navbar navbar-default navbar-fixed-top navColor" role="navigation">
+        <div class="container">
+            <div class="menu-container page-scroll">
+              <a class="navbar-brand" href="#intro">
+                  <img src="img/twyst_transparent_logo_100x35.png" alt="twyst.in">
+              </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!--=== End Header ===-->
+<div class='container text-center'>
+    <h1>{{outlet_name}}</h1>
+  <img ng-src='https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/{{outlet_image}}/logo'>
+  <div class='form-fluid'>
+    <form>
+    <div class='form-group'>
+      <input type='text' class='form-control' ng-model="optout.phone" placeholder="Enter the registered mobile number">
+    </div>
+    
+    <div class='form-group'>
+      <input type='submit' class='optoutButton' value='UNSUBSCRIBE' ng-click="smsOptout(optout)">
+    </div>
+    <div class='form-group fluid'>
+      <label><input type='checkbox' ng-model="optout.block_all"> Stop all promotional messages from Twyst</label>
+    </div>
+    </form>
+  </div>
+</div>
+    <!-- <div id="footer-v1" class="footer-v1">
+
+
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            2016 &copy; All Rights Reserved.
+                            <a href="/privacy_policy/" target='_blank'>Privacy Policy</a> | <a href="/terms_of_use/" target="_blank">Terms of Use</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> -->
+    <!--=== /Footer v1 ===-->
+
+    <!-- JS Global Compulsory -->
+<script src='../bower_components/jquery/dist/jquery.min.js'></script>
+<script src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../bower_components/angular/angular.min.js'></script>
+<!-- JS Implementing Plugins -->
+<script src='../bower_components/sweetalert/dist/sweetalert.min.js'></script>
+<script src='../bower_components/ngSweetAlert/SweetAlert.min.js'></script>
+<script src='scripts/ui-bootstrap-tpls.js'></script>
+<script src="../common/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio-2.0.1.min.js"></script>
+<script src="scripts/app.js"></script>
+<!-- JS Page Level-->
+</body>
+</html>
