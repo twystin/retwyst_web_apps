@@ -113,20 +113,20 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             if (!(item.option && item.option._id)) {
                 return item.item_cost;
             } else {
-                total_price += item.option.option_cost;
+                total_price += parseInt(item.option.option_cost);
                 if (item.option_is_addon === true || item.option_price_is_additive === true) {
-                    total_price += item.item_cost;
+                    total_price += parseInt(item.item_cost);
                 }
                 
                 if (item.option.sub_options && item.option.sub_options.length) {
                     _.each(item.option.sub_options, function(sub_option) {
-                        total_price += sub_option.sub_option_set[0].sub_option_cost;
+                        total_price += parseInt(sub_option.sub_option_set[0].sub_option_cost);
                     });
                 }
                 if (item.option.addons && item.option.addons.length) {
                     _.each(item.option.addons, function(addon) {
                         _.each(addon.addon_set, function(addon_obj) {
-                            total_price += addon_obj.addon_cost;
+                            total_price += parseInt(addon_obj.addon_cost);
                         });
                     });
                 }
@@ -172,9 +172,13 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                             updated_order.estimate_time = estimate_time;
                             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                                 console.log(res);
-                                $scope.order = res.data;
+                                $scope.order.order_status = 'ACCEPTED';
+                                $scope.order.actions.push({
+                                    "action_type": "ACCEPTED",
+                                    "action_at": new Date()
+                                });
                                 $scope.orders[$scope.current_order] = $scope.order;
-                                SweetAlert.swal('SUCCESS', res.message, 'success');
+                                SweetAlert.swal('SUCCESS', 'Order accepted successfully', 'success');
                                 $scope.filterOrders();
                             }, function(err) {
                                 console.log(err);
@@ -213,9 +217,14 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
                     updated_order.reject_reason = reason;
                     merchantRESTSvc.updateOrder(updated_order).then(function(res) {
                         console.log('ordr rejected');
-                        $scope.order = res.data;
+                        $scope.order.order_status = 'REJECTED';
+                        $scope.order.actions.push({
+                            "action_type": "REJECTED",
+                            "action_at": new Date(),
+                           "comments": reason
+                        });
                         $scope.orders[$scope.current_order] = $scope.order;
-                        SweetAlert.swal('SUCCESS', res.message, 'info');
+                        SweetAlert.swal('SUCCESS', 'Order rejected successfully', 'info');
                         $scope.filterOrders();
                     }, function(err) {
                         console.log(err);
@@ -232,9 +241,13 @@ angular.module('merchantApp').controller('OrderManageController', ['$scope', 'me
             updated_order.order_id = $scope.order._id;
             updated_order.am_email = $scope.outlets[$scope.order.outlet].basics.account_mgr_email;
             merchantRESTSvc.updateOrder(updated_order).then(function(res) {
-                $scope.order = res.data;
+                $scope.order.order_status = 'DISPATCHED';
+                $scope.order.actions.push({
+                    action_type: 'DISPATCHED',
+                    action_at: new Date()
+                });
                 $scope.orders[$scope.current_order] = $scope.order;
-                SweetAlert.swal('SUCCESS', res.message, 'success');
+                SweetAlert.swal('SUCCESS', 'Order dispatch successfully', 'success');
                 $scope.filterOrders();
             }, function(err) {
                 console.log(err);
