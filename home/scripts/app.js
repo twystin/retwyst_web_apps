@@ -1,60 +1,6 @@
-<<<<<<< HEAD
-twystApp.controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', function($scope, $http, $location, SweetAlert) {
-=======
-angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', '$window', function($scope, $http, $location, SweetAlert, $window) {
->>>>>>> e2ab580b156d7e6899aad434557e7bfd84f2d77d
+angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', function($scope, $http, $location, SweetAlert) {
 
 	$scope.login_notification = {};
-	$scope.optout = {};
-	$scope.optout.block_all = false;
-<<<<<<< HEAD
-	var verifiedObject = $location.path();
-	console.log($scope.login_notification);
-	console.log(user);
-	if(verifiedObject.is_verified) {
-		if(verifiedObject.is_verified === "true"){
-			$scope.login_notification = "Congratulations "+ verifiedObject.user +" , your email: "+ verifiedObject.email + " is now verified.";
-=======
-
-	if($location.path() === "/home/optout_sms.html") {
-		$scope.outlet_image = $location.search()._id;
-		$scope.outlet_name = $location.search().name;
-	}
-	
-	$scope.smsOptout = function(optout) {
-		var data = {};
-		data.block_all	= optout.block_all;
-		data.phone = optout.phone;
-		var channel	= $location.search().channel;
-		data.outlet_id = $location.search()._id;		
-		var error = false;
-
-		if (!optout || !optout.phone) {
-			error = true;
-			SweetAlert.swal('Error', 'Please enter your phone number first', 'warning');
-		} else if (!/^[0-9]{10}$/.test(optout.phone)) {
-			error = true;
-			SweetAlert.swal('Error', 'Please enter a valid phone number', 'warning');
-		}
-
-		if(!error) {
-			$http.post('/optout/'+channel, data)
-			.then(function(data) {
-				if (data.data.response) {
-					console.log(data);
-					SweetAlert.swal("SUCCESS", data.data.message, "success");
-					$window.location.href = 'http://twy.st/app';
-				} 
-				else {
-					console.log(data);
-					SweetAlert.swal("Error", data.data.message, "warning");
-				}
-			}, function(err) {
-				console.log(err);
-				SweetAlert.swal("Error", data.data.message, "warning");
-			});	
-		}	
-	};
 
 	var verifiedObject = $location.search();
 	if(verifiedObject.verified) {
@@ -62,9 +8,8 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 			$scope.login_notification.verified = "true";
 			$scope.login_notification.name = verifiedObject.user;
 			$scope.login_notification.email = verifiedObject.email;
->>>>>>> e2ab580b156d7e6899aad434557e7bfd84f2d77d
 		} else if (verifiedObject.verified === "false") {
-			$scope.login_notification = "Sorry! Seems like that was an invalid link.";
+			$scope.login_notification.verified = "false";
 		}
 		console.log($scope.login_notification);
 	}
@@ -102,7 +47,6 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 	};
 
 	$scope.get_link_on_phone = function() {
-		console.log($scope.req.phone);
 		if ($scope.sending_phone) {
 			return;
 		} else if (!$scope.req || !$scope.req.phone) {
@@ -157,4 +101,10 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 			});
 		}
 	}
-}]);
+}])
+	// .config(function($locationProvider){
+	// 	$locationProvider.html5Mode({
+	// 		enabled: true,
+	// 		requireBase: false
+	// 	});
+	// });

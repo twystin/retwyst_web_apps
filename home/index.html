@@ -2,7 +2,7 @@
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang="en" ng-app='twystApp'> <!--<![endif]-->
+<html lang="en" ng-app='homeApp'> <!--<![endif]-->
 <head>
     <title>Twyst | Order Food, Get Cashback</title>
 
@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Twyst lets you order food and earn cashback on every order!">
     <meta name="author" content="Team Twyst">
-    <!-- <base href='/'> -->
     <!-- Favicon -->
     <link rel="shortcut icon" href="twyst_icon_48.png">
 
@@ -20,30 +19,29 @@
     <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
 
     <!-- CSS Global Compulsory -->
-    <link rel="stylesheet" href="home/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="home/assets/css/one.style.css">
-    <link rel="stylesheet" href="home/assets/css/app.css">
-    <link rel="stylesheet" href="home/styles/blocks.css">
-    <link rel="stylesheet" href="home/styles/plugins.css">
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/one.style.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/blocks.css">
+    <link rel="stylesheet" href="assets/css/plugins.css">
 
 
     <!-- CSS Footer -->
-    <link rel="stylesheet" href="home/assets/css/footers/footer-v7.css">
-    <link rel="stylesheet" href="home/assets/css/footers/footer-v1.css">
+    <link rel="stylesheet" href="assets/css/footers/footer-v7.css">
+    <link rel="stylesheet" href="assets/css/footers/footer-v1.css">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="home/styles/animate.css">
-    <!--link rel="stylesheet" href="home/assets/plugins/owl-carousel/owl.carousel.css"-->
-    <!--link rel="stylesheet" href="home/assets/plugins/owl-carousel/owl.theme.css"-->
-    <link rel="stylesheet" href="home/assets/plugins/line-icons-pro/styles.css">
-    <link rel="stylesheet" href="home/assets/plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="home/assets/plugins/owl.carousel.2.0.0-beta.3/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="home/assets/plugins/owl.carousel.2.0.0-beta.3/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/plugins/animate.css">
+    <!--link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css"-->
+    <!--link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css"-->
+    <link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/owl.carousel.2.0.0-beta.3/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/plugins/owl.carousel.2.0.0-beta.3/assets/owl.theme.default.min.css">
 
     <!-- CSS Customization -->
-    <link rel="stylesheet" href="home/assets/css/custom.css">
-    <link rel="stylesheet" href="home/assets/css/style.css">
-    <link rel="stylesheet" href="home/assets/css/optout.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel='stylesheet' href='../bower_components/sweetalert/dist/sweetalert.css'>
 
 </head>
@@ -52,10 +50,6 @@
 The #page-top ID is part of the scrolling feature.
 The data-spy and data-target are part of the built-in Bootstrap scrollspy function.
 -->
-<<<<<<< HEAD
-<body id="body" data-spy="scroll" data-target=".one-page-header" class="demo-lightbox-gallery">
-  <div id="container" ui-view></div>
-=======
 <body id="body" data-spy="scroll" data-target=".one-page-header" class="demo-lightbox-gallery" ng-controller='MainController'>
 
     <!--=== Header ===-->
@@ -383,32 +377,49 @@ The data-spy and data-target are part of the built-in Bootstrap scrollspy functi
     </div>
     <!--=== /Footer v1 ===-->
 
->>>>>>> e2ab580b156d7e6899aad434557e7bfd84f2d77d
     <!-- JS Global Compulsory -->
-    <script src='bower_components/jquery/dist/jquery.min.js'></script>
-    <script src='bower_components/jquery-migrate/jquery-migrate.min.js'></script>
-    <script src='bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
-    <script src='bower_components/angular/angular.min.js'></script>
-    <script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+        <script src='../bower_components/jquery/dist/jquery.min.js'></script>
+    <script src='../bower_components/jquery-migrate/jquery-migrate.min.js'></script>
+    <script src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+    <script src='../bower_components/angular/angular.min.js'></script>
     <!-- JS Implementing Plugins -->
-    <script src='bower_components/smoothscroll-for-websites/SmoothScroll.js'></script>
-    <script src='bower_components/jquery.easing/js/jquery.easing.min.js'></script>
-    <script src="bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src='bower_components/sweetalert/dist/sweetalert.min.js'></script>
-    <script src='bower_components/ngSweetAlert/SweetAlert.min.js'></script>
-    <script src='home/scripts/ui-bootstrap-tpls.js'></script>
-    <script src="/common/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio-2.0.1.min.js"></script>
-    <script src="/common/plugins/shhos/shhos.js"></script>
-    <script src="home/scripts/main.js"></script>
-    <!-- <script src="home/scripts/app.js"></script> -->
-    <script src="home/scripts/wow-ini-themes.js"></script>
+    <script src='../bower_components/smoothscroll-for-websites/SmoothScroll.js'></script>
+    <script src='../bower_components/jquery.easing/js/jquery.easing.min.js'></script>
+    <script src="../bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src='../bower_components/sweetalert/dist/sweetalert.min.js'></script>
+    <script src='../bower_components/ngSweetAlert/SweetAlert.min.js'></script>
+    <script src='scripts/ui-bootstrap-tpls.js'></script>
+    <script src="../common/plugins/cube-portfolio/cubeportfolio/js/jquery.cubeportfolio-2.0.1.min.js"></script>
+    <script src="../common/plugins/shhos/shhos.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/wow-ini-themes.js"></script>
     <!-- JS Page Level-->
-    <script src="home/scripts/owl-carousel2.js"></script>
-    <script src="home/scripts/cube-portfolio.js"></script>
-    <script src="home/scripts/contact.js"></script>
+    <script src="scripts/one.app.js"></script>
+    <script src="scripts/owl-carousel2.js"></script>
+    <script src="scripts/cube-portfolio.js"></script>
+    <script src="scripts/contact.js"></script>
+    <script src="scripts/style.js"></script>
+
 
     <!-- JS Page Level-->
-    <script src="home/scripts/phoneSwipeSim.js"></script>
-    <script src="home/scripts/jquery.superslides.min.js"></script>
+    <script src="scripts/phoneSwipeSim.js"></script>
+    <script src="scripts/jquery.superslides.min.js"></script>
+
+
+    <script>
+        $(function() {
+            App.init();
+            $('#slides').superslides({
+                play : 10000,
+                pagination : true
+            });
+            //$('appslideshow').owlCarousel();
+            /*$("appslideshow").owlCarousel();*/
+            /*OwlCarousel.initOwlCarousel();*/
+            /*ContactForm.initContactForm();*/
+            /*RevolutionSlider.initRSfullScreen();*/
+        });
+    </script>
+
 </body>
 </html>
