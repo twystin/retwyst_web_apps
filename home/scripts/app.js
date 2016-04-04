@@ -101,10 +101,4 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 			});
 		}
 	}
-}])
-	// .config(function($locationProvider){
-	// 	$locationProvider.html5Mode({
-	// 		enabled: true,
-	// 		requireBase: false
-	// 	});
-	// });
+}]);
