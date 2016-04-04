@@ -1,0 +1,62 @@
+/* Add here all your css styles (customizations) */
+
+/*Header Merchant Button*/
+.merchant {
+  border-color: #777;
+  border-width: 1px;
+}
+
+.btn.rounded.btn-success {
+	background-color: #f6921e;
+  border:none;
+}
+
+.btn-u.btn-banner.btn-android {
+	width: 180px;
+	font-size: 13px;
+	font-weight: bold;
+	text-transform: uppercase;
+	line-height: 0;
+	border-radius: 2px;
+	padding: 10px 20px 17px;
+}
+
+.btn-u.btn-banner span {
+	margin: 0 0 0 35px;
+	font-size: 10px;
+	font-weight: normal;
+	color: #fff;
+	opacity: 0.6;
+}
+
+.btn-u.btn-banner .fa {
+	margin: 0 10px 0 0;
+	padding-top: 2px;
+	vertical-align: middle;
+}
+
+.col-sm-6.getappcontent {
+	width: 400px;
+}
+
+.col-md-6.getappcontent .input-group {
+	margin: auto;
+	margin-bottom: 30px;
+}
+
+.getapprow {
+	z-index: 10;
+}
+
+.getappcol {
+	z-index: 20;
+}
+
+.col-md-6.getappcontent h2 {
+	color: #fff;
+	text-align: center;
+}
+
+.input-group a {
+	margin: auto;
+}

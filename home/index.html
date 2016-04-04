@@ -1,77 +1,97 @@
 <!DOCTYPE html>
-<html ng-app='homeApp'>
-
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" ng-app='homeApp'> <!--<![endif]-->
 <head>
-    <title>Twyst</title>
+    <title>Twyst | Order Food, Get Cashback</title>
+
     <!-- Meta -->
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content="IE=Edge">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <meta name='description' content=''>
-    <meta name='author' content=''>
+    <meta charset="utf-8">
+    <meta http-equiv="CACHE-CONTROL" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Twyst lets you order food and earn cashback on every order!">
+    <meta name="author" content="Team Twyst">
     <!-- Favicon -->
-    <link rel='stylesheet icon' href='../favicon.ico'>
+    <link rel="shortcut icon" href="twyst_icon_48.png">
+
     <!-- Web Fonts -->
-    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=cyrillic,latin'>
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+
     <!-- CSS Global Compulsory -->
-    <link rel='stylesheet' href='../bower_components/bootstrap/dist/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='../bower_components/font-awesome/css/font-awesome.css'>
-    <link rel='stylesheet' href='../bower_components/sweetalert/dist/sweetalert.css'>
-    <link rel='stylesheet' href='styles/app.css'>
-    <link rel='stylesheet' href='styles/blocks.css'>
-    <link rel='stylesheet' href='styles/plugins.css'>
-    <link rel='stlyesheet' href='styles/one.style.css'>
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/one.style.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/blocks.css">
+    <link rel="stylesheet" href="assets/css/plugins.css">
+
+
     <!-- CSS Footer -->
-    <link rel='stylesheet' href='styles/footers/footer-v7.css'>
-    <link rel='stylesheet' href='styles/footers/footer-v1.css'>
+    <link rel="stylesheet" href="assets/css/footers/footer-v7.css">
+    <link rel="stylesheet" href="assets/css/footers/footer-v1.css">
+
     <!-- CSS Implementing Plugins -->
-    <link rel='stylesheet' href='styles/plugins/animate.css'>
-    <link rel='stylesheet' href='../bower_components/simple-line-icons/css/simple-line-icons.css'>
-    <link rel='stylesheet' href='../bower_components/owl.carousel/dist/assets/owl.carousel.css'>
-    <link rel='stylesheet' href='../common/plugins/cube-portfolio/cubeportfolio/css/cubeportfolio.min.css'>
-    <link rel='stylesheet' href='../common/plugins/cube-portfolio/cubeportfolio/custom/custom-cubeportfolio.css'>
-    <link rel="stylesheet" href='../common/plugins/shhos/shhos.css'>
-    <!-- CSS Theme -->
-    <link rel="stylesheet" href='styles/app.style.css'>
-    <!-- Custom Edits -->
-    <link rel="stylesheet" href='styles/style.css'>
+    <link rel="stylesheet" href="assets/plugins/animate.css">
+    <!--link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css"-->
+    <!--link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css"-->
+    <link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/owl.carousel.2.0.0-beta.3/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/plugins/owl.carousel.2.0.0-beta.3/assets/owl.theme.default.min.css">
+
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel='stylesheet' href='../bower_components/sweetalert/dist/sweetalert.css'>
+
 </head>
 
-<body id='body' data-spy='scroll' data-target='.one-page-header' class='demo-lightbox-gallery relative' ng-controller='MainController'>
-    <!-- Header -->
-    <div class="login-popup sublime" ng-if='login_notification.verified'>Welcome {{login_notification.name}}!<br><span>Your email-id:{{login_notification.email}} has been verified successfully</span></div>
-    <div class="login-popup sublime" ng-if='!login_notification.verified'>Couldn't verify your account.</div>
-    <nav class='one-page-header navbar navbar-default navbar-fixed-top homeapp-header' data-role='navigation'>
-        <div class='container'>
-            <div class='menu-container page-scroll'>
-                <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                    <span class='sr-only'>Toggle navigation</span>
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
+<!--
+The #page-top ID is part of the scrolling feature.
+The data-spy and data-target are part of the built-in Bootstrap scrollspy function.
+-->
+<body id="body" data-spy="scroll" data-target=".one-page-header" class="demo-lightbox-gallery" ng-controller='MainController'>
+
+    <!--=== Header ===-->
+    <nav class="one-page-header one-page-header-style-2 navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="menu-container page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                <a class='navbar-brand'>
-                    <img src='img/logo-twyst.png' alt='Logo'>
+
+                <a class="navbar-brand" href="#intro">
+                    <img src="img/twyst_transparent_logo_100x35.png" alt="twyst.in">
                 </a>
             </div>
+
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class='collapse navbar-collapse navbar-right'>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <div class="menu-container">
                     <ul class="nav navbar-nav">
                         <li class="page-scroll home">
-                            <a href="#body">Home</a>
+                            <a href="#body">HOME</a>
                         </li>
                         <li class="page-scroll">
-                            <a href="#how_it_works">How It Works</a>
+                            <a href="#howitworks">HOW IT WORKS</a>
                         </li>
                         <li class="page-scroll">
-                            <a href="#get_app">Get App</a>
+                            <a href="#getapp">GET APP</a>
                         </li>
                         <li class="page-scroll">
-                            <a href="#contact">Contact Us</a>
+                            <a href="#contact">CONTACT US</a>
                         </li>
-                        <li class="page-scroll hidden-xs hidden-sm">
-                            <a href="/merchant" target="_blank" class="btn-u btn-u-lg btn-u-green btn-u-upper rounded-2x">Merchants</a>
+                        <!-- <li class="page-scroll">
+                            <a href="http://blog.twyst.in">BLOG</a>
+                        </li> -->
+                    </ul>
+                    <!-- log-reg-block visible-md-block visible-lg-block -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/merchant" target = '_blank' class="btn theme-orange" type="button">Merchant</a>
                         </li>
                     </ul>
                 </div>
@@ -80,237 +100,285 @@
         </div>
         <!-- /.container -->
     </nav>
-    <!-- End Header -->
-    <!-- Promo Block -->
-    <section class="promo-section" id="intro">
-        <div class="interactive-slider-v2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5 col-sm-12 col-xs-12 col-md-offset-1 promo-info page-scroll frost-screen">
-                        <h1 style="text-shadow:1px 1px 4px #000;"><strong>Order food,<br>
-                        Get Cashback Everytime!</strong></h1>
-                        <p style="text-shadow:1px 1px 4px #000;font-size:20px;">Use Twyst and get cashback everytime you order!</p>
-                        <a href="#get_app" class="btn-u btn-banner btn-android btn-lg">Get the app now!</a>
+    <!--=== End Header ===-->
+
+    <!--=== Intro Section ===-->
+    <section id="intro" class="intro-section">
+        <div class="dottedoverlay">
+            <div id="slides">
+              <div class='fixed-slide-left'>
+
+                <div class='screenshot-text'>
+                  <h1 class='shadow-heading'>
+                    <strong>Order food,<br>Get Cashback<br>Everytime!</strong></h1>
+                  <p style="text-shadow:1px 1px 4px #000;font-size:20px;">Use Twyst and get cashback everytime you order!</p>
+                  <div class='page-scroll' style="display:inline-block">
+                    <a href="https://play.google.com/store/apps/details?id=com.twyst.app.android&hl=en" class="btn-u btn-banner btn-android theme-orange" target = "_blank">
+                      <i class="fa fa-android fa-2x"></i> Download App<br>
+                      <span>From Google Play</span>
+                    </a>
+                  </div>
+
+                  <div class='page-scroll' style="display:inline-block">
+                    <a href="#getapp" class="btn-u btn-banner btn-android theme-red">
+                      <i class="fa fa-mobile fa-2x"></i>&emsp;Link as SMS?<br>
+                      <span>for android device</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class='fixed-slide-right'>
+                <div class='transparent-phone'></div>
+
+                  <div class='sliding-image'>
+                      <ul class='image_slider'>
+                          <li><img id="slide1" class='inset-slides' src='img/screenshots/6.png'></li>
+                          <li><img id="slide2" class='inset-slides' src='img/screenshots/4.png'></li>
+                          <li><img id="slide3" class='inset-slides' src='img/screenshots/5.png'></li>
+                      </ul>
+                  </div>
+
+              </div>
+
+              <ul class="slides-container">
+                <li class='bg1'></li>
+                <li class='bg2'></li>
+              </ul>
+              <nav class="slides-navigation">
+                <a href="#" class="next">Next</a>
+                <a href="#" class="prev">Previous</a>
+              </nav>
+            </div>
+        </div>
+    </section>
+    <!-- End Intro Section -->
+
+    <!--=== Services Section ===-->
+    <section id="howitworks">
+        <div class="container content">
+            <div class="title-v1">
+                <h2>HOW TWYST WORKS</h2>
+            </div>
+
+            <div class="row service-box-v1">
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-block service-block-default">
+                        <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-food-003"></i>
+                        <h2 class="heading-md">Step 1: ORDER FOOD</h2>
+                        <p>Order food from your favourite restaurants on Twyst.</p>
+
                     </div>
-                    <div class="col-md-6 col-sm-12 col-xs-12 banner-img overflow-h">
-                        <img class="img-responsive animated slideInUp wow" style='max-height:100vh;max-width:100vw;width:auto;height:auto;' src="img/mockup_slider.png" alt="">
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="service-block service-block-default">
+                        <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-finance-150"></i>
+                        <h2 class="heading-md">Step 2: GET CASHBACK</h2>
+                        <p>Earn Cashback on every order in the form of Twyst Cash. 1 Twyst Cash = 1 Rupee!</p>
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="service-block service-block-default">
+                        <i class="icon-custom icon-tw icon-bg-twyst rounded-x icon-line-tw icon-communication-068"></i>
+                        <h2 class="heading-md">Step 3: REDEEM</h2>
+                        <p>Use your Twyst Cash to shop online, recharge, pay for phone bills, or for ordering even more food!</p>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- End Promo Block -->
-    <!-- Benefits -->
-    <hr>
-    <section id="how_it_works">
-        <div class="container">
-            <div class="g-pt-20 g-pb-20">
-                <div class="g-heading-v10 g-mb-65 text-center">
-                    <h1>With us, you get:</h1>
-                </div>
-                <div class="row equal-height-columns">
-                    <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s">
-                        <div class="benefit equal-height-column">
-                            <i class="fa fa-pie-chart fa-4x"></i>
-                            <h3>Order Food</h3>
-                            <p>Order food from your favourate outlets on the Twyst App. With discounts and other amazing offers, which are upadated timely, you can be assured that each transaction would be easy as pie. </p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".3s">
-                        <div class="benefit equal-height-column">
-                            <i class="fa fa-money fa-4x"></i>
-                            <h3>Get Cashback</h3>
-                            <p>Get cashback on <strong>EVERY ORDER</strong> in the form of Twyst Cash.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 benefit-box animated fadeIn wow" data-wow-duration="1.5s" data-wow-delay=".5s">
-                        <div class="benefit equal-height-column">
-                            <i class="fa fa-rupee fa-4x"></i>
-                            <h3>Redeem</h3>
-                            <p>Use your Twyst Cash to shop online: recharge, pay for phone bills, or for ordering even more food!</p>
-                        </div>
-                    </div>
+    <!-- End Services Section -->
+
+    <!--=== New Get App Section ===-->
+    <section id="getapp" class="contacts-section">
+        <div class='triangular-overlay'></div>
+        <div class="container-fluid content">
+            <div class="title-v1">
+                <div class="g-heading-v10 g-mb-65">
+                    <h2 style='color:#F5F5F5;'>Download the App</h2>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- End Benefits -->
-    <!-- Subscribe -->
-    <section id="get_app">
-        <div class="container-fluid with-bg-1">
-            <div class="subscribe">
-                <div class="g-heading-v10 g-mb-65 frost-screen">
-                    <!-- <h2 style='color:#FFF;'>Get the APP</h2> -->
-                    <h2 style='color:#FFF;font-size:50px;text-shadow:1px 1px 4px #000;'><strong>Download the app today!</strong></h2>
-                </div>
-                <div class='row'>
 
-                    <div class='col-sm-6'>
-
-                      <div class='input-group g-pb-30'>
-                          <a href="#" class="btn-u btn-banner btn-android" style='padding: 10px 20px 17px;'><i class="fa fa-android fa-2x"></i> Download App<br>
-                              <span>From Google Play</span></a>
-                      </div>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-model='req.phone' name="email" placeholder="Enter your mobile number, eg. 9876543210">
-                            <span class="input-group-btn">
-                                <button class="btn-u btn-sub" type="button" ng-click='get_link_on_phone()'>
+        <div class="container-fluid">
+            <div class="row getapprow">
+                <div class="col-xs-12 getappcontent getappcol">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div>
+                                <h2>Get a Download Link:<br><br></h2>
+                            </div>
+                            <div class="input-group">
+                                <!-- <input type="text" ng-model='req.phone' name="phone" placeholder="Enter 10 Digit Mobile No."> -->
+                                <input type="text" class="form-control input-style" ng-model='req.phone' name="phone" placeholder="Enter 10 Digit Mobile No.">
+                                <span class="input-group-btn">
+                                    <button class="btn-u btn-sub theme-orange" type="button" ng-click='get_link_on_phone()'>Get Link</button>
                                     <span ng-if='sending_phone'><i class='fa fa-spinner fa-spin'></i> Sending...</span>
                                     <span ng-if='!sending_phone'>Get Link</span>
-                                </button>
-                            </span>
-                        </div>
+                                </span>
+                            </div>
 
-                        <!-- <div class='input-group'>
-                            <input type='text' class='form-control' ng-model='req.email' name='phone' placeholder='Enter your email ID, eg. username@domain.com'>
-                            <span class='input-group-btn'>
-                                <button class='btn-u btn-sub' type='button' ng-click='get_link_on_email()'>
-                                    <span ng-if='sending_email'><i class='fa fa-spinner fa-spin'></i> Sending...</span>
-                                    <span ng-if='!sending_email'>Get Link</span>
-                                </button>
-                            </span>
-                        </div> -->
-                    </div>
-                    <div class='col-sm-6'>
-                        <div class="overflow-h">
-                            <carousel interval='2500'>
-                                <slide>
-                                    <img src='img/screen1.png' style='max-height:80vh;max-width:80vw;hieght:auto;width:auto;margin:auto;'>
-                                </slide>
-                                <slide>
-                                    <img src='img/screen2.png' style='max-height:80vh;max-width:80vw;hieght:auto;width:auto;margin:auto;'>
-                                </slide>
-                                <slide>
-                                    <img src='img/screen3.png' style='max-height:80vh;max-width:80vw;hieght:auto;width:auto;margin:auto;'>
-                                </slide>
-                            </carousel>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Subscribe -->
-    <!-- Footer -->
-    <section id="contact">
-        <div class="container-fluid with-bg-2 no-side-padding">
-            <div class="container">
-                <div class="footer">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="g-heading-v10 g-mb-65">
-                                <h2 class="g-color-white">Answers to <strong>your Questions</strong></h2>
-                                <p>Feel free to reach out to us, or follow us below.</p>
+                            <div>
+                                <h2 class='text-center'>- OR -</h2>
+                            </div>
+                            <div class='input-group center-transform'>
+                                <a href="https://play.google.com/store/apps/details?id=com.twyst.app.android&hl=en" class="btn-u btn-banner btn-android theme-orange" target = "_blank">
+                                  <i class="fa fa-android fa-2x"></i> Download App<br>
+                                  <span>From Google Play</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-7">
-                            <form ng-submit='contact_us()' class="sky-form contact-style">
-                                <fieldset>
-                                    <div class="row">
-                                        <div class="col-md-6 col-md-offset-0">
-                                            <div class="margin-bottom-30">
-                                                <input type="text" autocomplete='off' name="name" id="name" class="form-control" ng-model='contact.name' placeholder="Name">
-                                            </div>
-                                            <div class="margin-bottom-30">
-                                                <input type="text" autocomplete='off' name="email" id="email" class="form-control" ng-model='contact.email' placeholder="Email *">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-md-offset-0">
-                                            <div class="margin-bottom-30">
-                                                <textarea rows="5" name="message" id="message" class="form-control g-textarea-noresize" ng-model='contact.comments' placeholder="Message"></textarea>
-                                                <div class='help-block'>Atleast 50 characters required.</div>
-                                            </div>
-                                            <p>
-                                                <button type="submit" ng-disabled='disable_contact' class="btn-u btn-u-lg btn-u-upper rounded-2x">
-                                                    <span ng-if='!disable_contact'>Submit</span>
-                                                    <span ng-if='disable_contact'><i class='fa fa-spinner fa-spin'></i> Submitting...</span>
-                                                </button>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <div class="message">
-                                    <i class="rounded-x fa fa-check"></i>
-                                    <p>Your message was successfully sent!</p>
-                                </div>
-                            </form>
+                        <div class="col-xs-12 col-sm-8 col-md-8 sm-hide" style="text-align:right">
+                          <img src='img/screenshots/2.png' style="margin-right:100px;width:40% !important;">
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container-fluid with-bg-2">
-            <div class="subfooter">
-                <div class="row">
-                    <div class="col-md-12 no-side-padding">
-                        <ul class="list-inline social-list text-center">
-                            <li class="facebook social-item"><a class="btn-block" href="https://fb.me/twystin" target="_blank"><i class="fa fa-facebook fa-2x"></i></a></li>
-                            <li class="linkedin social-item"><a class="btn-block" href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
-                            <li class="angelco social-item"><a class="btn-block" href="https://angel.co/twyst-in" target="_blank"><i class="fa fa-angellist fa-2x" style='color:#777;'></i></a></li>
-                            <li class="twitter social-item"><a class="btn-block" href="https://twitter.com/twystin" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
-                        </ul>
+                <div class="col-md-6 getappcontent getappcol">
+                    <div id="appslideshow" class="owl-carousel">
+
+                        <div class="item"><img src='img/screen1.png'></div>
+                        <div class="item"><img src='img/screen2.png'></div>
+                        <div class="item"><img src='img/screen3.png'></div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- End Footer -->
+    <!--=== End New Get App Section ===-->
+
+    <!--=== Contact Section ===-->
+    <section id="contact" class="news-section content-md">
+
+      <div class='container'>
+      <div class='row contacts-section-style'>
+        <div class='col-md-4'>
+          <h1>Answers to <strong>your questions!</strong></h1>
+        </div>
+
+        <form ng-submit='contact_us()'>
+          <div class='col-md-4'>
+            <div class='form-group'>
+              <input type='text' class='form-control smooth-corner' ng-model='contact.name' placeholder="Your Name">
+              <!-- <input type='text' class='form-control smooth-corner' ng-model='contact.name' placeholder="Your Name"> -->
+            </div>
+            <div class='form-group'>
+              <input type='email' class='form-control smooth-corner' ng-model='contact.email' placeholder="abc@some.com">
+            </div>
+          </div>
+          <div class='col-md-4'>
+            <div class='form-group'>
+              <textarea rows='7' class='form-control'  ng-model='contact.comments' placeholder="Ask us your queries. [Make sure to use atleast 50 characters.]"></textarea>
+            </div>
+            <p>[Atleast 50 characters needed]</p>
+            <div class='form-group'>
+              <button type="submit" ng-disabled='disable_contact' class='btn-u btn-sub theme-orange form-control'>
+                  <span ng-if='!disable_contact'>Submit</span>
+                  <span ng-if='disable_contact'><i class='fa fa-spinner fa-spin'></i> Submitting...</span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <div>
+
+        </div>
+      </div>
+      </div>
+    </section>
+    <!-- End Contact Section -->
+
     <!--=== Footer v1 ===-->
     <div id="footer-v1" class="footer-v1">
+
+        <!--=== About ===-->
         <div class="footer">
             <div class="container">
                 <div class="row">
+
                     <!-- About -->
-                    <div class="col-md-3 md-margin-bottom-40">
-                        <a href="index.html"><img id="logo-footer" class="footer-logo" src="img/logo-twyst.png" alt=""></a>
-                        <p>Food, Ordering and Cashback</p>
+                    <div class="col-md-6 md-margin-bottom-40">
+                        <a href="index.html"><img id="logo-footer" class="footer-logo" src="img/twyst_transparent_logo_tight_200x59.png" alt=""></a>
+                        <p>Food, Ordering and Cashback Everytime</p>
                     </div>
                     <!-- End About -->
-                    <!-- Latest -->
-                    <div class="col-md-3 md-margin-bottom-40">
-                    </div>
-                    <!-- End Latest -->
+
                     <!-- Link List -->
                     <div class="col-md-3 md-margin-bottom-40">
                         <div class="headline">
-                            <h2>Useful Links</h2></div>
+                            <h2>Links</h2></div>
                         <ul class="list-unstyled link-list">
-                            <li><a href="https://angel.co/twyst-in" target="_blank">Latest jobs</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-
+                            <li><a href="https://angel.co/twyst-in" target="_blank">Latest Jobs</a>&nbsp;<i class="fa fa-angle-right"></i></li>
                         </ul>
                     </div>
                     <!-- End Link List -->
-                    <!-- Address -->
+
+                    <!-- Social -->
                     <div class="col-md-3 map-img md-margin-bottom-40">
                         <div class="headline">
-                            <h2>Contact Us</h2></div>
-                        <address class="md-margin-bottom-40">
-                             Email: <a href="mailto:contactus@twyst.in" class="">contactus@twyst.in</a>
-                        </address>
+                            <h2>Contact Us</h2>
+                        </div>
+                        <p>
+                          Email: <a href="mailto:contactus@twyst.in">contactus@twyst.in</a>
+                        </p>
+                        <p>Connect with us on:</p>
+                          <div class="social-items fb">
+
+                                <a href="https://fb.me/twystin" target="_blank">
+                                    <div class='social'>
+                                    <i class='fa fa-facebook fa-2x'></i>
+                            </div>
+                            </a>
+                          </div>
+
+                          <div class="social-items linked_in">
+                            <a href="https://www.linkedin.com/company/twyst-technologies-private-limited" target="_blank">
+                                <div class='social'>
+                                <i class='fa fa-linkedin fa-2x'></i>
+                                </div>
+                            </a>
+
+
+                          </div>
+
+                          <div class="social-items twitter">
+                            <a href="https://twitter.com/twystin" target="_blank">
+                                <div class='social'>
+                              <i class='fa fa-twitter fa-2x'></i>
+                            </div>
+                            </a>
+
+                          </div>
                     </div>
-                    <!-- End Address -->
+                    <!-- /Social -->
+
                 </div>
             </div>
         </div>
-        <!--/footer-->
+        <!-- End Twyst Description -->
+
+        <!-- Copyright, TOU, Privacy Policy -->
         <div class="copyright">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
                         <p>
-                            2015 &copy; All Rights Reserved.
+                            2016 &copy; All Rights Reserved.
                             <a href="/privacy_policy/" target='_blank'>Privacy Policy</a> | <a href="/terms_of_use/" target="_blank">Terms of Use</a>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-        <!--/copyright-->
+        <!--/Copyright, TOU, Privacy Policy -->
+
     </div>
-    <!--=== End Footer v1 ===-->
+    <!--=== /Footer v1 ===-->
+
     <!-- JS Global Compulsory -->
-    <script src='../bower_components/jquery/dist/jquery.min.js'></script>
+        <script src='../bower_components/jquery/dist/jquery.min.js'></script>
     <script src='../bower_components/jquery-migrate/jquery-migrate.min.js'></script>
     <script src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
     <script src='../bower_components/angular/angular.min.js'></script>
@@ -331,16 +399,27 @@
     <script src="scripts/cube-portfolio.js"></script>
     <script src="scripts/contact.js"></script>
     <script src="scripts/style.js"></script>
-    <script>
-    $(function() {
-        App.init();
-        OwlCarousel.initOwlCarousel();
-        ContactForm.initContactForm();
-    });
-    </script>
-    <!--[if lt IE 10]>
-      <script src="../assets/plugins/sky-forms-pro/skyforms/js/jquery.placeholder.min.js"></script>
-    <![endif]-->
-</body>
 
+
+    <!-- JS Page Level-->
+    <script src="scripts/phoneSwipeSim.js"></script>
+    <script src="scripts/jquery.superslides.min.js"></script>
+
+
+    <script>
+        $(function() {
+            App.init();
+            $('#slides').superslides({
+                play : 10000,
+                pagination : true
+            });
+            //$('appslideshow').owlCarousel();
+            /*$("appslideshow").owlCarousel();*/
+            /*OwlCarousel.initOwlCarousel();*/
+            /*ContactForm.initContactForm();*/
+            /*RevolutionSlider.initRSfullScreen();*/
+        });
+    </script>
+
+</body>
 </html>

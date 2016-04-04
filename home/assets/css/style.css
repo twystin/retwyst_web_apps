@@ -1,0 +1,341 @@
+.relative{
+  position: relative;
+}
+
+.transparent-phone{
+  width:320px;
+  height: 600px;
+  background-image: url(../../img/screenshots/transparent.png);
+  background-size: cover;
+}
+.sliding-image{
+  overflow: hidden;
+  position: absolute;
+  width:330px;
+  height: 500px;
+  top:57px;
+  right:0px;
+  z-index: -1;
+}
+.sliding-image ul{
+  list-style-type: none;
+}
+
+.inset-slides{
+  width: 270px;
+  height:467px;
+}
+
+
+.fixed-slide-left, .fixed-slide-right{
+  position: absolute;
+  z-index: 3;
+}
+.fixed-slide-left {
+  left:5%;
+  top:15%;
+  right:5%;
+}
+.one-page-header .navbar-toggle .icon-bar {
+  background: #000;
+}
+.one-page-header .navbar-nav.navbar-right > li > a {
+  padding:5px 10px;
+  width: 120px;
+}
+
+@media screen and (min-width:100px) {
+  .fixed-slide-left{
+    top: 15%;
+  }
+  .one-page-header {
+    background: white;
+  }
+  .one-page-header .navbar-nav > li > a {
+    color: #444;
+  }
+  .fixed-slide-right{
+    display: none;
+  }
+  .sm-hide{
+    display: none;
+  }
+  .btn-u.btn-banner.btn-android {
+    text-align: center;
+    width:100%;
+    margin:4px;
+  }
+}
+@media screen and (min-width:500px) {
+  .fixed-slide-left{
+    top: 5%;
+  }
+
+  .btn-u.btn-banner.btn-android {
+    text-align: center;
+    width:180px;
+  }
+}
+
+@media screen and (min-width:1000px) {
+  .fixed-slide-right{
+    display: block;
+    top:45px;
+    right:10px;
+  }
+  .sm-hide{
+    display: block;
+  }
+  .one-page-header {
+    background: transparent;
+  }
+  .one-page-header .navbar-nav > li > a {
+    color: #eee;
+  }
+}
+
+@media screen and (min-width:1200px) {
+  .one-page-header {
+    background: transparent;
+  }
+
+  .fixed-slide-right{
+    display: block;
+    top:45px;
+    right:150px;
+  }
+  .sm-hide{
+    display: block;
+  }
+``}
+
+/*ec1c24*/
+h1,h2,h3,h4,h5,h5,h6,p,li {
+  color: #fff;
+}
+.one-page-header .navbar-nav > li > a {
+  font-weight:500;
+  font-size: 15px;
+}
+
+.one-page-header .navbar-nav > li > a:before {
+  content:'';
+}
+
+.slides-container .bg1{
+  background-image:  linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(../../img/bg1.jpg);
+  background-position: center center;
+  /*background-attachment: fixed;*/
+  background-size: cover;
+}
+
+.slides-container .bg2{
+  background-image:  linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(../../img/bg2.jpg);
+  background-position: center center;
+  /*background-attachment: fixed;*/
+  background-size: cover;
+}
+
+.contacts-section {
+  position: relative;
+  padding:30px 10px;
+}
+.center-transform {
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.screenshot {
+  width: 380px !important;
+  height: 648px !important;
+  position: absolute !important;
+  left: auto !important;
+  right: 50px !important;
+  top:30px !important;
+}
+
+.screenshot-text {
+  padding:10%;
+}
+
+@media only screen and (min-width:200px) {
+  .screenshot-text {
+    text-align: center;
+  }
+  .screenshot-text strong{
+    text-transform: uppercase;
+    font-size: 31px;
+  }
+
+}
+@media only screen and (min-width:500px) {
+  .screenshot-text {
+    text-align: left;
+  }
+  .screenshot-text strong{
+    text-transform: uppercase;
+    font-size: 40px;
+  }
+}
+
+.screenshot-text strong{
+  text-transform: uppercase;
+}
+
+.btn-u.btn-banner.btn-android.btn-lg{
+  height: 50px;
+  width: 200px;
+  padding:25px;
+  border-radius: 2px;
+}
+
+.theme-orange {
+  transition: all .5s ease-in;
+  background: #f6921e !important;
+  color: white !important;
+  border-bottom: 4px solid #c36c08 !important;
+}
+.theme-orange:hover{
+  background-color: #0c9608 !important;
+  border-bottom: 4px solid #056103 !important;
+}
+.mg-left-10 {
+  margin-left:10px;
+}
+.theme-red {
+  transition: all .5s ease-in;
+  background-color: #ec1c24 !important;
+  color:white !important;
+  border-bottom: 4px solid #a70a10 !important;
+}
+.theme-red:hover {
+  background-color: #0c9608 !important;
+  border-bottom: 4px solid #056103 !important;
+}
+
+.shadow-heading {
+  text-shadow:1px 1px 2px #fff;
+}
+
+.input-style {
+  border-radius: 2px;
+  height:38px;
+}
+
+.service-block.service-block-default p {
+  font-size: 15px;
+}
+
+.contacts-section-style p{
+  color:black;
+  font-size: 15px;
+  text-align: right;
+}
+
+.contacts-section-style h1{
+  color: black;
+  font-size: 40px;
+  text-transform: uppercase;
+}
+.contacts-section-style h4{
+  color: black;
+  font-size: 36px;
+}
+.contacts-section-style h1 strong{
+  color: #f6921e;
+}
+  .contacts-section-style button{
+  height:40px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contacts-section-style .border-style{
+  height: 100%;
+  border-right: 4px solid #c36c08;
+}
+
+.contacts-section-style textarea{
+  width: 100%;
+}
+
+.contacts-section-style input,.contacts-section-style button,.contacts-section-style textarea{
+  border-radius: 2px;
+}
+.contacts-section-style input,.contacts-section-style textarea{
+  border-top-color: #f6921e;
+  border-left-color: #f6921e;
+  border-bottom-color:#e38314;
+  border-right-color:#e38314;
+  border-width: 2px;
+  color: #6c3d06;
+  font-size: 16px;
+}
+
+.contacts-section-style input::-webkit-input-placeholder {
+   color: #f6921e;
+}
+
+.contacts-section-style input:-moz-placeholder { /* Firefox 18- */
+   color: #f6921e;
+}
+
+.contacts-section-style input::-moz-placeholder {  /* Firefox 19+ */
+   color: #f6921e;
+}
+
+.contacts-section-style input:-ms-input-placeholder {
+   color: #f6921e;
+}
+.contacts-section-style textarea::-webkit-input-placeholder {
+   color: #f6921e;
+}
+
+.contacts-section-style textarea:-moz-placeholder { /* Firefox 18- */
+   color: #f6921e;
+}
+
+.contacts-section-style textarea::-moz-placeholder {  /* Firefox 19+ */
+   color: #f6921e;
+}
+
+.contacts-section-style textarea:-ms-input-placeholder {
+   color: #f6921e;
+}
+
+.contacts-section-style input:hover,.contacts-section-style textarea:hover{
+  box-shadow: 0px 0px 5px #f6921e;
+}
+.contacts-section-style input:focus,.contacts-section-style textarea:focus{
+  border-color: #f6921e;
+  box-shadow: 0px 0px 3px #f6921e;
+}
+
+.btn.theme-orange{
+  border-radius: 2px;
+}
+
+.footer p{
+  font-size: 15px;
+}
+
+.social-items{
+  width:40px;
+  padding:5px 10px;
+  border-radius:3px;
+  margin: 1px;
+  display:inline-block;
+}
+
+.social {
+  color: #fff;
+}
+
+.fb{
+  background: linear-gradient(rgb(59, 89, 152), rgb(19, 43, 92));
+}
+.linked_in {
+  background: linear-gradient(rgb(15, 135, 198), rgb(4, 63, 94));
+}
+.twitter {
+  background: linear-gradient(rgb(46, 194, 250), rgb(6, 95, 129));
+}

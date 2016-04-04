@@ -32,6 +32,7 @@ angular.module('merchantApp').controller('LoginController', ['$scope', '$rootSco
                     });
                 });
             }, function(err) {
+                console.log(err);
                 var message;
                 if (err.data) {
                     message = err.data;
