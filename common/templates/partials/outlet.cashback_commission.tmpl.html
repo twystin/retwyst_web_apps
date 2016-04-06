@@ -133,7 +133,7 @@
                                 </div>
                             </td>
                             <td class='text-right'>
-                                <input style='min-width:80px;' min='0.01' step='0.01' max='5.00' class='form-control' type='number' ng-model='slab.ratio'>
+                                <input style='min-width:80px;' min='0.01' step='0.01' class='form-control' type='number' ng-model='slab.ratio'>
                             </td>
                             <td class='text-center'>
                                 <span class='label label-info' ng-if='slab.ratio && outlet.twyst_meta.cashback_info.base_cashback'>{{(slab.ratio * outlet.twyst_meta.cashback_info.base_cashback) | number:2}}%</span>
