@@ -1,0 +1,31 @@
+<div class='optoutbody'>
+  <nav class="one-page-header one-page-header-style-2 navbar navbar-default navbar-fixed-top navColor" role="navigation">
+      <div class="container">
+          <div class="menu-container page-scroll">
+            <a class="navbar-brand" href="#intro">
+                <img src="home/img/twyst_transparent_logo_100x35.png" alt="twyst.in">
+            </a>
+          </div>
+      </div>
+  </nav>
+      <!--=== End Header ===-->
+
+  <div class='container text-center'>
+    <img ng-src='https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/{{outlet_image}}/logo' class='logo'>
+    <h1>{{outlet_name}}</h1>
+    <div class='form-fluid'>
+      <form>
+      <div class='form-group'>
+        <input type='text' class='form-control' ng-model="optout.phone" placeholder="Enter the registered mobile number">
+      </div>
+
+      <div class='form-group'>
+        <input type='submit' class='optoutButton' value='UNSUBSCRIBE' ng-click="smsOptout(optout)">
+      </div>
+      <div class='form-group fluid'>
+        <label><input type='checkbox' ng-model="optout.block_all"> Stop all promotional messages from Twyst</label>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
