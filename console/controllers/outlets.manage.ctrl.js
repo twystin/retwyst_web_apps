@@ -95,5 +95,19 @@ angular.module('consoleApp').controller('OutletManageController', ['$scope', '$r
                 }
             });
         };
+
+        $scope.updateOutletServices = function(outlet) {
+            consoleRESTSvc.updateOutlet(outlet).then(function(res) {
+                console.log(res);
+                SweetAlert.swal("SUCCESS", "Outlet  updated", 'success');
+            }, function(err) {
+                console.log(err);
+                if (err.message) {
+                    SweetAlert.swal('ERROR', err.message, 'error');
+                } else {
+                    SweetAlert.swal('ERROR', 'Unable to update the outlet right now', 'error');
+                }
+            });
+        };
     }
 ])

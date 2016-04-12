@@ -1,0 +1,204 @@
+<div>&nbsp;</div>
+<div class='container-fluid'>
+    <div class='row'>
+        <div class='col-sm-7 table-responsive'>
+            <div class='table-label'>
+                <legend>Order Panel</legend>
+            </div>
+            <div class='col-xs-12'>
+                <div class="row">
+                    <label class='col-sm-2 control-label'>Pick Outlet</label>
+                    <div class='col-sm-10'>
+                        <select ng-model='subscribed_outlet' ng-change='updateSub(subscribed_outlet)' ng-disabled='!subscribed_outlet' class='form-control' ng-options='outlet._id as (outlet.basics.name + (outlet.contact.location.locality_1[0]?", " + outlet.contact.location.locality_1[0]:"") + (outlet.contact.location.locality_2[0]?", " + outlet.contact.location.locality_2[0]:"")) for outlet in outlets'>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div>&nbsp;</div>
+            <div class='col-md-12'>
+                <div class='btn-group btn-group-justified'>
+                    <a class='btn' ng-click='updateShowing("PENDING")' ng-class='{"btn-primary": showing==="PENDING", "btn-dark": showing!=="PENDING"}'>Pending</a>
+                    <a class='btn' ng-click='updateShowing("ACCEPTED")' ng-class='{"btn-primary": showing==="ACCEPTED", "btn-dark": showing!=="ACCEPTED"}'>Accepted</a>
+                    <a class='btn' ng-click='updateShowing("ASSUMED_DELIVERED")' ng-class='{"btn-primary": showing==="ASSUMED_DELIVERED", "btn-dark": showing!=="ASSUMED_DELIVERED"}'>Late</a>
+                    <a class='btn' ng-click='updateShowing("REJECTED")' ng-class='{"btn-primary": showing==="REJECTED", "btn-dark": showing!=="REJECTED"}'>Rejected</a>
+                    <a class='btn' ng-click='updateShowing("DISPATCHED")' ng-class='{"btn-primary": showing==="DISPATCHED", "btn-dark": showing!=="DISPATCHED"}'>Dispatched</a>
+                    <a class='btn' ng-click='updateShowing("CLOSED")' ng-class='{"btn-primary": showing==="CLOSED", "btn-dark": showing!=="CLOSED"}'>Delivered</a>
+                    <a class='btn' ng-click='updateShowing("CANCELLED")' ng-class='{"btn-primary": showing==="CANCELLED", "btn-dark": showing!=="CANCELLED"}'>Cancelled</a>
+                    
+                </div>
+            </div>
+            <div class='clearfix'></div>
+            <div>&nbsp;</div>
+            <div class='alert alert-warning text-center' ng-if='!filtered_orders.length'>
+                <b></b>
+                <b ng-if ='showing === "ASSUMED_DELIVERED"'>No Late orders right now.</b>
+                <b ng-if ='showing !== "ASSUMED_DELIVERED"'>No {{showing}} orders right now.</b>
+            </div>
+            <div class='col-sm-12'>
+                <div class='panel panel-primary' ng-repeat='order in filtered_orders | orderBy:"order_date"'>
+                    <div class='panel-body'>
+                        <span class='pull-left'>Order #{{order.order_number}}</span>
+                        <div class='pull-right'><span class='label label-info' ><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}}</span></div>
+                        <div class='clearfix'></div>
+                        <div>&nbsp;</div>
+                        <div class='pull-left'>
+                            <span ng-if='order.outlet' class='label label-default'>{{outlets[order.outlet].basics.name}}, {{outlets[order.outlet].contact.location.locality_1[0]?outlets[order.outlet].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet].contact.location.locality_2[0]}}</span>
+                            <span ng-if='!order.outlet' class='label label-default'>Outlet info missing</span>
+                        </div>
+                        <div class='pull-right'><a class='btn btn-w-md btn-primary btn-block' ng-click='viewOrder(order, $index)'>View</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='col-sm-5'>
+            <div class='table-label'>
+                <legend>Order View</legend>
+            </div>
+            <div class='row'>
+                <div class='page page-invoice' ng-if='order._id'>
+                    <div class='invoice-wrapper'>
+                        <section class='invoice-container' id='invoice'>
+                            <div class='invoice-inner'>
+                                <div class='row'>
+                                    <div class='col-xs-6'>
+                                        <p class='label label-info'><i class='fa fa-inr'></i>&nbsp;{{order.actual_amount_paid | number:2}} </p>
+                                        <p ng-if='order.payment_info.payment_mode === "COD"'class='label btn-danger'><i class='fa'></i>&nbsp;Collect Cash </p>
+                                        <p ng-if='order.payment_info.payment_mode !== "COD"'class='label btn-danger'><i class='fa'></i>&nbsp;Paid Online </p>
+                                        <br>
+                                        <span ng-if='order.outlet' class='label label-default'>{{outlets[order.outlet].basics.name}}, {{outlets[order.outlet].contact.location.locality_1[0]?outlets[order.outlet].contact.location.locality_1[0] + ', ':''}}{{outlets[order.outlet].contact.location.locality_2[0]}}</span>
+                                    </div>
+                                    <div class='col-xs-6 text-right'>
+                                        <p >#{{order.order_number}}</p>
+                                        <p>{{order.order_date | date: 'dd MMMM hh:mm a'}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class='row'>
+                                    <div class='col-xs-12'>
+                                        <div class="ui-timline-container">
+                                            <section class="ui-timeline">
+                                                <article class="tl-item">
+                                                    <div class="tl-body">
+                                                        <div class="tl-entry">
+                                                            <div class="tl-time">{{order.order_date | date:'hh:mm a'}}</div>
+                                                            <div class="tl-icon round-icon sm bg-primary"><i class="fa fa-check"></i></div>
+                                                            <div class="tl-content">
+                                                                <h4 class="tl-tile text-primary">RECEIVED</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                                <article class="tl-item" ng-repeat='action in order.actions track by $index'>
+                                                    <div class="tl-body">
+                                                        <div class="tl-entry">
+                                                            <div class="tl-time">{{action.action_at | date:'hh:mm a'}}</div>
+                                                            <div class="tl-icon round-icon sm" ng-class='{"bg-primary": action.action_type!=="cancelled" && action.action_type!== "rejected", "bg-danger": action.action_type==="cancelled" || action.action_type=== "rejected"}'><i class="fa" ng-class='{"fa-check": action.action_type!=="cancelled" && action.action_type!== "rejected", "fa-times": action.action_type==="cancelled" || action.action_type=== "rejected"}'></i></div>
+                                                            <div class="tl-content">
+                                                                <h4 class="tl-tile text-primary">{{action.action_type | uppercase}}</h4>
+                                                                <p ng-if='action.comments'>{{action.comments}}</p>
+                                                                <p ng-if='action.action_type === "accepted"' class='label label-info'><i class='fa fa-clock-o'></i>&nbsp;{{order.estimeted_delivery_time}} min</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </section>
+                                            <div class='text-center' ng-if='order.order_status === "PENDING"'>
+                                                <a class='btn btn-w-md btn-success' ng-click='acceptOrder()'>Accept</a>
+                                                <a class='btn btn-w-md btn-warning' ng-click='showReject()'>Reject</a>
+                                            </div>
+                                            <div>&nbsp;</div>
+                                            <div class='text-center' ng-if='order.order_status === "PENDING" && show_reject_msg'>
+                                                <div class='input-group'>
+                                                    <select type='text' ng-model='reject.reason' class='form-control'>
+                                                        <option value='' ng-if='!reject.reason'>Choose a reason</option>
+                                                        <option value='{{reason}}' ng-repeat='reason in reject_reasons'>{{reason}}</option>
+                                                    </select>
+                                                    <span class='input-group-btn'>
+                                                        <button type='button' class='btn btn-w-md btn-danger' ng-disabled='!reject.reason' ng-click='rejectOrder(reject.reason)'>Reject</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class='text-center' ng-if='order.order_status === "ACCEPTED" || order.order_status === "ASSUMED_DELIVERED"'>
+                                                <a class='btn btn-w-md btn-lg btn-info' ng-click='dispatchOrder()'>Dispatch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class='row'>
+                                    <div class='col-xs-6'>
+                                        <strong>{{order.user.first_name}} {{order.user.last_name}}</strong>
+                                        <strong>{{order.user.phone}} </strong>
+                                        <br> {{order.address.line1}}
+                                        <br> <span ng-if='order.address.line2'>{{order.address.line2}} <br/> </span> {{order.address.city}} {{order.address.state}}
+                                        <span ng-if='order.address.pin'> - {{order.address.pin}}
+                                        <br> {{order.user.phone}}
+                                        <br> {{order.user.email}}
+                                    </div>
+                                    <div class='col-xs-6 text-right'>
+                                        <p><strong>Order Details:</strong></p>
+                                        <strong>{{order.order_date | date: 'dd MMMM hh:mm a'}}</strong>
+                                        <div class='clearfix'></div>
+                                        <div>&nbsp;</div>
+                                        <p class='label' ng-class='{"label-warning": order.order_status === "PENDING", "label-success": order.order_status === "ACCEPTED", "label-danger": order.order_status === "REJECTED" || order.order_status === "CANCELLED"}'>{{order.order_status | uppercase}}</p>
+                                    </div>
+                                </div>
+                                <div class="divider divider-lg"></div>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class='bg-dark'>
+                                            <th class='text-center'>#</th>
+                                            <th>Item</th>
+                                            <th class="text-center">Cost</th>
+                                            <th class="text-center">Qty.</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat='item in order.items track by $index'>
+                                            <td class='text-right'>{{$index + 1}}</td>
+                                            <td>{{item.item_name}}
+                                                <span>&nbsp;</span>
+                                                <span class='label label-default' ng-if='item.option.option_value'>{{item.option.option_value}}</span>
+                                                <span ng-if='item.option.option_value'>&nbsp;</span>
+                                                <span ng-repeat='sub_option in item.option.sub_options track by $index'>
+                                                    <span class='label label-default' ng-repeat='sub_option_obj in sub_option.sub_option_set'>{{sub_option_obj.sub_option_value}}</span>
+                                                    <span>&nbsp;</span>
+                                                </span>
+                                                <span ng-repeat='addon in item.option.addons track by $index'>
+                                                    <span class='label label-default' ng-repeat='addon_obj in addon.addon_set track by $index'>
+                                                        {{addon_obj.addon_value}}
+                                                    </span>
+                                                    <span ng-if='$index !== (item.option.addons.length - 1)'>&nbsp;</span>
+                                                </span>
+                                            </td>
+                                            <td class="text-center">{{getItemPrice(item)}}
+                                            </td>
+                                            <td class="text-center">{{item.item_quantity || 1}}</td>
+                                            <td class="text-center">{{getItemPrice(item) * (item.item_quantity || 1)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class='row'>
+                                    <div class='col-xs-12 col-sm-offset-6 col-sm-6 invoice-sum text-right'>
+                                        <ul class="list-unstyled">
+                                            <li>Sub-Total amount: <i class='fa fa-inr'></i>{{order.order_value_without_offer | number:2}}</li>                                    
+                                            <li>Discount: <i class='fa fa-inr'></i>{{(order.order_value_without_offer && order.order_value_with_offer)?order.order_value_without_offer - order.order_value_with_offer:0 | number:2}}</li>
+
+                                            <li>Total Tax: <i class='fa fa-inr'></i>{{order.tax_paid | number:2}}</li>
+                                            <li>Delivery Charge: <i class='fa fa-inr'></i>{{order.delivery_charge | number:2}}</li>
+                                            <li><strong>Grand Total: <i class='fa fa-inr'></i>{{order.actual_amount_paid | number:2}}</strong></li>
+                                   
+                                            <li ng-if='order.payment_info.payment_mode === "COD"' ><strong class='fa text-primary'> <i ></i>Collect Cash</strong></li>
+                                            <li ng-if='order.payment_info.payment_mode !== "COD"'><strong class='fa text-primary'><i ></i>Paid Online</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

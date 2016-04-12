@@ -29,7 +29,7 @@
     <aside id='nav-container' class='nav-container nav-fixed nav-vertical' ng-if='token'>
         <div class='nav-wrapper'>
             <ul id='nav' class='nav' data-slim-scroll data-collapse-nav data-highlight-active>
-                <li ng-class='{active: current_state === "merchant.default"}'>
+                <li ng-if='outlets[subscribed_outlet].outlet_meta.services.ordering' ng-class='{active: current_state === "merchant.default"}'>
                     <a ui-sref='.default'> <i class='fa fa-dashboard'></i><span>PANEL</span></a>
                 </li>
                 <li ng-class='{active: current_state === "merchant.outlets_manage" || current_state === "merchant.outlets_create" || current_state === "merchant.outlets_edit" || current_state === "merchant.outlets_view"}'>
@@ -43,6 +43,9 @@
                 </li>
                 <li ng-class='{active: current_state === "merchant.bills_manage" || current_state === "merchant.bills_view"}'>
                     <a ui-sref='.bills_manage'> <i class='fa fa-pencil'></i><span>BILLS</span></a>
+                </li>
+                <li  ng-class='{active: current_state === "merchant.checkin_panel"}'>
+                    <a ui-sref='.checkin_panel'> <i class='fa fa-pencil'></i><span>CHECKIN PANEL</span></a>
                 </li>
             </ul>
         </div>
