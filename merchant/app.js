@@ -193,4 +193,9 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
                 templateUrl: 'templates/checkin_panel.html',
                 controller: 'CheckinController'
             })
+            .state('merchant.order_panel', {
+                url: '/?show',
+                templateUrl: 'templates/order_panel.html',
+                controller: 'OrderManageController'
+            })
     }]);

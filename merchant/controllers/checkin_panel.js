@@ -107,12 +107,8 @@ angular.module('merchantApp')
 							toastr.success(success_msg);
 						}, function(err) {
 							$scope.checkin.number = '';
-							var error_msg;
-							if (err.data.indexOf('-')===-1) {
-								error_msg = err.data;
-							} else {
-								error_msg = err.data.slice(err.data.indexOf('-') + 2)
-							}
+							var error_msg = err.message;
+							console.log(err);
 							toastr.error(error_msg, "Error")
 						})
 				}

@@ -24,10 +24,12 @@
 					<div class='well'>
 						<legend>Check-in a User</legend>
 						<div class='form-group'>
-							<label for='checkin_date' class='col-xs-6 control-label'>Checkin date</label>
-							<div class='col-xs-6 col-md-6'>
+							<label for='checkin_date' class='col-xs-6  col-md-12 control-label'>Checkin date</label>
+							<div class='col-xs-6 col-md-12'>
 								<input type='text' datepicker-popup="dd/MM/yyyy" show-button-bar='false' min-date='minDate' max-date='maxDate' is-open="date_open" ng-click="date_open = true" class='form-control' ng-model='checkin.date'>
 							</div>
+							<br>
+							<br>
 							<p>&nbsp;</p>
 							<div class='input-group'>
 								<input type='text' ng-model='checkin.number' class='form-control' placeholder='10 digit mobile number'>
