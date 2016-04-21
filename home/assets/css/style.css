@@ -1,6 +1,43 @@
 .relative{
   position: relative;
 }
+.notifications{
+  position: fixed;
+  border-radius: 3px;
+  max-width: 500px;
+  margin: 0 5px;
+  z-index: 5;
+  /*visibility: hidden;*/
+  display: none;
+  background-color: rgba(246, 146, 30, 0.8);
+}
+@media only screen and (min-width: 200px) {
+  .notifications{
+    top: 55px;
+    left: 0px;
+  }
+}
+@media only screen and (min-width: 500px) {
+  .notifications{
+    top: 80px;
+    left:70px;
+  }
+}
+
+.notif-message{
+  padding: 10px 20px;
+  color: white;
+  font-size: 14px;
+}
+.close{
+  position: relative;
+  top: 2px;
+  right: 4px;
+  font-size: 15px;
+}
+.close .fa.fa-times:hover{
+  color:black;
+}
 
 .transparent-phone{
   width:320px;
