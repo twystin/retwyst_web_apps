@@ -76,6 +76,17 @@
                                     </select>
                                 </div>
                             </th>
+                            <th>
+                                <div class='th'>
+                                    <select ng-model='view_status' ng-change='sort(view_status)' class='form-control' name='viewByStatus'>
+                                        <option value='' ng-if='!view_status'>Services</option>
+                                        <option value='' ng-if='view_status'>All</option>
+                                        <option value='ordering'>Ordering</option>
+                                        <option value='loyalty'>Loyalty</option>
+                                        
+                                    </select>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,6 +102,12 @@
                                     <label class="btn" ng-class='{"btn-default": outlet.outlet_meta.status !== "active", "btn-primary": outlet.outlet_meta.status === "active"}' ng-model="outlet.outlet_meta.status" ng-change='updateOutletStatus(outlet)' btn-radio="'active'">Active</label>
                                     <label class="btn" ng-class='{"btn-default": outlet.outlet_meta.status !== "draft", "btn-primary": outlet.outlet_meta.status === "draft"}' ng-model="outlet.outlet_meta.status" ng-change='updateOutletStatus(outlet)' btn-radio="'draft'">Draft</label>
                                     <label class="btn" ng-class='{"btn-default": outlet.outlet_meta.status !== "archived", "btn-primary": outlet.outlet_meta.status === "archived"}' ng-model="outlet.outlet_meta.status" ng-change='updateOutletStatus(outlet)' btn-radio="'archived'">Archived</label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="btn-group">
+                                    <label class="btn" ng-class='{"btn-default": outlet.outlet_meta.services.ordering !== true, "btn-primary": outlet.outlet_meta.services.ordering === true}' ng-model="outlet.outlet_meta.services.ordering" ng-change='updateOutletServices(outlet)' btn-checkbox="'ordering'">Ordering</label>
+                                    <label class="btn" ng-class='{"btn-default": outlet.outlet_meta.service.loyalty !== true, "btn-primary": outlet.outlet_meta.services.loyalty === true}' ng-model="outlet.outlet_meta.services.loyalty" ng-change='updateOutletServices(outlet)' btn-checkbox="'loyalty'">Loyalty</label>                                    
                                 </div>
                             </th>
                         </tr>

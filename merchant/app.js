@@ -9,6 +9,12 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
         $rootScope.isPaying = $cookies.get('isPaying') == 'true' ? true : false;
         $rootScope.subscribed_outlet = $cookies.get('subscribed_outlet') || '';
 
+        merchantRESTSvc.getOutlets().then(function(res) {
+            $rootScope.outlets = res.data;
+        }, function(err) {
+            console.log(err);
+        })
+
         $rootScope.setHandler = function(handler) {
             $rootScope.handler = handler;
         }
@@ -104,7 +110,7 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
             })
             .state('merchant.default', {
                 url: '/?show',
-                templateUrl: 'templates/panel.html',
+                templateUrl: 'templates/order_panel.html',
                 controller: 'OrderManageController'
             })
             .state('merchant.login', {
@@ -181,5 +187,15 @@ angular.module('merchantApp', ['ui.router', 'ngAudio', 'ui.bootstrap', 'ngCookie
                 url: '/bills/view/:bill_id',
                 templateUrl: 'templates/bills/view.html',
                 controller: 'BillViewController'
+            })
+            .state('merchant.checkin_panel', {
+                url: '/checkin',
+                templateUrl: 'templates/checkin_panel.html',
+                controller: 'CheckinController'
+            })
+            .state('merchant.order_panel', {
+                url: '/?show',
+                templateUrl: 'templates/order_panel.html',
+                controller: 'OrderManageController'
             })
     }]);
