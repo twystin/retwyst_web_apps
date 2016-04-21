@@ -426,6 +426,86 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         };
 
         /*===========================================
+        =            COUPON OFFER APIs              =
+        ===========================================*/
+
+        consoleRESTSvc.getCoupons = function() {
+          var deferred = $q.defer();
+          var token = $cookies.get('token');
+            $http.get('/api/v4/coupons?token='+token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.getCoupon = function(offer_id) {
+            var deferred = $q.defer();
+            $http.get('/api/v4/coupons' + coupon_id).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.createCoupon = function(coupon_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            console.log("coupon object",coupon_obj);
+            $http.post('/api/v4/coupons?token='+token, coupon_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateCouponOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            $http.put('/api/v4/banners/' + offer_obj._id)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.deleteCouponOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            $http.delete('/api/v4/banners/' + offer_obj._id)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        /*===========================================
         =            CASHBACK OFFER APIs            =
         ===========================================*/
 

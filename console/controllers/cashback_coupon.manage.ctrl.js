@@ -17,7 +17,7 @@ angular.module('consoleApp').controller('CashbackCouponManageController', ['$sco
 
 		$scope.current_page_coupon_offers = [];
 
-		consoleRESTSvc.getCouponOffers().then(function(res) {
+		consoleRESTSvc.getCoupons().then(function(res) {
 			console.log(res);
 			$scope.coupon_offers = res.data;
 			$scope.search();

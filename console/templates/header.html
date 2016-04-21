@@ -82,6 +82,9 @@
                 <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.cashback_offers_manage" || current_state === "console.cashback_offers_create" || current_state === "console.cashback_offers_edit"}'>
                     <a ui-sref='.cashback_offers_manage'> <i class='fa fa-code'></i><span>CASHBACK OFFERS</span></a>
                 </li>
+                <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.cashback_coupon_manage" || current_state === "console.cashback_coupon_create" || current_state === "console.cashback_coupon_edit"}'>
+                    <a ui-sref='.cashback_coupon_manage'> <i class='fa fa-code'></i><span>COUPON SECTION</span></a>
+                </li>
                 <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.test_payment"}'>
                     <a ui-sref='.test_payment'> <i class='fa fa-code'></i><span>Test Payment</span></a>
                 </li>

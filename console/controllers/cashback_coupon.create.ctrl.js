@@ -7,8 +7,9 @@ angular.module('consoleApp').controller('CashbackCouponCreateController', ['$sco
           only_on_first_order:"true",
           max_use_limit:15,
           per_user_limit:"5",
-          start_date:2016-04-21T18:30:00.000Z,
-          end_date:2016-04-22T18:30:00.000Z
+          start_date: new Date(2016, 3, 22),
+          end_date: new Date(2016, 3, 23),
+          
         };
 
         $scope.addNewOffer = function() {
@@ -122,6 +123,7 @@ angular.module('consoleApp').controller('CashbackCouponCreateController', ['$sco
           //   else if (!_.get($scope.offer, 'offers') || !$scope.offer.offers.length) {
         	// 	SweetAlert.swal('Validation Error', 'Atleast add one cashback offer', 'warning');
         	// } else {
+          console.log("coupon", $scope.coupon);
         		consoleRESTSvc.createCoupon($scope.coupon).then(function(res) {
         			console.log('res', res);
         			SweetAlert.swal({

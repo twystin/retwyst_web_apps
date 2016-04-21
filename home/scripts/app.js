@@ -1,17 +1,49 @@
-angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller('MainController', ['$scope', '$http', '$location', 'SweetAlert', function($scope, $http, $location, SweetAlert) {
+var twystApp = angular.module('twystApp',['ui.router', 'oitozero.ngSweetAlert', 'ui.bootstrap']);
+twystApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+  // $locationProvider.html5Mode(true);
+  $urlRouterProvider.when('','/home');
+  $urlRouterProvider.when('/','/home');
+  $urlRouterProvider.otherwise('/404');
 
-	$scope.login_notification = {};
+  $stateProvider
+    .state('home',{
+      url: '/home',
+      templateUrl: 'home/templates/home.html',
+      controller: 'MainController'
+    })
+    .state('optout',{
+      url: '/optout/:channel/:_id/:name',
+      templateUrl: 'home/templates/optout_sms.html'
+    })
+    .state('email_verification',{
+      url:'/home/:is_verified/:user/:email',
+      templateUrl: 'home/templates/home.html',
+      controller: 'MainController'
+    })
+    .state('dunno',{
+      url: '/404',
+      templateUrl: 'home/templates/404.html'
+    });
 
-	var verifiedObject = $location.search();
-	if(verifiedObject.verified) {
-		if(verifiedObject.verified === "true"){
-			$scope.login_notification.verified = "true";
-			$scope.login_notification.name = verifiedObject.user;
-			$scope.login_notification.email = verifiedObject.email;
-		} else if (verifiedObject.verified === "false") {
-			$scope.login_notification.verified = "false";
+});
+
+twystApp.controller('MainController', ['$rootScope','$scope', '$http', '$location', 'SweetAlert', function($rootScope, $scope, $http, $location, SweetAlert) {
+
+  $rootScope.login_notification = null;
+	$scope.optout = {};
+	$scope.optout.block_all = false;
+	$rootScope.verifiedObject = $location.path();
+  $rootScope.verifiedObject = $rootScope.verifiedObject.split('/').splice(2,$rootScope.verifiedObject.split('/').length);
+  $rootScope.verifiedObject.is_verified  = $rootScope.verifiedObject[0];
+  $rootScope.verifiedObject.user         = $rootScope.verifiedObject[1];
+  $rootScope.verifiedObject.email        = $rootScope.verifiedObject[2];
+	if(typeof $rootScope.verifiedObject !== "undefined") {
+		if($rootScope.verifiedObject.is_verified === "true"){
+			$rootScope.login_notification = "Congratulations "+ $rootScope.verifiedObject.user +"! your email: "+ $rootScope.verifiedObject.email + " is now verified.";
+      $(".notifications").delay(1000).fadeIn(500,"linear", function(){window.location='/'});
+		} else if ($rootScope.verifiedObject.verified === "false") {
+			$rootScope.login_notification = "Sorry! Seems like that was an invalid link.";
 		}
-		console.log($scope.login_notification);
 	}
 
 		$scope.contact_us = function() {
@@ -47,6 +79,7 @@ angular.module('homeApp', ['oitozero.ngSweetAlert', 'ui.bootstrap']).controller(
 	};
 
 	$scope.get_link_on_phone = function() {
+		console.log($scope.req.phone);
 		if ($scope.sending_phone) {
 			return;
 		} else if (!$scope.req || !$scope.req.phone) {

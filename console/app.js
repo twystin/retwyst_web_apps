@@ -11,12 +11,12 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
         $rootScope.setHandler = function(handler) {
             $rootScope.handler = handler;
         }
-        
+
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
                 var title;
-                
+
                 if ($rootScope.handler) {
                     $rootScope.handler(message);
                 } else {
@@ -66,7 +66,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
             $('document').ready(function() {
                 $(window).scrollTop(0);
             });
-            
+
             $rootScope.current_state = toState.name;
         })
     }])
@@ -210,6 +210,21 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 url: '/cashback_offers/:offer_id',
                 templateUrl: 'templates/cashback_offers/edit.html',
                 controller: 'CashbackOfferUpdateController'
+            })
+            .state('console.cashback_coupon_manage', {
+                url: '/cashback_coupon',
+                templateUrl: 'templates/cashback_coupon/manage.html',
+                controller: 'CashbackCouponManageController'
+            })
+            .state('console.cashback_coupon_create', {
+                url: '/cashback_coupon/create',
+                templateUrl: 'templates/cashback_coupon/create.html',
+                controller: 'CashbackCouponCreateController'
+            })
+            .state('console.cashback_coupon_edit', {
+                url: '/cashback_coupon/:offer_id',
+                templateUrl: 'templates/cashback_coupon/edit.html',
+                controller: 'CashbackCouponUpdateController'
             })
             .state('console.test_payment', {
                 url: '/test_payment',
