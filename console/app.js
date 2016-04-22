@@ -226,6 +226,11 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/cashback_coupon/edit.html',
                 controller: 'CashbackCouponUpdateController'
             })
+            .state('console.promo_notifications', {
+                url: '/notifications',
+                templateUrl: 'templates/promo_notifications/manage.html',
+                // controller: 'PromoNotificationsController'
+            })
             .state('console.test_payment', {
                 url: '/test_payment',
                 templateUrl: 'templates/test_payment.html',

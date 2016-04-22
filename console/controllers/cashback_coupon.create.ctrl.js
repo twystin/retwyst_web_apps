@@ -1,110 +1,47 @@
-angular.module('consoleApp').controller('CashbackCouponCreateController', ['$scope', 'consoleRESTSvc', '$modal', 'SweetAlert', '$state',
-    function($scope, consoleRESTSvc, $modal, SweetAlert, $state) {
-        $scope.coupon = {
-          offers:[],
-          code:"#154652",
-          Outlets:"abc",
-          only_on_first_order:"true",
-          max_use_limit:15,
-          per_user_limit:"5",
-          start_date: new Date(2016, 3, 22),
-          end_date: new Date(2016, 3, 23),
-          
-        };
+angular.module('consoleApp').controller('CashbackCouponCreateController', ['$scope', 'consoleRESTSvc', '$filter', '$modal', 'SweetAlert', '$state',
+    function($scope, consoleRESTSvc, $modal, SweetAlert, $state, $filter) {
+      $scope.searchKeywords = '';
+      $scope.view_status = '';
+      $scope.outlets = [];
 
-        $scope.addNewOffer = function() {
-            _id = undefined;
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '../common/templates/partials/cashback_offer.tmpl.html',
-                controller: 'CashbackOfferTemplateController',
-                size: 'lg',
-                resolve: {
-                    is_new: function() {
-                        return true;
-                    },
-                    cashback_offer: function() {
-                        return {
-                            offer_status: 'draft',
-                            offer_applicability: {
-                                monday: {
-                                    closed: false,
-                                    timings: [{}]
-                                },
-                                tuesday: {
-                                    closed: false,
-                                    timings: [{}]
-                                },
-                                wednesday: {
-                                    closed: false,
-                                    timings: [{}]
-                                },
-                                thursday: {
-                                    closed: false,
-                                    timings: [{}]
-                                },
-                                friday: {
-                                    closed: false,
-                                    timings: [{}]
-                                },
-                                saturday: {
-                                    closed: false,
-                                    timings: [{}]
-                                },
-                                sunday: {
-                                    closed: false,
-                                    timings: [{}]
-                                }
-                            }
-                        };
-                    }
-                }
-            });
+      $scope.filtered_outlets = [];
 
-            modalInstance.result.then(function(offer_obj) {
-                _id = undefined;
-                $scope.offer.offers.push(offer_obj);
-            });
-        };
+      $scope.coupon = {
+        offers:[],
+        code:"#154652",
+        Outlets:"",
+        only_on_first_order:"true",
+        max_use_limit:15,
+        per_user_limit:"5",
+        start_date: new Date(2016, 3, 22),
+        end_date: new Date(2016, 3, 23),
+        actions:{
+          reward:{
+            reward_meta: {
+              reward_type:"flatoff",
+            }
+          }
+        }
+      };
 
-        $scope.updateOffer = function(index) {
-            _id = $scope.offer._id;
+      consoleRESTSvc.getOutlets().then(function(res) {
+        console.log(res);
+        $scope.outlets = res.data;
+        $scope.search();
+      }, function(err) {
+        console.log(err);
+      });
 
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '../common/templates/partials/cashback_offer.tmpl.html',
-                controller: 'CashbackOfferTemplateController',
-                size: 'lg',
-                resolve: {
-                    is_new: function() {
-                        return false;
-                    },
-                    cashback_offer: function() {
-                        return _.cloneDeep($scope.offer.offers[index])
-                    }
-                }
-            });
+      $scope.search = function() {
+        $scope.filtered_outlets = $filter('filter')($scope.outlets, $scope.searchKeywords);
+        if ($scope.view_status) {
+          consol.log($scope.view_status);
+          //              $scope.sort($scope.view_status);
+        }
+        //          return $scope.onFilterChange();
+      };
 
-            modalInstance.result.then(function(offer_obj) {
-                _id = undefined;
-                $scope.offer.offers[index] = offer_obj;
-            });
-        };
-
-        $scope.removeOffer = function(index) {
-            SweetAlert.swal({
-                title: 'Delete Offer?',
-                text: 'This change (once saved) is irrevesable',
-                type: 'error',
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!"
-            }, function(confirm) {
-                if (confirm) {
-                    $scope.offer.offers.splice(index, 1);
-                }
-            });
-        };
+      console.log("scope.search()",$scope.search);
 
         $scope.createCoupon = function() {
         	// if (!_.get($scope.offer, 'partner_name')) {
@@ -128,17 +65,16 @@ angular.module('consoleApp').controller('CashbackCouponCreateController', ['$sco
         			console.log('res', res);
         			SweetAlert.swal({
         				title: 'SUCCESS',
-        				text: 'Cashback offers created successfully',
+        				text: 'Coupon created successfully',
         				type: 'success'
         			}, function() {
-        				$state.go('^.cashback_offers_manage', {}, {
+        				$state.go('^.cashback_coupon_manage', {}, {
         					reload: true
         				});
         			});
         		}, function(err) {
         			SweetAlert.swal('Internal Error', err.message?err.message:'Something went wrong', 'error');
         		});
-        	//}
         };
     }
 ]);
