@@ -1,4 +1,4 @@
-angular.module('consoleApp').controller('OfferNotificationsController', ['$scope', 'consoleRESTSvc', '$modal', 'SweetAlert', '$state',
+angular.module('consoleApp').controller('PromoNotificationsController', ['$scope', 'consoleRESTSvc', '$modal', 'SweetAlert', '$state',
     function($scope, consoleRESTSvc, $modal, SweetAlert, $state) {
         $scope.coupon = {
           offers:[],

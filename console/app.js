@@ -196,20 +196,20 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/menu_update_requests/manage.html',
                 controller: 'MenuUpdateRequestManageController'
             })
-            .state('console.cashback_offers_manage', {
-                url: '/cashback_offers',
-                templateUrl: 'templates/cashback_offers/manage.html',
-                controller: 'CashbackOffersManageController'
+            .state('console.shopping_offers_manage', {
+                url: '/shopping_offers',
+                templateUrl: 'templates/shopping_offers/manage.html',
+                controller: 'ShoppingOffersManageController'
             })
-            .state('console.cashback_offers_create', {
-                url: '/cashback_offers/create',
-                templateUrl: 'templates/cashback_offers/create.html',
-                controller: 'CashbackOfferCreateController'
+            .state('console.shopping_offers_create', {
+                url: '/shopping_offers/create',
+                templateUrl: 'templates/shopping_offers/create.html',
+                controller: 'ShoppingOfferCreateController'
             })
-            .state('console.cashback_offers_edit', {
-                url: '/cashback_offers/:offer_id',
-                templateUrl: 'templates/cashback_offers/edit.html',
-                controller: 'CashbackOfferUpdateController'
+            .state('console.shopping_offers_edit', {
+                url: '/shopping_offers/:offer_id',
+                templateUrl: 'templates/shopping_offers/edit.html',
+                controller: 'ShoppingOfferUpdateController'
             })
             .state('console.cashback_coupon_manage', {
                 url: '/cashback_coupon',
@@ -229,7 +229,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
             .state('console.promo_notifications', {
                 url: '/notifications',
                 templateUrl: 'templates/promo_notifications/manage.html',
-                // controller: 'PromoNotificationsController'
+                controller: 'PromoNotificationsController'
             })
             .state('console.test_payment', {
                 url: '/test_payment',
