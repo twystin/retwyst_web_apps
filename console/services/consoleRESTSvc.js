@@ -506,10 +506,10 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         };
 
         /*===========================================
-        =            CASHBACK OFFER APIs            =
+        =            Shopping OFFER APIs            =
         ===========================================*/
 
-        consoleRESTSvc.getCashbackOffers = function() {
+        consoleRESTSvc.getShoppingOffers = function() {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.get('/api/v4/cashback/offers?token=' + token).then(function(res) {
@@ -524,7 +524,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.getCashbackOffer = function(offer_id) {
+        consoleRESTSvc.getShoppingOffer = function(offer_id) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.get('/api/v4/cashback/offers/' + offer_id + '?token=' + token).then(function(res) {
@@ -539,7 +539,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.createCashbackOffer = function(offer_obj) {
+        consoleRESTSvc.createShoppingOffer = function(offer_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.post('/api/v4/cashback/offers?token=' + token, offer_obj)
@@ -555,7 +555,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.updateCashbackOffer = function(offer_obj) {
+        consoleRESTSvc.updateShoppingOffer = function(offer_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.put('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)
@@ -571,7 +571,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.deleteCashbackOffer = function(offer_obj) {
+        consoleRESTSvc.deleteShoppingOffer = function(offer_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.delete('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)

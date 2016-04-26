@@ -3,7 +3,7 @@
     <div class='row'>
         <div class='col-sm-offset-2 col-sm-8'>
             <form class='form-horizontal'>
-                <legend>Cashback Offer Create</legend>
+                <legend>Shopping Offer Create</legend>
                 <button type='button' class='btn btn-w-md btn-gap-v btn-primary pull-right' ng-click='createOffer()'> Create Offer</button>
                 <div class='clearfix'></div>
                 <p>&nbsp;</p>
@@ -40,16 +40,16 @@
                 <div class='form-group'>
                     <label class='col-sm-3 control-label'>Offer Logo</label>
                     <div class='col-sm-5'>
-                        <imagereader ng-image-for='cashback_offer' ng-image-type='logo' ng-model='offer.logo'>
+                        <imagereader ng-image-for='shopping_offer' ng-image-type='logo' ng-model='offer.logo'>
                     </div>
                 </div>
                 <button type='button' class='btn btn-w-md btn-gap-v btn-default' ng-click='addNewOffer()'><i class='fa fa-plus'></i> Add Offer</button>
                 <div class='clearfix'></div>
                 <div ui-tree>
                     <ol ui-tree-nodes ng-model='offer.offers'>
-                        <li ng-repeat='cashback_offer in offer.offers track by $index' ui-tree-node>
+                        <li ng-repeat='shopping_offer in offer.offers track by $index' ui-tree-node>
                             <div ui-tree-handle data-nodrag class='tree-node tree-node-content'>
-                                {{cashback_offer.offer_source}} : {{cashback_offer.offer_type}}
+                                {{shopping_offer.offer_source}} : {{shopping_offer.offer_type}}
                                 <a class='pull-right btn btn-sm btn-danger' ng-click='removeOffer($index)'><i class='fa fa-trash-o'></i></a>&nbsp;&nbsp;
                                 <a class='pull-right btn btn-sm btn-warning' ng-click='updateOffer($index)'><i class='fa fa-pencil'></i></a>
                             </div>

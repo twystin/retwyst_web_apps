@@ -57,8 +57,12 @@ angular.module('consoleApp').directive('imagereader', ['imageSvc', 'toastr',
                         $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-menus/' + _id + '/items/' + val);
                     } else if (attributes.ngImageFor === 'outlet') {
                         $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/' + _id + '/' + val);
-                    } else if (attributes.ngImageFor === 'cashback_offer') {
-                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/cashback-offers/partner/' + _id + '/logo');
+                    } else if (attributes.ngImageFor === 'shopping_offer') {
+                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/shopping-offers/partner/' + _id + '/logo');
+                    } else if (attributes.ngImageFor === 'push_notif') {
+                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-app/banners/'+ _id + '/logo');
+                    } else if (attributes.ngImageFor === 'banner') {
+                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-app/push_notifications/' + _id + '/logo');
                     }
                 })
             }

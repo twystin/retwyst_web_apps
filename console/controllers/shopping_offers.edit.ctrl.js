@@ -4,7 +4,7 @@ angular.module('consoleApp').controller('ShoppingOfferUpdateController', ['$scop
             offers: []
         };
 
-        consoleRESTSvc.getCashbackOffer($stateParams.offer_id).then(function(res) {
+        consoleRESTSvc.getShoppingOffer($stateParams.offer_id).then(function(res) {
             $scope.offer = _.merge($scope.offer, res.data);
         }, function(err) {
             console.log(err);

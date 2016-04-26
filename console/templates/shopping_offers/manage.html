@@ -4,7 +4,7 @@
         <div class='col-sm-12'>
             <section class='panel panel-default table-dynamic'>
                 <div class='panel-heading'>
-                    <strong><span class='glyphicon glyphicon-th'></span> Cashback Offers</strong>
+                    <strong><span class='glyphicon glyphicon-th'></span> Shopping Offers</strong>
                 </div>
                 <div class='table-filters'>
                     <div class='row'>
@@ -14,14 +14,14 @@
                             </form>
                         </div>
                         <div class='col-sm-3 col-xs-6 filter-result-info'>
-                            <span>Showing {{filtered_cashback_offers.length}}/{{cashback_offers.length}} cashback offers.</span>
+                            <span>Showing {{filtered_shopping_offers.length}}/{{shopping_offers.length}} Shopping offers.</span>
                         </div>
                     </div>
                 </div>
                 <div class='header-tools'>
                     <div class='pull-left t5'>
-                        <a class='btn btn-default' ui-sref='^.cashback_offers_create'>
-                            <i class='fa fa-plus'></i>&nbsp;Add Cashback Partner
+                        <a class='btn btn-default' ui-sref='^.shopping_offers_create'>
+                            <i class='fa fa-plus'></i>&nbsp;Add Shopping Partner
                         </a>
                     </div>
                 </div>
@@ -66,11 +66,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat='offer in current_page_cashback_offers track by $index'>
+                        <tr ng-repeat='offer in current_page_shopping_offers track by $index'>
                             <td>
                             	<div>
 	                                <div class='hidden-xs'>
-	                                    <a class='btn btn-default' ui-sref='^.cashback_offers_edit({offer_id: offer._id})'>
+	                                    <a class='btn btn-default' ui-sref='^.shopping_offers_edit({offer_id: offer._id})'>
 	                                        <i class='fa fa-pencil'></i> Edit
 	                                    </a>
 	                                    <div class='btn-group dropdown'>
@@ -96,7 +96,7 @@
                                             </button>
                                             <ul class='dropdown-menu'>
                                                 <li>
-                                                    <a ui-sref='^.cashback_offers_edit({offer_id: offer._id})'>
+                                                    <a ui-sref='^.shopping_offers_edit({offer_id: offer._id})'>
                                                         <i class='fa fa-pencil'></i> Edit
                                                     </a>
                                                 </li>
@@ -128,7 +128,7 @@
                             </span>
                         </div>
                         <div class='col-sm-6 text-right pagination-container'>
-                            <pagination class='pagination-sm' ng-model='currentPage' total-items='filtered_cashback_offers.length' max-size='4' ng-change='select(currentPage)' items-per-page='numPerPage' rotate='false' previous-text="&lsaquo;" next-text="&rsaquo;" boundary-links='true'></pagination>
+                            <pagination class='pagination-sm' ng-model='currentPage' total-items='filtered_shopping_offers.length' max-size='4' ng-change='select(currentPage)' items-per-page='numPerPage' rotate='false' previous-text="&lsaquo;" next-text="&rsaquo;" boundary-links='true'></pagination>
                         </div>
                     </div>
                 </footer>

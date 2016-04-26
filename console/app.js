@@ -201,12 +201,12 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/shopping_offers/manage.html',
                 controller: 'ShoppingOffersManageController'
             })
-            .state('console.shopping_offer_create', {
+            .state('console.shopping_offers_create', {
                 url: '/shopping_offers/create',
                 templateUrl: 'templates/shopping_offers/create.html',
                 controller: 'ShoppingOfferCreateController'
             })
-            .state('console.shopping_offer_edit', {
+            .state('console.shopping_offers_edit', {
                 url: '/shopping_offers/:offer_id',
                 templateUrl: 'templates/shopping_offers/edit.html',
                 controller: 'ShoppingOfferUpdateController'
