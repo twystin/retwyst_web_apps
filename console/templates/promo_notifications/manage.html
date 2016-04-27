@@ -7,7 +7,7 @@
                     <strong><span class='glyphicon glyphicon-th'></span> Promo Notifications</strong>
 
                     <form class='form-horizontal'>
-                        <legend>Promo Generate</legend>
+                        
                         <button type='button' class='btn btn-w-md btn-gap-v btn-primary pull-right' ng-click='createNotification()'>Create Notification</button>
                         <div class='clearfix'></div>
                         <p>&nbsp;</p>
@@ -38,7 +38,7 @@
                         <div class='form-group'>
                             <label class='col-sm-3 control-label'>Notif Image</label>
                             <div class='col-sm-5'>
-                                <imagereader ng-image-for='promo_notif' ng-image-type='logo' ng-model='promo.image'>
+                                <imagereader ng-image-for='promo' ng-image-type='push_notif' ng-model='promo.image'>
                             </div>
                         </div>
                       </form>
