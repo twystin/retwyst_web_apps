@@ -72,6 +72,7 @@
                   <label class='col-sm-3 control-label'>Reward Type <i class='fa fa-sm fa-asterisk'></i></label>
                   <div class='col-sm-8'>
                       <select class='form-control' ng-model='coupon.actions.reward.reward_meta.reward_type'>
+                          <option value=''>Select reward type</option>
                           <option value='flatoff'>Flat Off</option>
                           <option value='discount'>Percentage Off</option>
                       </select>
@@ -112,7 +113,7 @@
                                   </div>
                               </div>
                           </div>
-                          <div class='form-group'>
+                          <div class='form-group' ng-if='coupon.actions.reward.reward_meta.reward_type==="flatoff"'>
                               <label class='col-sm-3 control-label'>Min Spend <i class='fa fa-sm fa-asterisk'></i></label>
                               <div class='col-sm-9' ng-class='{"has-error": formFailure && !coupon.actions.reward.reward_meta.spend}'>
                                   <div class='input-group'>
