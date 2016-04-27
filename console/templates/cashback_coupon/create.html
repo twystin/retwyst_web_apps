@@ -1,0 +1,151 @@
+<div>&nbsp;</div>
+<div class='container-fluid'>
+    <div class='row'>
+        <div class='col-sm-offset-2 col-sm-8'>
+            <form class='form-horizontal'>
+                <legend>Coupon Create</legend>
+                <button type='button' class='btn btn-w-md btn-gap-v btn-primary pull-right' ng-click='createCoupon()'> Create Coupon</button>
+                <div class='clearfix'></div>
+                <p>&nbsp;</p>
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Coupon code <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <input type='text' ng-model='coupon.code' class='form-control'>
+                    </div>
+                </div>
+                <!-- <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Outlets <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <input type='text' ng-model='searchKeywords' class='form-control' ng-keyup='search()'>
+                    </div>
+                </div> -->
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Coupon valid on all outlets <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                      <input type='checkbox' class='form-control' style='width:15px;' ng-model='coupon.all' name='first_order' class='form-control'>(tick for yes)
+                    </div>
+                </div>
+                <div class='form-group'>
+                  <label class='col-sm-3 control-label'>Apply only on first order <i class='fa fa-sm fa-asterisk'></i></label>
+                  <div class='col-sm-8'>
+                    <input type='checkbox' class='form-control' style='width:15px;' ng-model='coupon.only_on_first_order' name='first_order' class='form-control'>(tick for yes)
+                  </div>
+                </div>
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Use limit <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <input type='number' ng-model='coupon.max_use_limit' class='form-control'>
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Type <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                      <select class='form-control' name='type'>
+                        <option value='single'>Single</option>
+                        <option value='multi'>Multi</option>
+                      </select>
+                        <!-- <input type='text' ng-model='coupon.type' name='type' class='form-control'> -->
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Per user limit <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <input type='text' ng-model='coupon.per_user_limit' class='form-control'>
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Offer Start date <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <datepicker ng-model='coupon.start_date'  show-weeks='true' class='well well-sm'></datepicker>
+                        <!-- <input type='date' ng-model='coupon.start_date' class='form-control'> -->
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <label class='col-sm-3 control-label'>Offer End date <i class='fa fa-sm fa-asterisk'></i></label>
+                    <div class='col-sm-8'>
+                        <datepicker ng-model='coupon.end_date'  show-weeks='true' class='well well-sm'></datepicker>
+                        <!-- <input type='date' ng-model='coupon.end_date' class='form-control'> -->
+                    </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-sm-3 control-label'>Reward Type <i class='fa fa-sm fa-asterisk'></i></label>
+                  <div class='col-sm-8'>
+                      <select class='form-control' ng-model='coupon.actions.reward.reward_meta.reward_type'>
+                          <option value=''>Select reward type</option>
+                          <option value='flatoff'>Flat Off</option>
+                          <option value='discount'>Percentage Off</option>
+                      </select>
+                  </div>
+                </div>
+
+
+                  <div class='form-group' ng-if='coupon.actions.reward.reward_meta.reward_type'>
+                      <label class='col-sm-3 control-label'>Reward Info</label>
+                      <div class='col-sm-9'>
+                          <div class='form-group'>
+                              <label class='col-sm-3 control-label'>Header <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-6' ng-class='{"has-error": formFailure && !coupon.actions.reward.header}'>
+                                  <input type='text' ng-model='coupon.actions.reward.header' class='form-control'>
+                              </div>
+                          </div>
+                          <div class='form-group'>
+                              <label class='col-sm-3 control-label'>Line 1 <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-6' ng-class='{"has-error": formFailure && !coupon.actions.reward.line1}'>
+                                  <input type='text' ng-model='coupon.actions.reward.line1' class='form-control'>
+                              </div>
+                          </div>
+                          <div class='form-group'>
+                              <label class='col-sm-3 control-label'>Line 2 <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-6'>
+                                  <input type='text' ng-model='coupon.actions.reward.line2' class='form-control'>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                      <div class='col-sm-12' ng-if='coupon.actions.reward.reward_meta.reward_type==="flatoff"'>
+                          <div class='form-group'>
+                              <label class='col-sm-3 control-label'>Amount Off <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-9' ng-class='{"has-error": formFailure && !coupon.actions.reward.reward_meta.off}'>
+                                  <div class='input-group'>
+                                      <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                                      <input type='number' ng-model='coupon.actions.reward.reward_meta.off' class='form-control'>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class='form-group' ng-if='coupon.actions.reward.reward_meta.reward_type==="flatoff"'>
+                              <label class='col-sm-3 control-label'>Min Spend <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-9' ng-class='{"has-error": formFailure && !coupon.actions.reward.reward_meta.spend}'>
+                                  <div class='input-group'>
+                                      <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                                      <input type='number' ng-model='coupon.actions.reward.reward_meta.spend' class='form-control'>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class='col-sm-12' ng-if='coupon.actions.reward.reward_meta.reward_type==="discount"'>
+                          <div class='form-group'>
+                              <label class='col-sm-3 control-label'>Percent Off <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-9' ng-class='{"has-error": formFailure && !coupon.actions.reward.reward_meta.percent}'>
+                                  <div class='input-group'>
+                                      <input type='text' min='1' steps='1' class='form-control text-right' ng-model='coupon.actions.reward.reward_meta.percent'>
+                                      <span class='input-group-addon'> % </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class='form-group'>
+                              <label class='col-sm-3 control-label'>Max Discount <i class='fa fa-sm fa-asterisk'></i></label>
+                              <div class='col-sm-9' ng-class='{"has-error": formFailure && !coupon.actions.reward.reward_meta.max}'>
+                                  <div class='input-group'>
+                                      <span class='input-group-addon'><i class='fa fa-inr'></i></span>
+                                      <input type='number' ng-model='coupon.actions.reward.reward_meta.max' class='form-control'>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                <div class='clearfix'></div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -11,12 +11,12 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
         $rootScope.setHandler = function(handler) {
             $rootScope.handler = handler;
         }
-        
+
         $rootScope.notification_count = 0;
         _.each($rootScope.paths, function(path) {
             $rootScope.faye.subscribe(path, function(message) {
                 var title;
-                
+
                 if ($rootScope.handler) {
                     $rootScope.handler(message);
                 } else {
@@ -66,7 +66,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
             $('document').ready(function() {
                 $(window).scrollTop(0);
             });
-            
+
             $rootScope.current_state = toState.name;
         })
     }])
@@ -196,20 +196,40 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/menu_update_requests/manage.html',
                 controller: 'MenuUpdateRequestManageController'
             })
-            .state('console.cashback_offers_manage', {
-                url: '/cashback_offers',
-                templateUrl: 'templates/cashback_offers/manage.html',
-                controller: 'CashbackOffersManageController'
+            .state('console.shopping_offers_manage', {
+                url: '/shopping_offers',
+                templateUrl: 'templates/shopping_offers/manage.html',
+                controller: 'ShoppingOffersManageController'
             })
-            .state('console.cashback_offers_create', {
-                url: '/cashback_offers/create',
-                templateUrl: 'templates/cashback_offers/create.html',
-                controller: 'CashbackOfferCreateController'
+            .state('console.shopping_offers_create', {
+                url: '/shopping_offers/create',
+                templateUrl: 'templates/shopping_offers/create.html',
+                controller: 'ShoppingOfferCreateController'
             })
-            .state('console.cashback_offers_edit', {
-                url: '/cashback_offers/:offer_id',
-                templateUrl: 'templates/cashback_offers/edit.html',
-                controller: 'CashbackOfferUpdateController'
+            .state('console.shopping_offers_edit', {
+                url: '/shopping_offers/:offer_id',
+                templateUrl: 'templates/shopping_offers/edit.html',
+                controller: 'ShoppingOfferUpdateController'
+            })
+            .state('console.cashback_coupon_manage', {
+                url: '/cashback_coupon',
+                templateUrl: 'templates/cashback_coupon/manage.html',
+                controller: 'CashbackCouponManageController'
+            })
+            .state('console.cashback_coupon_create', {
+                url: '/cashback_coupon/create',
+                templateUrl: 'templates/cashback_coupon/create.html',
+                controller: 'CashbackCouponCreateController'
+            })
+            .state('console.cashback_coupon_edit', {
+                url: '/cashback_coupon/:offer_id',
+                templateUrl: 'templates/cashback_coupon/edit.html',
+                controller: 'CashbackCouponUpdateController'
+            })
+            .state('console.promo_notifications', {
+                url: '/notifications',
+                templateUrl: 'templates/promo_notifications/manage.html',
+                controller: 'PromoNotificationsController'
             })
             .state('console.test_payment', {
                 url: '/test_payment',

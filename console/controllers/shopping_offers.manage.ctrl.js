@@ -1,11 +1,11 @@
-angular.module('consoleApp').controller('CashbackOffersManageController', ['$scope', 'consoleRESTSvc', '$filter',
+angular.module('consoleApp').controller('ShoppingOffersManageController', ['$scope', 'consoleRESTSvc', '$filter',
 	function($scope, consoleRESTSvc, $filter) {
 
 		$scope.searchKeywords = '';
 
-		$scope.cashback_offers = [];
+		$scope.shopping_offers = [];
 
-		$scope.filtered_cashback_offers = [];
+		$scope.filtered_shopping_offers = [];
 
 		$scope.row = '';
 
@@ -15,11 +15,11 @@ angular.module('consoleApp').controller('CashbackOffersManageController', ['$sco
 
 		$scope.currentPage = 1;
 
-		$scope.current_page_cashback_offers = [];
+		$scope.current_page_shopping_offers = [];
 
-		consoleRESTSvc.getCashbackOffers().then(function(res) {
+		consoleRESTSvc.getShoppingOffers().then(function(res) {
 			console.log(res);
-			$scope.cashback_offers = res.data;
+			$scope.shopping_offers = res.data;
 			$scope.search();
 			$scope.select($scope.currentPage);
 		}, function(err) {
@@ -30,7 +30,7 @@ angular.module('consoleApp').controller('CashbackOffersManageController', ['$sco
 			var start, end;
 			start = (page - 1) * $scope.numPerPage;
 			end = start + $scope.numPerPage;
-			return $scope.current_page_cashback_offers = $scope.filtered_cashback_offers.slice(start, end);
+			return $scope.current_page_shopping_offers = $scope.filtered_shopping_offers.slice(start, end);
 		};
 
 		$scope.onFilterChange = function() {
@@ -50,7 +50,7 @@ angular.module('consoleApp').controller('CashbackOffersManageController', ['$sco
 		};
 
 		$scope.search = function() {
-			$scope.filtered_cashback_offers = $filter('filter')($scope.cashback_offers, $scope.searchKeywords);
+			$scope.filtered_shopping_offers = $filter('filter')($scope.shopping_offers, $scope.searchKeywords);
 			if ($scope.view_status) {
 				$scope.sort($scope.view_status);
 			}
@@ -63,7 +63,7 @@ angular.module('consoleApp').controller('CashbackOffersManageController', ['$sco
 			}
 
 			$scope.row = rowName;
-			$scope.filtered_cashback_offers = $filter('orderBy')($scope.cashback_offers, rowName);
+			$scope.filtered_shopping_offers = $filter('orderBy')($scope.shopping_offers, rowName);
             if ($scope.view_status) {
                 $scope.sort($scope.view_status);
             }

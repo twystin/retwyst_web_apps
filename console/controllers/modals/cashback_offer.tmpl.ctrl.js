@@ -1,16 +1,16 @@
-angular.module('consoleApp').controller('CashbackOfferTemplateController', ['$scope', '$modalInstance', 'is_new', 'cashback_offer', 'SweetAlert', '$q',
-    function($scope, $modalInstance, is_new, cashback_offer, SweetAlert, $q) {
+angular.module('consoleApp').controller('ShoppingOfferTemplateController', ['$scope', '$modalInstance', 'is_new', 'shopping_offer', 'SweetAlert', '$q',
+    function($scope, $modalInstance, is_new, shopping_offer, SweetAlert, $q) {
         $scope.is_new = is_new;
-        $scope.cashback_offer = {};
-        $scope.cashback_offer = _.merge($scope.cashback_offer, cashback_offer);
-        console.log('cashback_offer', cashback_offer);
+        $scope.shopping_offer = {};
+        $scope.shopping_offer = _.merge($scope.shopping_offer, shopping_offer);
+        console.log('shopping_offer', shopping_offer);
         $scope.days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
         $scope.resolveOffer = function() {
             $scope.validateOffer().then(function(res) {
-                $scope.cashback_offer._id = _id;
+                $scope.shopping_offer._id = _id;
                 _id = undefined;
-                $modalInstance.close($scope.cashback_offer);
+                $modalInstance.close($scope.shopping_offer);
             }, function(err) {
                 SweetAlert.swal('Validation error', err, 'error');
             });
@@ -21,7 +21,7 @@ angular.module('consoleApp').controller('CashbackOfferTemplateController', ['$sc
         };
 
         $scope.getMaxRange = function() {
-            return new Array(_.reduce($scope.cashback_offer.offer_applicability, function(obj1, obj2) {
+            return new Array(_.reduce($scope.shopping_offer.offer_applicability, function(obj1, obj2) {
                 if (!_.has(obj1, 'timings')) {
                     return obj1 >= obj2.timings.length ? obj1 : obj2.timings.length;
                 } else {
@@ -109,29 +109,29 @@ angular.module('consoleApp').controller('CashbackOfferTemplateController', ['$sc
 
         $scope.validateOffer = function() {
             var deferred = $q.defer();
-            if (!$scope.cashback_offer) {
+            if (!$scope.shopping_offer) {
                 deferred.reject('Form not filled in yet');
-            } else if (!_.get($scope.cashback_offer, 'offer_value')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_value')) {
                 deferred.reject('Offer value cannot be left blank.');
-            } else if (!_.get($scope.cashback_offer, 'offer_type')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_type')) {
                 deferred.reject('Please choose the offer type');
-            } else if (!_.get($scope.cashback_offer, 'offer_voucher_count')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_voucher_count')) {
                 deferred.reject('Total voucher count required');
-            } else if (!_.get($scope.cashback_offer, 'offer_text')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_text')) {
                 deferred.reject('Offer text required');
-            } else if (!_.get($scope.cashback_offer, 'offer_cost')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_cost')) {
                 deferred.reject('Offer cost (in Twyst Bucks) required');
-            } else if (!_.get($scope.cashback_offer, 'offer_processing_fee')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_processing_fee')) {
                 deferred.reject('Offer processing fee (in Twyst Bucks) required');
-            } else if (!_.get($scope.cashback_offer, 'offer_status')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_status')) {
                 deferred.reject('Please choose a valid offer status');
-            } else if (!_.get($scope.cashback_offer, 'offer_start_date')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_start_date')) {
                 deferred.reject('Valid offer start date required');
-            } else if (!_.get($scope.cashback_offer, 'offer_end_date')) {
+            } else if (!_.get($scope.shopping_offer, 'offer_end_date')) {
                 deferred.reject('Valid offer end date required');
             } else {
                 async.each($scope.days, function(day, callback) {
-                    var schedule = $scope.cashback_offer.offer_applicability[day];
+                    var schedule = $scope.shopping_offer.offer_applicability[day];
                     if (schedule.closed) {
                         callback();
                     } else {

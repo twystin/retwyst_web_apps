@@ -1,0 +1,138 @@
+<div>&nbsp;</div>
+<div class='container-fluid'>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <section class='panel panel-default table-dynamic'>
+                <div class='panel-heading'>
+                    <strong><span class='glyphicon glyphicon-th'></span> Cashback Coupon</strong>
+                </div>
+                <div class='table-filters'>
+                    <div class='row'>
+                        <div class='col-sm-4 col-xs-6'>
+                            <form>
+                                <input type='text' placeholder='Search...' class='form-control' ng-model='searchKeywords' ng-keyup='search()'>
+                            </form>
+                        </div>
+                        <div class='col-sm-3 col-xs-6 filter-result-info'>
+                            <span>Showing {{filtered_cashback_offers.length}}/{{loaded_coupons.length}} Coupons.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class='header-tools'>
+                    <div class='pull-left t5'>
+                        <a class='btn btn-default' ui-sref='console.cashback_coupon_create'>
+                            <i class='fa fa-plus'></i>&emsp;Create Coupon
+                        </a>
+                    </div>
+                </div>
+                <div class='clearfix'></div>
+                <div>&nbsp;</div>
+                <table class='table table-bordered table-hover table-striped table-responsive' style='min-height:400px;'>
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class='th text-center'>
+                                    Actions
+                                </div>
+                            </th>
+                            <th>
+                                <div class='th text-center'>
+                                    Coupon Code
+                                    <span class='fa fa-angle-up' ng-click='order("partner_name")' ng-class='{active: row === "partner_name"}'></span>
+                                    <span class='fa fa-angle-down' ng-click='order("-partner_name")' ng-class='{active: row === "-partner_name"}'></span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class='th text-center'>
+                                    Coupon End Date
+                                    <span class='fa fa-angle-up' ng-click='order("phone")' ng-class='{active: row === "phone"}'></span>
+                                    <span class='fa fa-angle-down' ng-click='order("-phone")' ng-class='{active: row === "-phone"}'></span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class='th text-center'>
+                                    Total Coupons
+                                    <span class='fa fa-angle-up' ng-click='order("phone")' ng-class='{active: row === "phone"}'></span>
+                                    <span class='fa fa-angle-down' ng-click='order("-phone")' ng-class='{active: row === "-phone"}'></span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class='th text-center'>
+                                    Coupon Used
+                                    <span class='fa fa-angle-up' ng-click='order("offers.length")' ng-class='{active: row === "offers.length"}'></span>
+                                    <span class='fa fa-angle-down' ng-click='order("-offers.length")' ng-class='{active: row === "-offers.length"}'></span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='coupon in coupon_offers track by $index'>
+                            <td>
+                            	<div>
+	                                <div class='hidden-xs'>
+	                                    <a class='btn btn-default' ui-sref='^.cashback_offers_edit({offer_id: offer._id})'>
+	                                        <i class='fa fa-pencil'></i> Edit
+	                                    </a>
+	                                    <div class='btn-group dropdown'>
+		                                    <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
+		                                        More
+		                                        <span class='caret'></span>
+		                                    </button>
+		                                    <ul class='dropdown-menu'>
+		                                        <li>
+		                                            <a ng-click='removeMenu(menu._id)'>
+		                                                <i class='fa fa-trash-o text-danger'></i>
+		                                                <span class="text-danger">Delete</span>
+		                                            </a>
+		                                        </li>
+		                                    </ul>
+		                                </div>
+	                                </div>
+                                	<div class='visible-xs'>
+                                        <div class='btn-group dropdown'>
+                                            <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
+                                                More
+                                                <span class='caret'></span>
+                                            </button>
+                                            <ul class='dropdown-menu'>
+                                                <li>
+                                                    <a ui-sref='^.cashback_offers_edit({offer_id: offer._id})'>
+                                                        <i class='fa fa-pencil'></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click='removeMenu(menu._id)'>
+                                                        <i class='fa fa-trash-o text-danger'></i>
+                                                        <span class="text-danger">Delete</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{coupon.code}}</td>
+                            <td>{{coupon.validity.end | date}}</td>
+                            <td>{{coupon.max_use_limit}}</td>
+                            <td>{{coupon.times_used}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <footer class='table-footer'>
+                    <div class='row'>
+                        <div class='col-sm-6 page-num-info'>
+                            <span>
+                                Show
+                                <select ng-model='numPerPage' ng-options='num for num in numPerPageOpt' ng-change='onNumPerPageChange()'></select>
+                                entries per page
+                            </span>
+                        </div>
+                        <div class='col-sm-6 text-right pagination-container'>
+                            <pagination class='pagination-sm' ng-model='currentPage' total-items='filtered_cashback_offers.length' max-size='4' ng-change='select(currentPage)' items-per-page='numPerPage' rotate='false' previous-text="&lsaquo;" next-text="&rsaquo;" boundary-links='true'></pagination>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+</div>

@@ -424,12 +424,109 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
                 });
             return deferred.promise;
         };
-
         /*===========================================
-        =            CASHBACK OFFER APIs            =
+        =            NOTIFICATION APIs              =
         ===========================================*/
 
-        consoleRESTSvc.getCashbackOffers = function() {
+        consoleRESTSvc.createNotification = function(promo_obj) {
+          var deferred = $q.defer();
+          var token = $cookies.get('token');
+          $http.post('/api/v4/promo_notif/send?token='+token, promo_obj).then(function(res){
+              if(res.data.response) {
+                deferred.resolve(res.data);
+              } else {
+                deferred.reject(res.data);
+              }
+          }, function(err) {
+            deferred.reject(err);
+          });
+          return deferred.promise;
+        };
+        /*===========================================
+        =            COUPON OFFER APIs              =
+        ===========================================*/
+
+        consoleRESTSvc.getCoupons = function() {
+          var deferred = $q.defer();
+          var token = $cookies.get('token');
+            $http.get('/api/v4/coupons?token='+token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.getCoupon = function(offer_id) {
+            var deferred = $q.defer();
+            $http.get('/api/v4/coupons' + coupon_id).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.createCoupon = function(coupon_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            console.log("coupon object",coupon_obj);
+            $http.post('/api/v4/coupons?token='+token, coupon_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateCouponOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            $http.put('/api/v4/banners/' + offer_obj._id)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.deleteCouponOffer = function(offer_obj) {
+            var deferred = $q.defer();
+            $http.delete('/api/v4/banners/' + offer_obj._id)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        /*===========================================
+        =            Shopping OFFER APIs            =
+        ===========================================*/
+
+        consoleRESTSvc.getShoppingOffers = function() {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.get('/api/v4/cashback/offers?token=' + token).then(function(res) {
@@ -444,7 +541,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.getCashbackOffer = function(offer_id) {
+        consoleRESTSvc.getShoppingOffer = function(offer_id) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.get('/api/v4/cashback/offers/' + offer_id + '?token=' + token).then(function(res) {
@@ -459,7 +556,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.createCashbackOffer = function(offer_obj) {
+        consoleRESTSvc.createShoppingOffer = function(offer_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.post('/api/v4/cashback/offers?token=' + token, offer_obj)
@@ -475,7 +572,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.updateCashbackOffer = function(offer_obj) {
+        consoleRESTSvc.updateShoppingOffer = function(offer_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.put('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)
@@ -491,7 +588,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.deleteCashbackOffer = function(offer_obj) {
+        consoleRESTSvc.deleteShoppingOffer = function(offer_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.delete('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)

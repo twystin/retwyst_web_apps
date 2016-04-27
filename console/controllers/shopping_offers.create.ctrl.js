@@ -1,28 +1,23 @@
-angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scope', 'consoleRESTSvc', '$modal', 'SweetAlert', '$state', '$stateParams',
-    function($scope, consoleRESTSvc, $modal, SweetAlert, $state, $stateParams) {
+angular.module('consoleApp').controller('ShoppingOfferCreateController', ['$scope', 'consoleRESTSvc', '$modal', 'SweetAlert', '$state',
+    function($scope, consoleRESTSvc, $modal, SweetAlert, $state) {
         $scope.offer = {
             offers: []
         };
-
-        consoleRESTSvc.getCashbackOffer($stateParams.offer_id).then(function(res) {
-            $scope.offer = _.merge($scope.offer, res.data);
-        }, function(err) {
-            console.log(err);
-        })
 
         $scope.addNewOffer = function() {
             _id = undefined;
             var modalInstance = $modal.open({
                 animation: true,
-                templateUrl: '../common/templates/partials/cashback_offer.tmpl.html',
-                controller: 'CashbackOfferTemplateController',
+                templateUrl: '../common/templates/partials/shopping_offer.tmpl.html',
+                controller: 'ShoppingOfferTemplateController',
                 size: 'lg',
                 resolve: {
                     is_new: function() {
                         return true;
                     },
-                    cashback_offer: function() {
+                    shopping_offer: function() {
                         return {
+                            offer_status: 'draft',
                             offer_applicability: {
                                 monday: {
                                     closed: false,
@@ -66,17 +61,17 @@ angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scop
 
         $scope.updateOffer = function(index) {
             _id = $scope.offer._id;
-            
+        	
             var modalInstance = $modal.open({
                 animation: true,
-                templateUrl: '../common/templates/partials/cashback_offer.tmpl.html',
+                templateUrl: '../common/templates/partials/shopping_offer.tmpl.html',
                 controller: 'CashbackOfferTemplateController',
                 size: 'lg',
                 resolve: {
                     is_new: function() {
                         return false;
                     },
-                    cashback_offer: function() {
+                    shopping_offer: function() {
                         return _.cloneDeep($scope.offer.offers[index])
                     }
                 }
@@ -103,7 +98,7 @@ angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scop
             });
         };
 
-        $scope.updateCashbackOffer = function() {
+        $scope.createOffer = function() {
         	if (!_.get($scope.offer, 'partner_name')) {
         		SweetAlert.swal('Validation Error', 'Partner name required', 'warning');
         	} else if (!_.get($scope.offer, 'contact_person')) {
@@ -112,17 +107,22 @@ angular.module('consoleApp').controller('CashbackOfferUpdateController', ['$scop
         		SweetAlert.swal('Validation Error', 'Contact person\'s email required', 'warning');
         	} else if (!_.get($scope.offer, 'phone')) {
         		SweetAlert.swal('Validation Error', 'Contact person\'s phone number required', 'warning');
-        	} else if (!_.get($scope.offer, 'offers') || !$scope.offer.offers.length) {
+        	} else if (!_.get($scope.offer, 'source')) {
+                SweetAlert.swal('Validation Error', 'offer source required', 'warning');
+            } else if (!_.get($scope.offer, 'logo')) {
+                SweetAlert.swal('Validation Error', 'source logo required', 'warning');
+            }
+            else if (!_.get($scope.offer, 'offers') || !$scope.offer.offers.length) {
         		SweetAlert.swal('Validation Error', 'Atleast add one cashback offer', 'warning');
         	} else {
-        		consoleRESTSvc.updateCashbackOffer($scope.offer).then(function(res) {
+        		consoleRESTSvc.createCashbackOffer($scope.offer).then(function(res) {
         			console.log('res', res);
         			SweetAlert.swal({
         				title: 'SUCCESS',
-        				text: 'Cashback offers updated successfully',
+        				text: 'Shopping offer created successfully',
         				type: 'success'
         			}, function() {
-        				$state.go('^.cashback_offers_manage', {}, {
+        				$state.go('^.shopping_offers_manage', {}, {
         					reload: true
         				});
         			});
