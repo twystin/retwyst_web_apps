@@ -222,7 +222,7 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 controller: 'CashbackCouponCreateController'
             })
             .state('console.cashback_coupon_edit', {
-                url: '/cashback_coupon/:offer_id',
+                url: '/cashback_coupon/:coupon_id',
                 templateUrl: 'templates/cashback_coupon/edit.html',
                 controller: 'CashbackCouponUpdateController'
             })

@@ -461,9 +461,10 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.getCoupon = function(offer_id) {
+        consoleRESTSvc.getCoupon = function(coupon_id) {
             var deferred = $q.defer();
-            $http.get('/api/v4/coupons' + coupon_id).then(function(res) {
+            var token = $cookies.get('token');
+            $http.get('/api/v4/coupons/' + coupon_id + '?token='+token).then(function(res) {
                 if (res.data.response) {
                     deferred.resolve(res.data);
                 } else {
@@ -492,9 +493,11 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.updateCouponOffer = function(offer_obj) {
+        consoleRESTSvc.updateCouponOffer = function(coupon_obj) {
             var deferred = $q.defer();
-            $http.put('/api/v4/banners/' + offer_obj._id)
+            var token = $cookies.get('token');
+            console.log(coupon_obj);
+            $http.put('/api/v4/coupons/' + coupon_obj._id + '?token='+token, coupon_obj)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);

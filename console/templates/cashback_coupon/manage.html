@@ -14,7 +14,7 @@
                             </form>
                         </div>
                         <div class='col-sm-3 col-xs-6 filter-result-info'>
-                            <span>Showing {{filtered_cashback_offers.length}}/{{loaded_coupons.length}} Coupons.</span>
+                            <span>Showing {{filtered_coupon_offers.length}}/{{coupon_offers.length}} Coupons.</span>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                             <td>
                             	<div>
 	                                <div class='hidden-xs'>
-	                                    <a class='btn btn-default' ui-sref='^.cashback_offers_edit({offer_id: offer._id})'>
+	                                    <a class='btn btn-default' ui-sref='^.cashback_coupon_edit({coupon_id: coupon._id})'>
 	                                        <i class='fa fa-pencil'></i> Edit
 	                                    </a>
 	                                    <div class='btn-group dropdown'>
@@ -96,7 +96,7 @@
                                             </button>
                                             <ul class='dropdown-menu'>
                                                 <li>
-                                                    <a ui-sref='^.cashback_offers_edit({offer_id: offer._id})'>
+                                                    <a ui-sref='^.cashback_coupon_edit({offer_id: offer._id})'>
                                                         <i class='fa fa-pencil'></i> Edit
                                                     </a>
                                                 </li>
