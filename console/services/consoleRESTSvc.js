@@ -604,6 +604,88 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
+         /*===========================================
+        =            Banner APIs            =
+        ===========================================*/
+
+        consoleRESTSvc.getBanners = function() {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.get('/api/v4/banners?token=' + token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.getBanner = function(banner_id) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.get('/api/v4/banners/' + banner_id + '?token=' + token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.createBanner = function(banner_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/banners?token=' + token, banner_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateBanner = function(banner_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.put('/api/v4/banners/' + banner_obj._id + '?token=' + token, banner_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.deleteBanner = function(banner_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.delete('/api/v4/banners/' + banner_obj._id + '?token=' + token, offer_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
 
         return consoleRESTSvc;
     }

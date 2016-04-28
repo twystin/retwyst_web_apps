@@ -226,6 +226,21 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/cashback_coupon/edit.html',
                 controller: 'CashbackCouponUpdateController'
             })
+            .state('console.banner_manage', {
+                url: '/banners',
+                templateUrl: 'templates/banners/manage.html',
+                controller: 'BannerManageController'
+            })
+            .state('console.banner_create', {
+                url: '/banners/create',
+                templateUrl: 'templates/banners/create.html',
+                controller: 'BannerCreateController'
+            })
+            .state('console.banner_edit', {
+                url: '/banner/:banner_id',
+                templateUrl: 'templates/banners/edit.html',
+                controller: 'BannerUpdateController'
+            })
             .state('console.promo_notifications', {
                 url: '/notifications',
                 templateUrl: 'templates/promo_notifications/manage.html',
