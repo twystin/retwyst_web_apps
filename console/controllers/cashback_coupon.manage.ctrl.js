@@ -1,5 +1,5 @@
-angular.module('consoleApp').controller('CashbackCouponManageController', ['$scope', 'consoleRESTSvc', '$filter',
-	function($scope, consoleRESTSvc, $filter) {
+angular.module('consoleApp').controller('CashbackCouponManageController', ['$scope', 'consoleRESTSvc', '$filter', 'SweetAlert',
+	function($scope, consoleRESTSvc, $filter, SweetAlert) {
 
 		$scope.searchKeywords = '';
 
@@ -17,14 +17,16 @@ angular.module('consoleApp').controller('CashbackCouponManageController', ['$sco
 
 		$scope.current_page_coupon_offers = [];
 
-		consoleRESTSvc.getCoupons().then(function(res) {
-			console.log(res);
-			$scope.coupon_offers = res.data;
-			$scope.search();
-			$scope.select($scope.currentPage);
-		}, function(err) {
-			console.log(err);
-		});
+		$scope.getCoupons = function() {
+			consoleRESTSvc.getCoupons().then(function(res) {
+				console.log(res);
+				$scope.coupon_offers = res.data;
+				$scope.search();
+				$scope.select($scope.currentPage);
+			}, function(err) {
+				console.log(err);
+			});
+		};
 
 		$scope.select = function(page) {
 			var start, end;
@@ -69,5 +71,35 @@ angular.module('consoleApp').controller('CashbackCouponManageController', ['$sco
             }
             return $scope.onOrderChange();
 		};
+
+		$scope.removeCoupon = function(coupon_obj) {
+				SweetAlert.swal({
+						title: 'Are you sure?',
+						text: 'You will not be able to recover this coupon',
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: "#DD6B55",
+						confirmButtonText: 'Yes, Delete It!',
+						closeOnConfirm: false
+				}, function(confirm) {
+						if (confirm) {
+								consoleRESTSvc.deleteCouponOffer(coupon_obj).then(function(data) {
+										SweetAlert.swal("SUCCESS", "Coupon deleted successfully", "success");
+										$scope.getCoupons();
+								}, function(err) {
+										SweetAlert.swal({
+												title: 'ERROR',
+												text: 'Unable to delete this coupon right now',
+												type: 'error',
+												showCancelButton: false,
+												confirmButtonColor: "#DD6B55",
+												confirmButtonText: 'Continue',
+												closeOnConfirm: true
+										});
+								});
+						}
+				});
+		};
+		$scope.getCoupons();
 	}
 ]);
