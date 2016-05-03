@@ -246,6 +246,11 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 templateUrl: 'templates/promo_notifications/manage.html',
                 controller: 'PromoNotificationsController'
             })
+            .state('console.bulk_sms', {
+                url: '/bulk_sms',
+                templateUrl: 'templates/bulk_sms/manage.html',
+                controller: 'BulkSMSController'
+            })
             .state('console.test_payment', {
                 url: '/test_payment',
                 templateUrl: 'templates/test_payment.html',
