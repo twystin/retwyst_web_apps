@@ -85,8 +85,14 @@
                 <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.cashback_coupon_manage" || current_state === "console.cashback_coupon_create" || current_state === "console.cashback_coupon_edit"}'>
                     <a ui-sref='.cashback_coupon_manage'> <i class='fa fa-code'></i><span>COUPON SECTION</span></a>
                 </li>
+                <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.banner_manage" || current_state === "console.banner_create" || current_state === "console.banner_edit"}'>
+                    <a ui-sref='.banner_manage'> <i class='fa fa-code'></i><span>BANNER</span></a>
+                </li>
                 <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.promo_notifications"}'>
                     <a ui-sref='.promo_notifications'> <i class='fa fa-code'></i><span>PUSH NOTIFICATIONS</span></a>
+                </li>
+                <li ng-if='role === 2 || role === "2"' ng-class='{active: current_state === "console.bulk_sms"}'>
+                    <a ui-sref='.bulk_sms'> <i class='fa fa-code'></i><span>BULK SMS</span></a>
                 </li>
                 <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.test_payment"}'>
                     <a ui-sref='.test_payment'> <i class='fa fa-code'></i><span>Test Payment</span></a>

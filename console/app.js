@@ -222,14 +222,34 @@ angular.module('consoleApp', ['ui.router', 'ui.bootstrap', 'ngCookies', 'angular
                 controller: 'CashbackCouponCreateController'
             })
             .state('console.cashback_coupon_edit', {
-                url: '/cashback_coupon/:offer_id',
+                url: '/cashback_coupon/:coupon_id',
                 templateUrl: 'templates/cashback_coupon/edit.html',
                 controller: 'CashbackCouponUpdateController'
+            })
+            .state('console.banner_manage', {
+                url: '/banners',
+                templateUrl: 'templates/banners/manage.html',
+                controller: 'BannerManageController'
+            })
+            .state('console.banner_create', {
+                url: '/banners/create',
+                templateUrl: 'templates/banners/create.html',
+                controller: 'BannerCreateController'
+            })
+            .state('console.banner_edit', {
+                url: '/banner/:banner_id',
+                templateUrl: 'templates/banners/edit.html',
+                controller: 'BannerUpdateController'
             })
             .state('console.promo_notifications', {
                 url: '/notifications',
                 templateUrl: 'templates/promo_notifications/manage.html',
                 controller: 'PromoNotificationsController'
+            })
+            .state('console.bulk_sms', {
+                url: '/bulk_sms',
+                templateUrl: 'templates/bulk_sms/manage.html',
+                controller: 'BulkSMSController'
             })
             .state('console.test_payment', {
                 url: '/test_payment',

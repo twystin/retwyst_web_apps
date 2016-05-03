@@ -255,6 +255,23 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
+        consoleRESTSvc.bulkSMS = function(data) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/bulk_sms?token=' + token, data)
+                .then(function(data) {
+                    if (data.data.response) {
+                        deferred.resolve(data.data);
+                    } else {
+                        deferred.reject(data.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+
         consoleRESTSvc.registerMerchant = function(merchant) {
             var deferred = $q.defer();
             $http.post('/api/v4/auth/register', merchant)
@@ -461,9 +478,10 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.getCoupon = function(offer_id) {
+        consoleRESTSvc.getCoupon = function(coupon_id) {
             var deferred = $q.defer();
-            $http.get('/api/v4/coupons' + coupon_id).then(function(res) {
+            var token = $cookies.get('token');
+            $http.get('/api/v4/coupons/' + coupon_id + '?token='+token).then(function(res) {
                 if (res.data.response) {
                     deferred.resolve(res.data);
                 } else {
@@ -478,7 +496,6 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         consoleRESTSvc.createCoupon = function(coupon_obj) {
             var deferred = $q.defer();
             var token = $cookies.get('token');
-            console.log("coupon object",coupon_obj);
             $http.post('/api/v4/coupons?token='+token, coupon_obj)
                 .then(function(res) {
                     if (res.data.response) {
@@ -492,9 +509,10 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.updateCouponOffer = function(offer_obj) {
+        consoleRESTSvc.updateCouponOffer = function(coupon_obj) {
             var deferred = $q.defer();
-            $http.put('/api/v4/banners/' + offer_obj._id)
+            var token = $cookies.get('token');
+            $http.put('/api/v4/coupons/' + coupon_obj._id + '?token='+token, coupon_obj)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
@@ -507,9 +525,10 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             return deferred.promise;
         };
 
-        consoleRESTSvc.deleteCouponOffer = function(offer_obj) {
+        consoleRESTSvc.deleteCouponOffer = function(coupon_obj) {
             var deferred = $q.defer();
-            $http.delete('/api/v4/banners/' + offer_obj._id)
+            var token = $cookies.get('token');
+            $http.delete('/api/v4/coupons/' + coupon_obj._id + '/?token=' + token)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
@@ -592,6 +611,88 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.delete('/api/v4/cashback/offers/' + offer_obj._id + '?token=' + token, offer_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+         /*===========================================
+        =            Banner APIs            =
+        ===========================================*/
+
+        consoleRESTSvc.getBanners = function() {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.get('/api/v4/banners?token=' + token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.getBanner = function(banner_id) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.get('/api/v4/banners/' + banner_id + '?token=' + token).then(function(res) {
+                if (res.data.response) {
+                    deferred.resolve(res.data);
+                } else {
+                    deferred.reject(res.data);
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.createBanner = function(banner_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/banners?token=' + token, banner_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.updateBanner = function(banner_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.put('/api/v4/banners/' + banner_obj._id + '?token=' + token, banner_obj)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        consoleRESTSvc.deleteBanner = function(banner_obj) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.delete('/api/v4/banners/' + banner_obj._id + '?token=' + token, offer_obj)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);
