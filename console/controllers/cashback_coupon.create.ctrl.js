@@ -5,20 +5,13 @@ angular.module('consoleApp').controller('CashbackCouponCreateController', ['$sco
       $scope.outlets = [];
       $scope.filtered_outlets = [];
       $scope.coupon = {
-        code: "#test",
-        max_use_limit: 1,
-        per_user_limit:1,
-        actions: {
-          reward:{
-            reward_meta:{
-              reward_type: 'flatoff',
-              spend: 100,
-              off: 100
-            }
-          }
-        }
-
       };
+      $scope.event_matches = {
+          'on every': 'On Every',
+          'after': 'After',
+          'on only': 'On Only'
+      };
+
         $scope.createCoupon = function() {
           if (!_.get($scope.coupon, 'code')) {
             SweetAlert.swal('Validation Error', 'Coupon code not present', 'warning');
@@ -40,7 +33,27 @@ angular.module('consoleApp').controller('CashbackCouponCreateController', ['$sco
             SweetAlert.swal('Validation Error', 'Discount % not input', 'warning');
           }  else if (!_.get($scope.coupon.actions.reward.reward_meta, 'max') && $scope.coupon.actions.reward.reward_meta.reward_type === "discount" ) {
             SweetAlert.swal('Validation Error', 'Maximum discount amount not input', 'warning');
-          } else {
+          } else if (!_.get($scope.coupon.rule, 'event_match')) {
+            SweetAlert.swal('Validation Error', 'Offer rules not applied', 'warning');
+          } else if ($scope.coupon.rule.event_match === "on every") {
+              if (!_.get($scope.coupon.rule, 'event_count')) {
+                SweetAlert.swal('Validation Error', 'Event count not present', 'warning');
+              }  else if (!_.get($scope.coupon.rule, 'event_start')) {
+                SweetAlert.swal('Validation Error', 'Event start not present', 'warning');
+              } else if (!_.get($scope.coupon.rule, 'event_end')) {
+                SweetAlert.swal('Validation Error', 'Event end not present', 'warning');
+              }
+          } else if ($scope.coupon.rule.event_match === "after") {
+              if (!_.get($scope.coupon.rule, 'event_start')){
+                SweetAlert.swal('Validation Error', 'Event start not present', 'warning');
+              }  else if (!_.get($scope.coupon.rule, 'event_end')) {
+                SweetAlert.swal('Validation Error', 'Event end not present', 'warning');
+              }
+        } else if ($scope.coupon.rule.event_match === "on only") {
+            if (!_.get($scope.coupon.rule, 'event_count')){
+              SweetAlert.swal('Validation Error', 'Event count not present', 'warning');
+            }
+        } else {
             consoleRESTSvc.createCoupon($scope.coupon).then(function(res) {
 
         			SweetAlert.swal({
