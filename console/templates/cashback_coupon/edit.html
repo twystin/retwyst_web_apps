@@ -3,8 +3,8 @@
     <div class='row'>
         <div class='col-sm-offset-2 col-sm-8'>
             <form class='form-horizontal'>
-                <legend>Cashback Offer Update</legend>
-                <button type='button' class='btn btn-w-md btn-gap-v btn-primary pull-right' ng-click='updateCoupon(coupon._id)'> Update Offer</button>
+                <legend>Cashback Coupon Update</legend>
+                <button type='button' class='btn btn-w-md btn-gap-v btn-primary pull-right' ng-click='updateCoupon(coupon._id)'> Update Coupon</button>
                 <div class='clearfix'></div>
                 <p>&nbsp;</p>
                 <div class='form-group'>
@@ -64,7 +64,7 @@
 
                 <div class='well well-lg'>
                     <form class='form-horizontal' role='form'>
-                        <legend>Offer Rules</legend>
+                        <legend>Coupon Rules</legend>
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Criteria <i class='fa fa-sm fa-asterisk'></i></label>
                             <div class='col-sm-6' ng-class='{"has-error": formFailure && !coupon.rule.event_match} '>

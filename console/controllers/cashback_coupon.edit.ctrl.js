@@ -13,9 +13,7 @@ angular.module('consoleApp').controller('CashbackCouponUpdateController', ['$sco
       };
 
       consoleRESTSvc.getCoupon($stateParams.coupon_id).then(function(res) {
-          console.log("response", res);
           $scope.coupon = _.merge($scope.coupon, res.data);
-          console.log("coupon", $scope.coupon);
       }, function(err) {
           console.log("error",err);
       })
@@ -65,7 +63,6 @@ angular.module('consoleApp').controller('CashbackCouponUpdateController', ['$sco
             }
         } else {
             consoleRESTSvc.updateCouponOffer($scope.coupon).then(function(res) {
-        			console.log('res', res);
         			SweetAlert.swal({
         				title: 'SUCCESS',
         				text: 'Coupon created successfully',
