@@ -19,7 +19,6 @@ angular.module('consoleApp').controller('CashbackCouponManageController', ['$sco
 
 		$scope.getCoupons = function() {
 			consoleRESTSvc.getCoupons().then(function(res) {
-				console.log(res);
 				$scope.coupon_offers = res.data;
 				$scope.search();
 				$scope.select($scope.currentPage);
