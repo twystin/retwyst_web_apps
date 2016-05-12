@@ -64,7 +64,7 @@
                 <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.user_feedbacks_manage"}'>
                     <a ui-sref='.user_feedbacks_manage'> <i class='fa fa-code'></i><span>USER FEEDBACK</span></a>
                 </li>
-                <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.write_to_twysts_manage"}'>
+                <li ng-class='{active: current_state === "console.write_to_twysts_manage"}'>
                     <a ui-sref='.write_to_twysts_manage'> <i class='fa fa-code'></i><span>WRITE TO TWYST</span></a>
                 </li>
                 <li ng-if='role !== 2 && role !== "2"' ng-class='{active: current_state === "console.reported_problems_manage"}'>
