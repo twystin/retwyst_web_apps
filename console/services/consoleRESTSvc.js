@@ -445,7 +445,7 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
         =            NOTIFICATION APIs              =
         ===========================================*/
 
-        consoleRESTSvc.createNotification = function(promo_obj) {
+        consoleRESTSvc.ification = function(promo_obj) {
           var deferred = $q.defer();
           var token = $cookies.get('token');
           $http.post('/api/v4/promo_notif/send?token='+token, promo_obj).then(function(res){
@@ -529,6 +529,26 @@ angular.module('consoleApp').factory('consoleRESTSvc', ['$http', '$q', '$cookies
             var deferred = $q.defer();
             var token = $cookies.get('token');
             $http.delete('/api/v4/coupons/' + coupon_obj._id + '/?token=' + token)
+                .then(function(res) {
+                    if (res.data.response) {
+                        deferred.resolve(res.data);
+                    } else {
+                        deferred.reject(res.data);
+                    }
+                }, function(err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        /*===========================================
+        =            Shopping OFFER APIs            =
+        ===========================================*/
+
+        consoleRESTSvc.createNotification = function(notif) {
+            var deferred = $q.defer();
+            var token = $cookies.get('token');
+            $http.post('/api/v4/notification?token='+token, notif)
                 .then(function(res) {
                     if (res.data.response) {
                         deferred.resolve(res.data);

@@ -1,49 +1,52 @@
 angular.module('consoleApp').controller('PromoNotificationsController', ['$scope', 'consoleRESTSvc', '$modal', 'SweetAlert', '$state',
     function($scope, consoleRESTSvc, $modal, SweetAlert, $state) {
         $scope.promo = {
-          message:"ONE PLUS ONE",
-          detail:"For any product get another for free!",
+          message:"Perfect Weather for Rs 150 Cashback",
+          detail:"Perfect weather to Order Food and Enjoy Rs 150 Cashback on your 1st order(Min Rs 300) Use Code FLAT150 . Also Get Extra 10% Mobikwik Cashback",
+          user_class:"default",
           outlets: null,
-          coupon_code:"#1PFREE"
+          coupon_code:"FLAT150",
         };
         $scope.all = true,
 
         $scope.createNotification = function() {
-        	// if (!_.get($scope.offer, 'partner_name')) {
-        	// 	SweetAlert.swal('Validation Error', 'Partner name required', 'warning');
-        	// } else if (!_.get($scope.offer, 'contact_person')) {
-        	// 	SweetAlert.swal('Validation Error', 'Contact person\'s name required', 'warning');
-        	// } else if (!_.get($scope.offer, 'email')) {
-        	// 	SweetAlert.swal('Validation Error', 'Contact person\'s email required', 'warning');
-        	// } else if (!_.get($scope.offer, 'phone')) {
-        	// 	SweetAlert.swal('Validation Error', 'Contact person\'s phone number required', 'warning');
-        	// } else if (!_.get($scope.offer, 'source')) {
-          //       SweetAlert.swal('Validation Error', 'offer source required', 'warning');
-          //   } else if (!_.get($scope.offer, 'logo')) {
-          //       SweetAlert.swal('Validation Error', 'source logo required', 'warning');
-          //   }
-          //   else if (!_.get($scope.offer, 'offers') || !$scope.offer.offers.length) {
-        	// 	SweetAlert.swal('Validation Error', 'Atleast add one cashback offer', 'warning');
-        	// } else {
-          console.log("promo", $scope.promo);
-          if($scope.all) {
-            $scope.promo.outlets = null;
+
+          $scope.promo.image = document.getElementsByClassName('img-polaroid')[0].src;
+
+          if (!_.get($scope.promo, 'message')) {
+        		SweetAlert.swal('Validation Error', 'A Header is required', 'warning');
+        	} else if (!_.get($scope.promo, 'detail')) {
+        		SweetAlert.swal('Validation Error', 'Detailed message is required', 'warning');
+        	} else if (!_.get($scope.promo, 'coupon_code')) {
+        		SweetAlert.swal('Validation Error', 'Coupon code required', 'warning');
+        	} else if ($scope.promo.user_class === 'default') {
+            SweetAlert.swal('Validation Error', 'Target required', 'warning');
+        	} else if($scope.promo.user_class === 'test' && typeof $scope.promo.test_number === "undefined") {
+            SweetAlert.swal('Validation Error', 'Target phone number required', 'warning');
+          } else if (!_.get($scope.promo, 'image')) {
+        		SweetAlert.swal('Validation Error', 'Image required', 'warning');
+          } else if ($scope.promo.image.length === 0) {
+        		SweetAlert.swal('Validation Error', 'Image required', 'warning');
+        	} else {
+
+              if($scope.all) {
+                $scope.promo.outlets = null;
+              }
+            		consoleRESTSvc.createNotification($scope.promo).then(function(res) {
+            			console.log('res', res);
+            			SweetAlert.swal({
+            				title: 'SUCCESS',
+            				text: 'Notification created successfully',
+            				type: 'success'
+            			}, function() {
+            				$state.go('^.promo_notifications', {}, {
+            					reload: true
+            				});
+            			});
+            		}, function(err) {
+            			SweetAlert.swal('Internal Error', err.message?err.message:'Something went wrong', 'error');
+            		});
           }
-        		consoleRESTSvc.createNotification($scope.promo).then(function(res) {
-        			console.log('res', res);
-        			SweetAlert.swal({
-        				title: 'SUCCESS',
-        				text: 'Notification created successfully',
-        				type: 'success'
-        			}, function() {
-        				$state.go('^.promo_notifications', {}, {
-        					reload: true
-        				});
-        			});
-        		}, function(err) {
-        			SweetAlert.swal('Internal Error', err.message?err.message:'Something went wrong', 'error');
-        		});
-        	//}
         };
     }
 ]);

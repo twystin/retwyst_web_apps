@@ -15,7 +15,6 @@ angular.module('consoleApp').directive('imagereader', ['imageSvc', 'toastr',
                     if (regex.test(file.type)) {
                         var reader = new FileReader();
                         reader.onload = function(loadEvent) {
-                            console.log(loadEvent.target.result);
                             var req_obj = {
                                 image: loadEvent.target.result,
                                 image_class: attributes.ngImageFor,
@@ -31,6 +30,7 @@ angular.module('consoleApp').directive('imagereader', ['imageSvc', 'toastr',
                             }
                             imageSvc.uploadImage(req_obj).then(function(res) {
                                 _id = res.data.id;
+                                console.log("uploadImage ",attributes.ngImageFor);
                                 $(imgElement).attr('src', loadEvent.target.result);
                                 ngModel.$setViewValue(res.data.key.toString());
                             }, function(err) {
@@ -47,22 +47,30 @@ angular.module('consoleApp').directive('imagereader', ['imageSvc', 'toastr',
                 scope.$watch(function() {
                     return ngModel.$modelValue;
                 }, function(val) {
-                    console.log('ngImageFor', attributes.ngImageFor, val);
+                    console.log('ngImageFor', attributes.ngImageFor);
+                    console.log("val: ", val);
                     if (!val) {
                         return;
                     }
                     if (/^http/i.test(val)) {
                         $(imgElement).attr('src', val);
+                        console.log("[test]val: ", val);
                     } else if (attributes.ngImageFor === 'menu') {
                         $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-menus/' + _id + '/items/' + val);
+                        console.log("[menu]val: ", val);
                     } else if (attributes.ngImageFor === 'outlet') {
                         $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/' + _id + '/' + val);
+                        console.log("[outlet]val: ", val);
                     } else if (attributes.ngImageFor === 'shopping_offer') {
                         $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-merchants/shopping-offers/partner/' + _id + '/logo');
-                    } else if (attributes.ngImageFor === 'push_notif') {
-                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-app/banners/'+ _id + '/logo');
+                        console.log("[shopping_offer]val: ", val);
+                    } else if (attributes.ngImageFor === 'promo') {
+                      console.log(_id);
+                      console.log('https://s3-us-west-2.amazonaws.com/retwyst-app/push_notifications/'+ _id + '/push_notif');
+                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-app/push_notifications/'+ _id + '/push_notif');
                     } else if (attributes.ngImageFor === 'banner') {
-                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-app/push_notifications/' + _id + '/logo');
+                        $(imgElement).attr('src', 'https://s3-us-west-2.amazonaws.com/retwyst-app/banners/' + _id + '/logo');
+                        console.log("[banner]val: ", val);
                     }
                 })
             }
